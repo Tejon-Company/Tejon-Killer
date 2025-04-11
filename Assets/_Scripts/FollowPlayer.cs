@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class FollowPlayer: MonoBehaviour
+public class FollowPlayer : MonoBehaviour
 {
-    public GameObject player;
-    public Vector3 offset= new Vector3(0,0.35f,0);
-    private void Update()
+    public Transform player;
+    private Vector3 offset = new Vector3(0f, 0.35f, 0f);
+
+    private void LateUpdate() // Mejor en LateUpdate para que siga después de mover al jugador
     {
-        transform.position =player.transform.position + offset;
+        transform.position = player.position + offset;
     }
 }

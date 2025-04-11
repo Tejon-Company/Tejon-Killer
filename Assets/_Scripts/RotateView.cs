@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class RotateView : MonoBehaviour
 {
-    private float mouseX, mouseY;
-    [SerializeField, Range(0, 1000)]
-    private float sensibility = 100f;
+    [SerializeField]
+    private Vector2 sensibility = new Vector2(3f, 3f); // X: Horizontal, Y: Vertical
 
-    private float rotationX, rotacionY;
-    public Transform player;
-    public Vector3 offset = new Vector3(0, 0.35f, 0);
+    [SerializeField]
+    private Transform player;
+
+    private float verticalRotation = 0f;
 
     private void Start()
     {
@@ -18,20 +18,20 @@ public class RotateView : MonoBehaviour
 
     private void Update()
     {
-        // Movimiento del ratón
-        mouseX = Input.GetAxis("Mouse X") * sensibility * Time.deltaTime;
-        mouseY = Input.GetAxis("Mouse Y") * sensibility * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * sensibility.x;
+        float mouseY = Input.GetAxis("Mouse Y") * sensibility.y;
 
-        rotationX += mouseY;
-        rotacionY +=mouseX;
-        rotationX = Mathf.Clamp(rotationX, -90f, 90f);
-        transform.localRotation = Quaternion.Euler(rotationX, rotacionY, 0f);
-
+        // Rotar al jugador horizontalmente
         player.Rotate(Vector3.up * mouseX);
 
-        transform.position = player.position + offset;
+        // Rotar la cámara verticalmente
+        verticalRotation += mouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
 
-        // Liberar cursor con ESC
+        // Aplicar rotación vertical e igualar la rotación Y a la del jugador
+        transform.rotation = Quaternion.Euler(verticalRotation, player.eulerAngles.y, 0f);
+
+        // Liberar el cursor con Escape
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None;
