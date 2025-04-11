@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed;
 
     [SerializeField]
-    private float gravity, jumpForce;
+    private float gravity, jumpForce= 3;
 
     private float fallVelocity;
     private Vector3 axis, movePlayer;
