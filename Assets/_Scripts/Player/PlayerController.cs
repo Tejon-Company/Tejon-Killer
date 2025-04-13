@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashCooldown = 0.4f;
 
     [Header("SLIDE")]
-    [SerializeField] private float slideSpeedMultiplier = 6f;
+    [SerializeField] private float slideSpeedMultiplier = 3f;
 
     [Header("JUMP")]
     [SerializeField] private float gravity = 25f;
@@ -21,10 +21,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("GRAVITY IN FREE FALL")]
     [SerializeField] private float groundedGravity = -5f;
+
+    [Header("STOMP")]
+    [SerializeField] private float stompForce = 40f;
+
     // States
     private bool canDash = true;
     private bool jumpInput, dashInput, slideInputHeld;
-    private bool dashing = false, sliding = false;
+    private bool dashing = false, sliding = false, stomping = false;
     private float fallVelocity;
     private Vector3 axis, movePlayer, dashDirection, slideDirection;
 
@@ -54,6 +58,12 @@ public class PlayerController : MonoBehaviour
         jumpInput = Input.GetButtonDown("Jump");
         dashInput = Input.GetButtonDown("Sprint");
         slideInputHeld = Input.GetButton("Crouch");
+
+        // Activar stomp solo en el aire
+        if (slideInputHeld && !player.isGrounded && !stomping)
+        {
+            StartStomp();
+        }
     }
 
     private void HandleMovement()
@@ -151,14 +161,18 @@ public class PlayerController : MonoBehaviour
     }
 
     //========== GRAVITY ==========
-
     private void HandleGravity()
     {
         if (player.isGrounded)
         {
+            if (stomping)
+            {
+                stomping = false;
+                // Aquí podrías añadir un efecto de impacto
+            }
+
             if (!jumpInput)
             {
-                // Pequeña fuerza hacia abajo para no "flotar" en rampas
                 fallVelocity = groundedGravity;
             }
 
@@ -169,9 +183,20 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            fallVelocity -= gravity * Time.deltaTime;
+            if (!stomping)
+            {
+                fallVelocity -= gravity * Time.deltaTime;
+            }
+            // Si está en stomp, mantiene caída rápida constante
         }
 
         movePlayer.y = fallVelocity;
+    }
+
+    //========== STOMP ==========
+    private void StartStomp()
+    {
+        stomping = true;
+        fallVelocity = -stompForce;
     }
 }
