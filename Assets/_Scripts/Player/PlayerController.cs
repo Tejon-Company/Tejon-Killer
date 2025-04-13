@@ -31,13 +31,14 @@ public class PlayerController : MonoBehaviour
     private bool dashing = false, sliding = false, stomping = false;
     private float fallVelocity;
     private Vector3 axis, movePlayer, dashDirection, slideDirection;
-
+    public ParticleSystem speedParticles;
     // Crouch config
     private float originalHeight, crouchHeight = 1f;
     private float originalCenterY, crouchCenterY = 0.5f;
 
     private void Awake()
     {
+        speedParticles.Stop();
         player = GetComponent<CharacterController>();
         originalHeight = player.height;
         originalCenterY = player.center.y;
@@ -137,8 +138,13 @@ public class PlayerController : MonoBehaviour
         slideDirection = direction.normalized * baseSpeed * slideSpeedMultiplier;
         player.height = crouchHeight;
         player.center = new Vector3(player.center.x, crouchCenterY, player.center.z);
-    }
 
+        // Activar el sistema de partículas cuando se inicia el deslizamiento
+        if (speedParticles != null)
+        {
+            speedParticles.Play();
+        }
+    }
     private void ProcessSlide()
     {
         movePlayer.x = slideDirection.x;
@@ -158,6 +164,12 @@ public class PlayerController : MonoBehaviour
         sliding = false;
         player.height = originalHeight;
         player.center = new Vector3(player.center.x, originalCenterY, player.center.z);
+
+        // Desactivar el sistema de partículas cuando termina el deslizamiento
+        if (speedParticles != null)
+        {
+            speedParticles.Stop();
+        }
     }
 
     //========== GRAVITY ==========
