@@ -58,10 +58,12 @@ public class PlayerController : MonoBehaviour
     {
         jumpInput = Input.GetButtonDown("Jump");
         dashInput = Input.GetButtonDown("Sprint");
+        bool stompInput = Input.GetButtonDown("Crouch"); // Nueva variable para detectar PRESS
+
         slideInputHeld = Input.GetButton("Crouch");
 
-        // Activar stomp solo en el aire
-        if (slideInputHeld && !player.isGrounded && !stomping)
+        // Stomp solo con press (no hold) + condiciones adicionales
+        if (stompInput && !player.isGrounded && !stomping && !sliding)
         {
             StartStomp();
         }
@@ -80,7 +82,18 @@ public class PlayerController : MonoBehaviour
         }
         else if (sliding)
         {
-            ProcessSlide();
+            // Salto durante deslizamiento
+            if (jumpInput && player.isGrounded)
+            {
+                EndSlide();
+                fallVelocity = jumpForce;
+                // Importante: Desactivar temporalmente el stomp para este salto
+                stomping = false;
+            }
+            else
+            {
+                ProcessSlide();
+            }
         }
         else
         {
@@ -139,12 +152,12 @@ public class PlayerController : MonoBehaviour
         player.height = crouchHeight;
         player.center = new Vector3(player.center.x, crouchCenterY, player.center.z);
 
-        // Activar el sistema de partículas cuando se inicia el deslizamiento
         if (speedParticles != null)
         {
             speedParticles.Play();
         }
     }
+
     private void ProcessSlide()
     {
         movePlayer.x = slideDirection.x;
@@ -165,7 +178,6 @@ public class PlayerController : MonoBehaviour
         player.height = originalHeight;
         player.center = new Vector3(player.center.x, originalCenterY, player.center.z);
 
-        // Desactivar el sistema de partículas cuando termina el deslizamiento
         if (speedParticles != null)
         {
             speedParticles.Stop();
@@ -180,15 +192,14 @@ public class PlayerController : MonoBehaviour
             if (stomping)
             {
                 stomping = false;
-                // Aquí podrías añadir un efecto de impacto
             }
 
             if (!jumpInput)
             {
                 fallVelocity = groundedGravity;
             }
-
-            if (jumpInput && !sliding && !dashing)
+            // Eliminamos la condición !sliding aquí para que no interfiera
+            else if (jumpInput) // Ahora manejamos todos los saltos igual
             {
                 fallVelocity = jumpForce;
             }
@@ -199,7 +210,6 @@ public class PlayerController : MonoBehaviour
             {
                 fallVelocity -= gravity * Time.deltaTime;
             }
-            // Si está en stomp, mantiene caída rápida constante
         }
 
         movePlayer.y = fallVelocity;
@@ -207,7 +217,8 @@ public class PlayerController : MonoBehaviour
 
     //========== STOMP ==========
     private void StartStomp()
-    {
+    {   
+        Debug.Log("STOMP");
         stomping = true;
         fallVelocity = -stompForce;
     }
