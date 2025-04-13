@@ -4,7 +4,6 @@ public class PlayerController : MonoBehaviour
 {
     private CharacterController player;
 
-    // Movement
     [SerializeField, Range(0, 40)] private float baseSpeed = 10f;
 
     [Header("DASH")]
@@ -25,14 +24,12 @@ public class PlayerController : MonoBehaviour
     [Header("STOMP")]
     [SerializeField] private float stompForce = 40f;
 
-    // States
     private bool canDash = true;
     private bool jumpInput, dashInput, slideInputHeld;
     private bool dashing = false, sliding = false, stomping = false;
     private float fallVelocity;
     private Vector3 axis, movePlayer, dashDirection, slideDirection;
     public ParticleSystem speedParticles;
-    // Crouch config
     private float originalHeight, crouchHeight = 1f;
     private float originalCenterY, crouchCenterY = 0.5f;
 
@@ -58,11 +55,11 @@ public class PlayerController : MonoBehaviour
     {
         jumpInput = Input.GetButtonDown("Jump");
         dashInput = Input.GetButtonDown("Sprint");
-        bool stompInput = Input.GetButtonDown("Crouch"); // Nueva variable para detectar PRESS
+        bool stompInput = Input.GetButtonDown("Crouch");
 
         slideInputHeld = Input.GetButton("Crouch");
 
-        // Stomp solo con press (no hold) + condiciones adicionales
+
         if (stompInput && !player.isGrounded && !stomping && !sliding)
         {
             StartStomp();
@@ -82,12 +79,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (sliding)
         {
-            // Salto durante deslizamiento
+
             if (jumpInput && player.isGrounded)
             {
                 EndSlide();
                 fallVelocity = jumpForce;
-                // Importante: Desactivar temporalmente el stomp para este salto
+
                 stomping = false;
             }
             else
@@ -119,7 +116,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //========== DASH ==========
+
     private void StartDash(Vector3 direction)
     {
         dashing = true;
@@ -144,7 +141,6 @@ public class PlayerController : MonoBehaviour
         canDash = true;
     }
 
-    //========== SLIDE ==========
     private void StartSlide(Vector3 direction)
     {
         sliding = true;
@@ -184,7 +180,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //========== GRAVITY ==========
     private void HandleGravity()
     {
         if (player.isGrounded)
@@ -198,8 +193,7 @@ public class PlayerController : MonoBehaviour
             {
                 fallVelocity = groundedGravity;
             }
-            // Eliminamos la condición !sliding aquí para que no interfiera
-            else if (jumpInput) // Ahora manejamos todos los saltos igual
+            else if (jumpInput)
             {
                 fallVelocity = jumpForce;
             }
@@ -215,9 +209,8 @@ public class PlayerController : MonoBehaviour
         movePlayer.y = fallVelocity;
     }
 
-    //========== STOMP ==========
     private void StartStomp()
-    {   
+    {
         Debug.Log("STOMP");
         stomping = true;
         fallVelocity = -stompForce;
