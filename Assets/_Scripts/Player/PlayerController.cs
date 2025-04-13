@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravity = 25f;
     [SerializeField] private float jumpForce = 15f;
 
+    [Header("GRAVITY IN FREE FALL")]
+    [SerializeField] private float groundedGravity = -5f;
     // States
     private bool canDash = true;
     private bool jumpInput, dashInput, slideInputHeld;
@@ -149,11 +151,17 @@ public class PlayerController : MonoBehaviour
     }
 
     //========== GRAVITY ==========
+
     private void HandleGravity()
     {
         if (player.isGrounded)
         {
-            fallVelocity = -10f;
+            if (!jumpInput)
+            {
+                // Pequeña fuerza hacia abajo para no "flotar" en rampas
+                fallVelocity = groundedGravity;
+            }
+
             if (jumpInput && !sliding && !dashing)
             {
                 fallVelocity = jumpForce;
