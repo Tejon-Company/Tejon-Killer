@@ -7,8 +7,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(0, 40)] private float baseSpeed = 10f;
 
     [Header("DASH")]
-    [SerializeField] private float dashMultiplier = 8f;
-    [SerializeField] private float dashDuration = 0.06f;
+    [SerializeField] private float dashMultiplier = 10f;
+    [SerializeField] private float dashDuration = 0.08f;
     [SerializeField] private float dashCooldown = 0.4f;
 
     [Header("SLIDE")]
