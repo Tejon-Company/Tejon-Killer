@@ -24,9 +24,13 @@ public class PlayerController : MonoBehaviour
     [Header("STOMP")]
     [SerializeField] private float stompForce = 40f;
 
+    [Header("WEAPON")]
+    private Vector3 weaponOriginalLocalPos;
+    private Vector3 weaponSlideOffset = new Vector3(0, 0, -0.3f);
+
     private bool canDash = true;
     private bool jumpInput, dashInput, slideInputHeld;
-    private bool dashing = false, sliding = false, stomping = false;
+    public bool dashing = false, sliding = false, stomping = false;
     private float fallVelocity;
     private Vector3 axis, movePlayer, dashDirection, slideDirection;
     public ParticleSystem speedParticles;
@@ -124,6 +128,10 @@ public class PlayerController : MonoBehaviour
         dashDirection = direction.normalized * baseSpeed * dashMultiplier;
         Invoke(nameof(EndDash), dashDuration);
         Invoke(nameof(ResetDash), dashCooldown);
+        if (speedParticles != null)
+        {
+            speedParticles.Play();
+        }
     }
 
     private void ProcessDash()
@@ -134,6 +142,11 @@ public class PlayerController : MonoBehaviour
     private void EndDash()
     {
         dashing = false;
+
+        if (speedParticles != null && !sliding)
+        {
+            speedParticles.Stop();
+        }
     }
 
     private void ResetDash()
