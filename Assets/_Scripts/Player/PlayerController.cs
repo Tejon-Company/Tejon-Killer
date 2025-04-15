@@ -200,6 +200,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if (player.collisionFlags == CollisionFlags.Above && fallVelocity > 0)
+            {
+                fallVelocity = -1f; // fuerza el comienzo de la caída al tocar el techo
+            }
+
             if (!stomping)
             {
                 fallVelocity -= gravity * Time.deltaTime;
