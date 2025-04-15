@@ -1,0 +1,34 @@
+using UnityEngine;
+
+public class Berry : MonoBehaviour
+{
+    public enum BerryEffect { Heal, SpeedBoost, Shield }
+    public BerryEffect effect = BerryEffect.Heal;
+
+    [SerializeField] private float healAmount = 25f;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayerHealth health = other.GetComponent<PlayerHealth>();
+            if (health != null)
+            {
+                ApplyEffect(health);
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void ApplyEffect(PlayerHealth health)
+    {
+        switch (effect)
+        {
+            case BerryEffect.Heal:
+                health.Heal(healAmount);
+                break;
+
+            // Aquí puedes agregar más efectos más adelante
+        }
+    }
+}
