@@ -27,8 +27,6 @@ public class Berry : MonoBehaviour
             case BerryEffect.Heal:
                 health.Heal(healAmount);
                 break;
-
-            // Aquí puedes agregar más efectos más adelante
         }
     }
 }

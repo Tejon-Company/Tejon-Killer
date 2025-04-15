@@ -13,6 +13,5 @@ public class PlayerHealth : MonoBehaviour
     public void Heal(float amount)
     {
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-        Debug.Log($"Player healed! Current Health: {currentHealth}");
     }
 }
