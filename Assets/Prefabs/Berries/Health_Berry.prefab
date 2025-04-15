@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2163814061699674526}
   - component: {fileID: 5988070266708571579}
   - component: {fileID: 6077465831047898028}
-  - component: {fileID: 2781986868160950484}
+  - component: {fileID: 5907286993876625923}
   m_Layer: 0
   m_Name: Health_Berry
   m_TagString: Untagged
@@ -109,7 +109,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2781986868160950484
+--- !u!114 &5907286993876625923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,8 +118,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 4722936892371659729}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81ca33555e7f81249892512d88e0e5dc, type: 3}
+  m_Script: {fileID: 11500000, guid: 5add1645289a1f546bc9f6297cf9e1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   effect: 0
-  healAmount: 25
+  healAmount: 1
