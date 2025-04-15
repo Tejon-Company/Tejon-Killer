@@ -11,12 +11,16 @@ public class LifeUI : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < maxLives; i++)
+        int totalHearts = Mathf.CeilToInt(playerHealth.maxHealth);
+
+        for (int i = 0; i < totalHearts; i++)
         {
             Image heart = Instantiate(heartTemplate, transform);
-            heart.gameObject.SetActive(true); 
+            heart.gameObject.SetActive(true);
             hearts.Add(heart.gameObject);
         }
+
+        UpdateHearts(); 
     }
 
     void Update()
@@ -26,11 +30,12 @@ public class LifeUI : MonoBehaviour
 
     void UpdateHearts()
     {
-        int currentLives = Mathf.CeilToInt(playerHealth.currentHealth / (playerHealth.maxHealth / maxLives));
+        int currentLives = Mathf.CeilToInt(playerHealth.currentHealth);
 
         for (int i = 0; i < hearts.Count; i++)
         {
             hearts[i].SetActive(i < currentLives);
         }
     }
+
 }

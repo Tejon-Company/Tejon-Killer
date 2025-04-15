@@ -5,7 +5,7 @@ public class Berry : MonoBehaviour
     public enum BerryEffect { Heal, SpeedBoost, Shield }
     public BerryEffect effect = BerryEffect.Heal;
 
-    [SerializeField] private float healAmount = 25f;
+    [SerializeField] private float healAmount = 1f;
 
     private void OnTriggerEnter(Collider other)
     {

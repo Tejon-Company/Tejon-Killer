@@ -646,8 +646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b986d3667e054458f42ce5eb067b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
+  maxHealth: 5
+  currentHealth: 4
 --- !u!1 &515966945
 GameObject:
   m_ObjectHideFlags: 0
@@ -6479,6 +6479,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2030169078}
     m_Modifications:
+    - target: {fileID: 2781986868160950484, guid: 7de4fe2ee7ab3644fb4b7ef60b1c5608,
+        type: 3}
+      propertyPath: healAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4722936892371659729, guid: 7de4fe2ee7ab3644fb4b7ef60b1c5608,
         type: 3}
       propertyPath: m_Name
