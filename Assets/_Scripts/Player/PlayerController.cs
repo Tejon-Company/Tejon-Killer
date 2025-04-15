@@ -265,4 +265,8 @@ public class PlayerController : MonoBehaviour
         fallVelocity = -stompForce;
         stompTimeCounter = stompTimeLimit; // Inicia el contador para el tiempo limitado de salto mejorado
     }
+    public Vector3 GetSlideDirection()
+    {
+        return slideDirection;
+    }
 }
