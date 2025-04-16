@@ -13,12 +13,15 @@ public class PlayerController : MonoBehaviour
 
     [Header("SLIDE")]
     [SerializeField] private float slideSpeedMultiplier = 2.5f;
-    [SerializeField] private float slideGravity = 7f;
-
+    [SerializeField] private float slideGravity = 14f;
 
     [Header("JUMP")]
     [SerializeField] private float gravity = 25f;
     [SerializeField] private float jumpForce = 15f;
+
+    [Header("MULTI JUMP")]
+    [SerializeField] private int maxJumps = 2;
+    private int jumpsRemaining;
 
     [Header("GRAVITY IN FREE FALL")]
     [SerializeField] private float groundedGravity = -5f;
@@ -33,9 +36,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpBufferTime = 0.15f;
     private float jumpBufferCounter = 0f;
 
-
-    [HideInInspector]public bool dashing = false, sliding = false, stomping = false;
+    [HideInInspector] public bool dashing = false, sliding = false, stomping = false;
     private bool canDash = true;
+    // Ahora usamos jumpInput de forma explícita:
     private bool jumpInput, dashInput, slideInputHeld;
     private float fallVelocity;
     private Vector3 axis, movePlayer, dashDirection, slideDirection;
@@ -71,9 +74,11 @@ public class PlayerController : MonoBehaviour
 
     private void HandleInput()
     {
-        if (Input.GetButtonDown("Jump"))
+        // Actualizamos jumpInput de forma explícita
+        jumpInput = Input.GetButtonDown("Jump") && jumpsRemaining > 0;
+        if (jumpInput)
         {
-            jumpBufferCounter = jumpBufferTime; // Guardamos el intento de salto
+            jumpBufferCounter = jumpBufferTime;
         }
 
         dashInput = Input.GetButtonDown("Sprint");
@@ -91,7 +96,6 @@ public class PlayerController : MonoBehaviour
     {
         axis = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         axis = axis.magnitude > 1 ? axis.normalized : axis;
-
         Vector3 rawMovement = transform.TransformDirection(axis);
 
         if (dashing)
@@ -100,6 +104,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (sliding)
         {
+            // Si estamos deslizando y se pulsa salto, cancelamos el deslizado y saltamos
             if (jumpInput && player.isGrounded)
             {
                 EndSlide();
@@ -129,7 +134,7 @@ public class PlayerController : MonoBehaviour
             StartDash(rawMovement);
         }
 
-        // Permitimos el salto incluso si acabamos de comenzar a deslizar
+        // Iniciamos el deslizado solo si no estamos ya en ese estado
         if (player.isGrounded && slideInputHeld && axis.magnitude > 0.1f && !sliding)
         {
             StartSlide(rawMovement);
@@ -157,7 +162,6 @@ public class PlayerController : MonoBehaviour
     private void EndDash()
     {
         dashing = false;
-
         if (speedParticles != null && !sliding)
         {
             speedParticles.Stop();
@@ -180,14 +184,6 @@ public class PlayerController : MonoBehaviour
         {
             speedParticles.Play();
         }
-
-        // Permitir salto inmediatamente después de empezar a deslizar
-        if (jumpInput && player.isGrounded)
-        {
-            EndSlide();
-            fallVelocity = jumpForce;
-            stomping = false;
-        }
     }
 
     private void ProcessSlide()
@@ -209,7 +205,6 @@ public class PlayerController : MonoBehaviour
         sliding = false;
         player.height = originalHeight;
         player.center = new Vector3(player.center.x, originalCenterY, player.center.z);
-
         if (speedParticles != null)
         {
             speedParticles.Stop();
@@ -222,47 +217,59 @@ public class PlayerController : MonoBehaviour
         {
             if (stomping)
             {
+                // Al tocar el suelo tras un stomp, iniciamos el contador para el supersalto
+                stompTimeCounter = stompTimeLimit;
                 stomping = false;
-            }
-            if (jumpBufferCounter <= 0)
-            {
-                fallVelocity = groundedGravity;
             }
             else
             {
-                // Si el jugador está dentro del tiempo de reacción del stomp, se aumenta el salto
+                jumpsRemaining = maxJumps;
+            }
+
+            if (jumpBufferCounter > 0 && !stomping)
+            {
                 if (stompTimeCounter > 0)
                 {
                     fallVelocity = jumpForce * stompJumpForceMultiplier;
+                    jumpsRemaining = maxJumps - 1;
                     stompTimeCounter = 0f;
                 }
                 else
                 {
                     fallVelocity = jumpForce;
+                    jumpsRemaining--;
                 }
 
-                jumpBufferCounter = 0f; // Consumimos el buffer
+                jumpBufferCounter = 0f;
+            }
+            else if (fallVelocity <= 0f)
+            {
+                fallVelocity = groundedGravity;
             }
         }
         else
         {
+            if (jumpBufferCounter > 0 && jumpsRemaining > 0 && !stomping)
+            {
+                fallVelocity = jumpForce;
+                jumpsRemaining--;
+                jumpBufferCounter = 0f;
+            }
+
             if (player.collisionFlags == CollisionFlags.Above && fallVelocity > 0)
             {
-                fallVelocity = -1f; // fuerza el comienzo de la caída al tocar el techo
+                fallVelocity = -1f;
             }
 
-    if (!stomping)
-    {
-        if (sliding)
-        {
-            fallVelocity -= slideGravity * Time.deltaTime;
-        }
-        else
-        {
-            fallVelocity -= gravity * Time.deltaTime;
-        }
-    }
+            if (!stomping)
+            {
+                fallVelocity -= (sliding ? slideGravity : gravity) * Time.deltaTime;
+            }
 
+            if (stompTimeCounter > 0)
+            {
+                stompTimeCounter -= Time.deltaTime;
+            }
         }
 
         movePlayer.y = fallVelocity;
@@ -270,11 +277,10 @@ public class PlayerController : MonoBehaviour
 
     private void StartStomp()
     {
-        Debug.Log("STOMP");
         stomping = true;
         fallVelocity = -stompForce;
-        stompTimeCounter = stompTimeLimit; // Inicia el contador para el tiempo limitado de salto mejorado
     }
+
     public Vector3 GetSlideDirection()
     {
         return slideDirection;
