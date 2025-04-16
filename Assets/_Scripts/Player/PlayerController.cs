@@ -12,7 +12,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashCooldown = 0.4f;
 
     [Header("SLIDE")]
-    [SerializeField] private float slideSpeedMultiplier = 3f;
+    [SerializeField] private float slideSpeedMultiplier = 2.5f;
+    [SerializeField] private float slideGravity = 7f;
+
 
     [Header("JUMP")]
     [SerializeField] private float gravity = 25f;
@@ -249,10 +251,18 @@ public class PlayerController : MonoBehaviour
                 fallVelocity = -1f; // fuerza el comienzo de la caída al tocar el techo
             }
 
-            if (!stomping)
-            {
-                fallVelocity -= gravity * Time.deltaTime;
-            }
+    if (!stomping)
+    {
+        if (sliding)
+        {
+            fallVelocity -= slideGravity * Time.deltaTime;
+        }
+        else
+        {
+            fallVelocity -= gravity * Time.deltaTime;
+        }
+    }
+
         }
 
         movePlayer.y = fallVelocity;
