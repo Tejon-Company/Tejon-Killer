@@ -260,6 +260,8 @@ private void HandleMovement()
             {
                 if (stompTimeCounter > 0)
                 {
+                    sliding=false;
+                    speedParticles.Stop();
                     fallVelocity = jumpForce * stompJumpForceMultiplier;
                     jumpsRemaining = maxJumps - 1;
                     stompTimeCounter = 0f;
