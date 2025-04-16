@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float slideJumpForce = 20f;
     [SerializeField] private float slideJumpInertiaMultiplier = 2f;
     private bool slideJumpInertiaActive = false;
-
+    private bool canSlideJump;
+    private bool skipGravityNextFrame = false;
 
     [Header("JUMP")]
     [SerializeField] private float gravity = 25f;
@@ -71,7 +72,11 @@ public class PlayerController : MonoBehaviour
         }
         HandleInput();
         HandleMovement();
-        HandleGravity();
+        if (!skipGravityNextFrame)
+        {
+            HandleGravity();
+        }
+        skipGravityNextFrame = false;
         HandleSlideEnd();
 
         player.Move(movePlayer * Time.deltaTime);
@@ -109,37 +114,36 @@ private void HandleMovement()
     }
     else if (sliding)
     {
-        if (jumpInput)
+        // 1) Detectar el botón justo en el momento de pulsarse
+        if (canSlideJump && Input.GetButtonDown("Jump") && jumpsRemaining > 0)
         {
             EndSlide();
             slideDirection.y = 0f;
 
-            Vector3 jumpImpulse = new Vector3(slideDirection.x, 0f, slideDirection.z) * slideJumpInertiaMultiplier;
-
+            // impulso potenciado
+            Vector3 jumpImpulse = slideDirection * slideJumpInertiaMultiplier;
             movePlayer = jumpImpulse;
             fallVelocity = slideJumpForce;
             movePlayer.y = fallVelocity;
 
-            jumpBufferCounter = 0f;
-            stomping = false;
             jumpsRemaining--;
-
-            // Activamos inercia mientras esté en el aire
             slideJumpInertiaActive = true;
 
+            // ya no podemos volver a slide‑jumpear hasta el próximo slide
+            canSlideJump = false;
+            skipGravityNextFrame = true;
             return;
         }
-        else
-        {
-            ProcessSlide();
-        }
+
+        // 2) Si no salta, seguimos deslizando
+        ProcessSlide();
     }
     else
     {
         ProcessNormalMovement(rawMovement);
     }
 
-    // aquí se actualiza la parte vertical
+    // actualizar componente vertical
     movePlayer.y = fallVelocity;
 }
 
@@ -206,6 +210,7 @@ private void HandleMovement()
     private void StartSlide(Vector3 direction)
     {
         sliding = true;
+        canSlideJump = true;
         slideDirection = direction.normalized * baseSpeed * slideSpeedMultiplier;
         player.height = crouchHeight;
         player.center = new Vector3(player.center.x, crouchCenterY, player.center.z);
