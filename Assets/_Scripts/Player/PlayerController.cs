@@ -104,8 +104,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (sliding)
         {
-            // Si estamos deslizando y se pulsa salto, cancelamos el deslizado y saltamos
-            if (jumpInput && player.isGrounded)
+            if (jumpInput)
             {
                 EndSlide();
                 fallVelocity = jumpForce;
