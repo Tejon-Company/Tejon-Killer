@@ -14,10 +14,15 @@ public class PlayerController : MonoBehaviour
     [Header("SLIDE")]
     [SerializeField] private float slideSpeedMultiplier = 2.5f;
     [SerializeField] private float slideGravity = 14f;
+    [SerializeField] private float slideJumpForce = 20f;
+    [SerializeField] private float slideJumpInertiaMultiplier = 2f;
+    private bool slideJumpInertiaActive = false;
+
 
     [Header("JUMP")]
     [SerializeField] private float gravity = 25f;
     [SerializeField] private float jumpForce = 15f;
+
 
     [Header("MULTI JUMP")]
     [SerializeField] private int maxJumps = 2;
@@ -92,39 +97,64 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleMovement()
-    {
-        axis = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        axis = axis.magnitude > 1 ? axis.normalized : axis;
-        Vector3 rawMovement = transform.TransformDirection(axis);
+private void HandleMovement()
+{
+    axis = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+    axis = axis.magnitude > 1 ? axis.normalized : axis;
+    Vector3 rawMovement = transform.TransformDirection(axis);
 
-        if (dashing)
+    if (dashing)
+    {
+        ProcessDash();
+    }
+    else if (sliding)
+    {
+        if (jumpInput)
         {
-            ProcessDash();
-        }
-        else if (sliding)
-        {
-            if (jumpInput)
-            {
-                EndSlide();
-                fallVelocity = jumpForce;
-                stomping = false;
-            }
-            else
-            {
-                ProcessSlide();
-            }
+            EndSlide();
+            slideDirection.y = 0f;
+
+            Vector3 jumpImpulse = new Vector3(slideDirection.x, 0f, slideDirection.z) * slideJumpInertiaMultiplier;
+
+            movePlayer = jumpImpulse;
+            fallVelocity = slideJumpForce;
+            movePlayer.y = fallVelocity;
+
+            jumpBufferCounter = 0f;
+            stomping = false;
+            jumpsRemaining--;
+
+            // Activamos inercia mientras esté en el aire
+            slideJumpInertiaActive = true;
+
+            return;
         }
         else
         {
-            ProcessNormalMovement(rawMovement);
+            ProcessSlide();
         }
     }
+    else
+    {
+        ProcessNormalMovement(rawMovement);
+    }
+
+    // aquí se actualiza la parte vertical
+    movePlayer.y = fallVelocity;
+}
+
 
     private void ProcessNormalMovement(Vector3 rawMovement)
     {
-        movePlayer.x = rawMovement.x * baseSpeed;
-        movePlayer.z = rawMovement.z * baseSpeed;
+        float currentSpeed = baseSpeed;
+
+        if (slideJumpInertiaActive && !player.isGrounded)
+        {
+            currentSpeed *= slideJumpInertiaMultiplier;
+        }
+
+        movePlayer.x = rawMovement.x * currentSpeed;
+        movePlayer.z = rawMovement.z * currentSpeed;
 
         transform.Rotate(0, Input.GetAxis("Mouse X"), 0);
 
@@ -133,12 +163,13 @@ public class PlayerController : MonoBehaviour
             StartDash(rawMovement);
         }
 
-        // Iniciamos el deslizado solo si no estamos ya en ese estado
         if (player.isGrounded && slideInputHeld && axis.magnitude > 0.1f && !sliding)
         {
             StartSlide(rawMovement);
         }
     }
+
+
 
     private void StartDash(Vector3 direction)
     {
@@ -214,9 +245,9 @@ public class PlayerController : MonoBehaviour
     {
         if (player.isGrounded)
         {
+            slideJumpInertiaActive = false;
             if (stomping)
             {
-                // Al tocar el suelo tras un stomp, iniciamos el contador para el supersalto
                 stompTimeCounter = stompTimeLimit;
                 stomping = false;
             }
