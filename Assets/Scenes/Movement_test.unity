@@ -629,6 +629,8 @@ MonoBehaviour:
   dashCooldown: 0.4
   slideSpeedMultiplier: 2.5
   slideGravity: 14
+  slideJumpForce: 20
+  slideJumpInertiaMultiplier: 2
   gravity: 25
   jumpForce: 15
   maxJumps: 2
