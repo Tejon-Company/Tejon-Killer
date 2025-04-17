@@ -1222,7 +1222,7 @@ GameObject:
   - component: {fileID: 672609084}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2428,7 +2428,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -2439,7 +2439,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157305294}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8157,6 +8157,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 672609081}
     m_Modifications:
+    - target: {fileID: 793324429624423227, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
+      propertyPath: bulletHolePrefab
+      value: 
+      objectReference: {fileID: 2288269410780809998, guid: 12144342a7a7d9040a0f2b89f5c81c3e,
+        type: 3}
+    - target: {fileID: 793324429624423227, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
+      propertyPath: hittableLayers.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 866321789422702805, guid: f4d57899f2b7feb48b960eb6b6e366d9,
         type: 3}
       propertyPath: m_Layer

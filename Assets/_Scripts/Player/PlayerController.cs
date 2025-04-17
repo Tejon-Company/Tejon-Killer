@@ -42,13 +42,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpBufferTime = 0.15f;
     private float jumpBufferCounter = 0f;
 
+    [SerializeField] private Sway weaponSway;
+    [SerializeField] private ParticleSystem speedParticles;
     [HideInInspector] public bool dashing = false, sliding = false, stomping = false;
     private bool canDash = true;
     // Ahora usamos jumpInput de forma explícita:
     private bool jumpInput, dashInput, slideInputHeld;
     private float fallVelocity;
     private Vector3 axis, movePlayer, dashDirection, slideDirection;
-    public ParticleSystem speedParticles;
+
     private float originalHeight, crouchHeight = 1f;
     private float originalCenterY, crouchCenterY = 0.5f;
 
@@ -89,6 +91,7 @@ public class PlayerController : MonoBehaviour
         if (jumpInput)
         {
             jumpBufferCounter = jumpBufferTime;
+            weaponSway.TriggerJumpEffect();
         }
 
         dashInput = Input.GetButtonDown("Sprint");
@@ -126,7 +129,6 @@ private void HandleMovement()
             fallVelocity = slideJumpForce;
             movePlayer.y = fallVelocity;
 
-            jumpsRemaining--;
             slideJumpInertiaActive = true;
 
             // ya no podemos volver a slide‑jumpear hasta el próximo slide
@@ -314,6 +316,7 @@ private void HandleMovement()
 
     private void StartStomp()
     {
+        weaponSway.TriggerStompEffect();
         stomping = true;
         fallVelocity = -stompForce;
     }
