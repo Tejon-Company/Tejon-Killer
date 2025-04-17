@@ -27,12 +27,12 @@ public class Sway : MonoBehaviour
     private Quaternion currentRecoilRotation;
 
     [Header("JUMP")]
-    [SerializeField] private float jumpOffsetposition = -0.1f;
-    [SerializeField] private float jumpOffsetrotarion = -5f;
+    [SerializeField] private float jumpOffsetposition = -0.2f;
+    [SerializeField] private float jumpOffsetrotarion = -20f;
 
     [Header("STOMP")]
     [SerializeField] private float stompOffsetPosition = 0.1f;  // Efecto de impulso hacia arriba
-    [SerializeField] private float stompOffsetRotation = 5f;
+    [SerializeField] private float stompOffsetRotation = 340f;
     private Vector3 stompOffset = Vector3.zero;
 
 

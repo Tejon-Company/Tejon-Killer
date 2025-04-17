@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         jumpInput = Input.GetButtonDown("Jump") && jumpsRemaining > 0;
         if (jumpInput)
         {
-            jumpBufferCounter = jumpBufferTime;
+            jumpBufferCounter = jumpBufferTime;            // llenamos el buffer
             weaponSway.TriggerJumpEffect();
         }
 
@@ -105,49 +105,50 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-private void HandleMovement()
-{
-    axis = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-    axis = axis.magnitude > 1 ? axis.normalized : axis;
-    Vector3 rawMovement = transform.TransformDirection(axis);
+    private void HandleMovement()
+    {
+        axis = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        axis = axis.magnitude > 1 ? axis.normalized : axis;
+        Vector3 rawMovement = transform.TransformDirection(axis);
 
-    if (dashing)
-    {
-        ProcessDash();
-    }
-    else if (sliding)
-    {
-        // 1) Detectar el botón justo en el momento de pulsarse
-        if (canSlideJump && Input.GetButtonDown("Jump") && jumpsRemaining > 0)
+        if (dashing)
         {
-            EndSlide();
-            slideDirection.y = 0f;
+            ProcessDash();
+        }
+        else if (sliding)
+        {
+            // 1) Detectar salto via jumpBufferCounter en lugar de Input.GetButtonDown
+            if (canSlideJump && jumpBufferCounter > 0f && jumpsRemaining > 0)
+            {
+                EndSlide();
+                slideDirection.y = 0f;
 
-            // impulso potenciado
-            Vector3 jumpImpulse = slideDirection * slideJumpInertiaMultiplier;
-            movePlayer = jumpImpulse;
-            fallVelocity = slideJumpForce;
-            movePlayer.y = fallVelocity;
+                // impulso potenciado
+                Vector3 jumpImpulse = slideDirection * slideJumpInertiaMultiplier;
+                movePlayer = jumpImpulse;
+                fallVelocity = slideJumpForce;
+                movePlayer.y = fallVelocity;
 
-            slideJumpInertiaActive = true;
+                slideJumpInertiaActive = true;
+                canSlideJump = false;
+                skipGravityNextFrame = true;
 
-            // ya no podemos volver a slide‑jumpear hasta el próximo slide
-            canSlideJump = false;
-            skipGravityNextFrame = true;
-            return;
+                // usamos el buffer de salto y lo limpiamos
+                jumpBufferCounter = 0f;
+                return;
+            }
+
+            // 2) Si no salta, seguimos deslizando
+            ProcessSlide();
+        }
+        else
+        {
+            ProcessNormalMovement(rawMovement);
         }
 
-        // 2) Si no salta, seguimos deslizando
-        ProcessSlide();
+        // actualizar componente vertical
+        movePlayer.y = fallVelocity;
     }
-    else
-    {
-        ProcessNormalMovement(rawMovement);
-    }
-
-    // actualizar componente vertical
-    movePlayer.y = fallVelocity;
-}
 
 
     private void ProcessNormalMovement(Vector3 rawMovement)

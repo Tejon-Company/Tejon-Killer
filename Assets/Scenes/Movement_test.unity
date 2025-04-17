@@ -639,10 +639,11 @@ MonoBehaviour:
   stompTimeLimit: 0.3
   stompJumpForceMultiplier: 1.5
   jumpBufferTime: 0.15
+  weaponSway: {fileID: 1950185843}
+  speedParticles: {fileID: 2066734691}
   dashing: 0
   sliding: 0
   stomping: 0
-  speedParticles: {fileID: 2066734691}
 --- !u!114 &188717816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3092,6 +3093,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84923a2696924fb4b8455e2930c15e30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1950185843 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1723160146677635942, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2541415652343496746}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82ce71963672c084b8eb33090e976dad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2029823131
@@ -8159,9 +8172,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 793324429624423227, guid: f4d57899f2b7feb48b960eb6b6e366d9,
         type: 3}
+      propertyPath: sway
+      value: 
+      objectReference: {fileID: 1950185843}
+    - target: {fileID: 793324429624423227, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
+      propertyPath: fireRate
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 793324429624423227, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
+      propertyPath: recoilTilt
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 793324429624423227, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
       propertyPath: bulletHolePrefab
       value: 
-      objectReference: {fileID: 2288269410780809998, guid: 12144342a7a7d9040a0f2b89f5c81c3e,
+      objectReference: {fileID: 2624056915955964118, guid: 7e06c15b54d0a944ea74a69d7e1c0397,
         type: 3}
     - target: {fileID: 793324429624423227, guid: f4d57899f2b7feb48b960eb6b6e366d9,
         type: 3}
@@ -8195,14 +8223,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1723160146677635942, guid: f4d57899f2b7feb48b960eb6b6e366d9,
         type: 3}
+      propertyPath: recoilTilt
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723160146677635942, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
+      propertyPath: recoilForce
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723160146677635942, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
       propertyPath: balanceFactor
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1723160146677635942, guid: f4d57899f2b7feb48b960eb6b6e366d9,
         type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 188717815}
+    - target: {fileID: 1723160146677635942, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
+      propertyPath: weaponController
+      value: 
+      objectReference: {fileID: 1950185842}
+    - target: {fileID: 1723160146677635942, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
+      propertyPath: maxRecoilOffset.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723160146677635942, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
+      propertyPath: jumpOffsetposition
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723160146677635942, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
+      propertyPath: jumpOffsetrotarion
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1723160146677635942, guid: f4d57899f2b7feb48b960eb6b6e366d9,
+        type: 3}
+      propertyPath: maxRecoilRotation.z
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1837079453129303502, guid: f4d57899f2b7feb48b960eb6b6e366d9,
         type: 3}
       propertyPath: m_LocalPosition.x
