@@ -1,51 +1,72 @@
+// PlayerWeaponManager.cs
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
-public class PlayerWeaponManager: MonoBehaviour
-{
-    public List<WeaponController> startingWeapons = new List<WeaponController>();
 
+public class PlayerWeaponManager : MonoBehaviour
+{
+    [Header("Referencia al PlayerController (arrastrar en Inspector)")]
+    [SerializeField] private PlayerController playerController;
+
+    [Header("Configuración de armas")]
+    public List<WeaponController> startingWeapons = new List<WeaponController>();
     public Transform weaponParentSocket;
     public Transform defaultWeaponPosition;
     public Transform aimingPosition;
 
-    public int activeWeaponIndex {get; private set;}
-
     private WeaponController[] weaponslots = new WeaponController[5];
+    public int activeWeaponIndex { get; private set; } = -1;
 
-    void Start()
+    private void Start()
     {
-        activeWeaponIndex =-1;
-        foreach(WeaponController startingWeapon in startingWeapons)
-        {
-            AddWeapon(startingWeapon);
-        }
+        foreach (WeaponController w in startingWeapons)
+            AddWeapon(w);
     }
-    void Update()
+
+    private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1)){
+        if (Input.GetKeyDown(KeyCode.Alpha1))
             SwitchWeapon(0);
-        }
     }
 
-    private void SwitchWeapon(int p_weaponIndex){
-        if(p_weaponIndex!= activeWeaponIndex && p_weaponIndex>=0){
-            weaponslots[p_weaponIndex].gameObject.SetActive(true);
-            activeWeaponIndex=p_weaponIndex;
-        }
-
-    }
-    private void AddWeapon(WeaponController p_weaponPrefab){
-        weaponParentSocket.position= defaultWeaponPosition.position;
-        for (int i=0; i<weaponslots.Length;i++)
+    private void AddWeapon(WeaponController prefab)
+    {
+        weaponParentSocket.position = defaultWeaponPosition.position;
+        for (int i = 0; i < weaponslots.Length; i++)
         {
-            if(weaponslots[i]==null){
-                WeaponController weaponClone= Instantiate(p_weaponPrefab, weaponParentSocket);
-                weaponClone.gameObject.SetActive(false);
-
-                weaponslots[i]=weaponClone;
+            if (weaponslots[i] == null)
+            {
+                var clone = Instantiate(prefab, weaponParentSocket);
+                clone.gameObject.SetActive(false);
+                weaponslots[i] = clone;
                 return;
             }
         }
+    }
+
+    private void SwitchWeapon(int index)
+    {
+        if (index < 0 || index >= weaponslots.Length) return;
+        if (index == activeWeaponIndex) return;
+
+        // (Opcional) desactivo arma anterior
+        if (activeWeaponIndex >= 0)
+            weaponslots[activeWeaponIndex].gameObject.SetActive(false);
+
+        var wc = weaponslots[index];
+        if (wc == null)
+        {
+            Debug.LogWarning($"No hay arma en el slot {index}");
+            return;
+        }
+
+        wc.gameObject.SetActive(true);
+        activeWeaponIndex = index;
+
+        // ** Aquí le asigno el Sway al PlayerController **
+        var sway = wc.GetComponent<Sway>();
+        if (sway != null)
+            playerController.SetWeaponSway(sway);
+
+        EventManager.current.NewGunEvent.Invoke();
     }
 }

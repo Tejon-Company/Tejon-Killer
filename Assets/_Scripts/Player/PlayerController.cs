@@ -1,3 +1,4 @@
+// PlayerController.cs
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -24,7 +25,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float gravity = 25f;
     [SerializeField] private float jumpForce = 15f;
 
-
     [Header("MULTI JUMP")]
     [SerializeField] private int maxJumps = 2;
     private int jumpsRemaining;
@@ -42,17 +42,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpBufferTime = 0.15f;
     private float jumpBufferCounter = 0f;
 
-    [SerializeField] private Sway weaponSway;
     [SerializeField] private ParticleSystem speedParticles;
+
     [HideInInspector] public bool dashing = false, sliding = false, stomping = false;
     private bool canDash = true;
-    // Ahora usamos jumpInput de forma explícita:
+
     private bool jumpInput, dashInput, slideInputHeld;
     private float fallVelocity;
     private Vector3 axis, movePlayer, dashDirection, slideDirection;
 
     private float originalHeight, crouchHeight = 1f;
     private float originalCenterY, crouchCenterY = 0.5f;
+
+    // Esta referencia ya no es [SerializeField], se asigna desde el WeaponManager:
+    private Sway weaponSway;
 
     private void Awake()
     {
@@ -65,44 +68,36 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (stompTimeCounter > 0)
-        {
             stompTimeCounter -= Time.deltaTime;
-        }
         if (jumpBufferCounter > 0)
-        {
             jumpBufferCounter -= Time.deltaTime;
-        }
+
         HandleInput();
         HandleMovement();
-        if (!skipGravityNextFrame)
-        {
-            HandleGravity();
-        }
-        skipGravityNextFrame = false;
-        HandleSlideEnd();
 
+        if (!skipGravityNextFrame)
+            HandleGravity();
+        skipGravityNextFrame = false;
+
+        HandleSlideEnd();
         player.Move(movePlayer * Time.deltaTime);
     }
 
     private void HandleInput()
     {
-        // Actualizamos jumpInput de forma explícita
         jumpInput = Input.GetButtonDown("Jump") && jumpsRemaining > 0;
         if (jumpInput)
         {
-            jumpBufferCounter = jumpBufferTime;            // llenamos el buffer
-            weaponSway.TriggerJumpEffect();
+            jumpBufferCounter = jumpBufferTime;
+            weaponSway?.TriggerJumpEffect();
         }
 
         dashInput = Input.GetButtonDown("Sprint");
         bool stompInput = Input.GetButtonDown("Crouch");
-
         slideInputHeld = Input.GetButton("Crouch");
 
         if (stompInput && !player.isGrounded && !stomping && !sliding)
-        {
             StartStomp();
-        }
     }
 
     private void HandleMovement()
@@ -176,7 +171,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    public void SetWeaponSway(Sway newSway)
+    {
+        weaponSway = newSway;
+    }
 
     private void StartDash(Vector3 direction)
     {
@@ -317,7 +315,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartStomp()
     {
-        weaponSway.TriggerStompEffect();
+        weaponSway?.TriggerStompEffect();
         stomping = true;
         fallVelocity = -stompForce;
     }
