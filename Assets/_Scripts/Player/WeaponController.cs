@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
+
+    [Header("References")]
+    public Transform weaponMuzzle;
+
     [Header("General")]
     public LayerMask hittableLayers;
     public GameObject bulletHolePrefab;
@@ -21,6 +25,10 @@ public class WeaponController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Sway sway;
+
+    [Header("SOUNDS & VISUALS")]
+    public GameObject flashEffect;
+
 
 
     private Transform cameraPlayerTransform;
@@ -73,6 +81,8 @@ public class WeaponController : MonoBehaviour
 
     private void Shoot()
     {
+        GameObject flashClone =Instantiate(flashEffect, weaponMuzzle.position,Quaternion.Euler(weaponMuzzle.forward), transform);
+        Destroy(flashClone,1f);
         RaycastHit hit;
         if (Physics.Raycast(cameraPlayerTransform.position, cameraPlayerTransform.forward, out hit, fireRange, hittableLayers))
         {

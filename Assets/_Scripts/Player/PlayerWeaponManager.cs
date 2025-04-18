@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
-public class PlayerWeaponController: MonoBehaviour
+public class PlayerWeaponManager: MonoBehaviour
 {
     public List<WeaponController> startingWeapons = new List<WeaponController>();
 

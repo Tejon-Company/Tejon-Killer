@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1586837316490557583}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.36, y: 0.04, z: 0.01}
+  m_LocalPosition: {x: 1.8, y: 0.04, z: 0.01}
   m_LocalScale: {x: 6.9252067, y: 6.9252076, z: 6.9252067}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -145,6 +145,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84923a2696924fb4b8455e2930c15e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponMuzzle: {fileID: 4388319504019638812}
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  bulletHolePrefab: {fileID: 2624056915955964118, guid: 7e06c15b54d0a944ea74a69d7e1c0397,
+    type: 3}
+  fireRange: 200
+  fireRate: 0.2
+  maxAmmo: 8
+  reloadTime: 1.5
+  sway: {fileID: 0}
+  flashEffect: {fileID: 6036478338356816341, guid: 9385bb2dfb85a9e46a718df9e22f38f4,
+    type: 3}
 --- !u!114 &1723160146677635942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +172,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   balanceFactor: 1.45
   timeFactor: 10
+  slideOffset: {x: 0, y: 0, z: -0.3}
+  slideLerpSpeed: 10
+  recoilForce: 0.3
+  recoilTilt: -20
+  recoilReturnSpeed: 5
+  maxRecoilOffset: {x: 0.2, y: 0.2, z: 0.2}
+  maxRecoilRotation: {x: 20, y: 20, z: 20}
+  jumpOffsetposition: -0.2
+  jumpOffsetrotarion: -20
+  stompOffsetPosition: 0.1
+  stompOffsetRotation: 340
+  playerController: {fileID: 0}
 --- !u!4 &1837079453129303502 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d4ebe56431de1434592bb437b763a5db,
