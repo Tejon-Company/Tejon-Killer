@@ -69,4 +69,10 @@ public class PlayerWeaponManager : MonoBehaviour
 
         EventManager.current.NewGunEvent.Invoke();
     }
+    public WeaponController GetActiveWeapon()
+    {
+        if (activeWeaponIndex < 0 || activeWeaponIndex >= weaponslots.Length) 
+            return null;
+        return weaponslots[activeWeaponIndex];
+    }
 }

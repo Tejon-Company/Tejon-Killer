@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-
     [Header("References")]
     public Transform weaponMuzzle;
 
@@ -16,12 +15,13 @@ public class WeaponController : MonoBehaviour
     public float fireRate = 0.2f;
 
     [Header("AMMO")]
-    [SerializeField]private int maxAmmo=8;
-    public int currentAmmo {get; private set;}
+    [SerializeField] private int maxAmmo = 8;
+    public int currentAmmo { get; private set; }
+    public int MaxAmmo => maxAmmo;
 
     [Header("RELOAD")]
-    public float reloadTime =1.5f;
-    private bool isReloading= false;
+    public float reloadTime = 1.5f;
+    private bool isReloading = false;
 
     [Header("References")]
     [SerializeField] private Sway sway;
@@ -29,14 +29,12 @@ public class WeaponController : MonoBehaviour
     [Header("SOUNDS & VISUALS")]
     public GameObject flashEffect;
 
-
-
     private Transform cameraPlayerTransform;
     private float lastShotTime = 0f;
 
     void Awake()
     {
-        currentAmmo =maxAmmo;
+        currentAmmo = maxAmmo;
         EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
     }
 
@@ -47,63 +45,75 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire")) // Comprobar si el jugador intenta disparar
+        // 1) Disparos deshabilitados mientras recargo
+        if (Input.GetButtonDown("Fire"))
         {
-            if (currentAmmo <= 0) // Si no hay balas
+            if (isReloading)
+                return;
+
+            // 2) Si no hay balas, auto-recarga
+            if (currentAmmo <= 0)
             {
-                // Si no hay balas, iniciar el proceso de recarga automáticamente
-                if (!isReloading) // Evitar iniciar una recarga si ya está en curso
-                {
-                    StartCoroutine(Reload());
-                }
+                StartCoroutine(Reload());
             }
             else
             {
-                TryShoot(); // Si hay balas, disparar
+                // 3) Si hay balas y no recargo, disparo
+                if (Time.time > lastShotTime + fireRate)
+                {
+                    Shoot();
+                    currentAmmo--;
+                    EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
+                    lastShotTime = Time.time;
+                }
             }
-            lastShotTime = Time.time; // Actualizar el tiempo del último disparo
         }
-        if (Input.GetButtonDown("Reload") && currentAmmo < maxAmmo) // Recargar manualmente si no está lleno
+
+        // 4) Recarga manual sólo si no estoy recargando y no estoy lleno
+        if (Input.GetButtonDown("Reload") && currentAmmo < maxAmmo && !isReloading)
         {
             StartCoroutine(Reload());
         }
     }
 
-    private bool TryShoot()
-    {
-        if (currentAmmo >= 1 && Time.time > lastShotTime + fireRate)
-        {
-            Shoot();
-            currentAmmo -= 1;
-            EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
-            return true;
-        }
-        return false;
-    }
-
     private void Shoot()
     {
-        GameObject flashClone =Instantiate(flashEffect, weaponMuzzle.position,Quaternion.Euler(weaponMuzzle.forward), transform);
-        Destroy(flashClone,1f);
-        RaycastHit hit;
-        if (Physics.Raycast(cameraPlayerTransform.position, cameraPlayerTransform.forward, out hit, fireRange, hittableLayers))
+        // Efecto de flash
+        var flashClone = Instantiate(flashEffect,
+                                     weaponMuzzle.position,
+                                     Quaternion.LookRotation(weaponMuzzle.forward),
+                                     transform);
+        Destroy(flashClone, 1f);
+
+        // Raycast de impacto
+        if (Physics.Raycast(cameraPlayerTransform.position,
+                            cameraPlayerTransform.forward,
+                            out RaycastHit hit,
+                            fireRange,
+                            hittableLayers))
         {
-            GameObject bulletHoleClone = Instantiate(bulletHolePrefab, hit.point + hit.normal * -0.01f, Quaternion.LookRotation(hit.normal));
-            Destroy(bulletHoleClone, 4f);
+            var hole = Instantiate(bulletHolePrefab,
+                                   hit.point - hit.normal * 0.01f,
+                                   Quaternion.LookRotation(hit.normal));
+            Destroy(hole, 4f);
         }
 
+        // Recoil
         sway?.ApplyRecoil();
     }
 
-    IEnumerator Reload()
+    private IEnumerator Reload()
     {
+        if (isReloading)
+            yield break;
 
-        if (isReloading) yield break; // Si ya estamos recargando, salir de la función
         isReloading = true;
         Debug.Log("Recargando...");
         yield return new WaitForSeconds(reloadTime);
+
         currentAmmo = maxAmmo;
         EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
+
         isReloading = false;
         Debug.Log("¡Recargada!");
     }
