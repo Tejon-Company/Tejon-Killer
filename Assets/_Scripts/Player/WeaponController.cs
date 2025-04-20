@@ -28,7 +28,8 @@ public class WeaponController : MonoBehaviour
 
     [Header("SOUNDS & VISUALS")]
     public GameObject flashEffect;
-
+    public GameObject tracerEffectPrefab;
+    [SerializeField] float rayEffectTime= 0.2f;
     private Transform cameraPlayerTransform;
     private float lastShotTime = 0f;
 
@@ -78,27 +79,29 @@ public class WeaponController : MonoBehaviour
 
     private void Shoot()
     {
-        // Efecto de flash
-        var flashClone = Instantiate(flashEffect,
-                                     weaponMuzzle.position,
-                                     Quaternion.LookRotation(weaponMuzzle.forward),
-                                     transform);
+        // Flash
+        var flashClone = Instantiate(flashEffect, weaponMuzzle.position, Quaternion.LookRotation(weaponMuzzle.forward), transform);
         Destroy(flashClone, 1f);
 
-        // Raycast de impacto
-        if (Physics.Raycast(cameraPlayerTransform.position,
-                            cameraPlayerTransform.forward,
-                            out RaycastHit hit,
-                            fireRange,
-                            hittableLayers))
+        Ray ray = new Ray(cameraPlayerTransform.position, cameraPlayerTransform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, fireRange, hittableLayers))
         {
+            // Crear bullet hole
             var hole = Instantiate(bulletHolePrefab,
-                                   hit.point - hit.normal * 0.01f,
-                                   Quaternion.LookRotation(hit.normal));
+                                hit.point - hit.normal * 0.01f,
+                                Quaternion.LookRotation(hit.normal));
             Destroy(hole, 4f);
+
+            // Mostrar rayo visual
+            GameObject rayInstance = Instantiate(tracerEffectPrefab);
+            LineRenderer lr = rayInstance.GetComponent<LineRenderer>();
+            lr.SetPosition(0, weaponMuzzle.position);
+            lr.SetPosition(1, hit.point);
+
+            // Iniciar la rutina para estrechar el rayo
+            StartCoroutine(FadeRay(lr, rayEffectTime)); // dura 0.1 segundos
         }
 
-        // Recoil
         sway?.ApplyRecoil();
     }
 
@@ -116,5 +119,33 @@ public class WeaponController : MonoBehaviour
 
         isReloading = false;
         Debug.Log("¡Recargada!");
+    }
+    private IEnumerator ShowTracer(Vector3 start, Vector3 end)
+    {
+        GameObject tracer = Instantiate(tracerEffectPrefab);
+        LineRenderer lr = tracer.GetComponent<LineRenderer>();
+
+        lr.SetPosition(0, start);
+        lr.SetPosition(1, end);
+
+        yield return null; // 1 frame
+        Destroy(tracer,0.1f);
+    }
+    private IEnumerator FadeRay(LineRenderer lr, float duration)
+    {
+        float time = 0f;
+        float startWidth = lr.startWidth;
+
+        while (time < duration)
+        {
+            float t = time / duration;
+            float width = Mathf.Lerp(startWidth, 0f, t);
+            lr.startWidth = width;
+            lr.endWidth = width;
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(lr.gameObject);
     }
 }
