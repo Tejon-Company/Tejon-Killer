@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
             {
                 EndSlide();
                 slideDirection.y = 0f;
-
+                jumpsRemaining--;
                 // impulso potenciado
                 Vector3 jumpImpulse = slideDirection * slideJumpInertiaMultiplier;
                 movePlayer = jumpImpulse;
@@ -268,14 +268,6 @@ public class PlayerController : MonoBehaviour
                 {
                     sliding=false;
                     speedParticles.Stop();
-                    fallVelocity = jumpForce * stompJumpForceMultiplier;
-                    jumpsRemaining = maxJumps - 1;
-                    stompTimeCounter = 0f;
-                }
-                if (stompTimeCounter > 0)
-                {
-                    // Al hacer buffer‑jump tras stomp, restablece completamente la postura
-                    EndSlide();
                     fallVelocity = jumpForce * stompJumpForceMultiplier;
                     jumpsRemaining = maxJumps - 1;
                     stompTimeCounter = 0f;

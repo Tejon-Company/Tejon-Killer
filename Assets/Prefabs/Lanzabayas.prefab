@@ -246,7 +246,7 @@ MonoBehaviour:
     type: 3}
   tracerEffectPrefab: {fileID: 4250047711496173504, guid: 7d67354dc786cab49b44038d39a18e2e,
     type: 3}
-  rayEffectTime: 2
+  rayEffectTime: 0.5
 --- !u!114 &1723160146677635942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +272,6 @@ MonoBehaviour:
   jumpOffsetrotarion: -20
   stompOffsetPosition: 0.1
   stompOffsetRotation: 340
-  playerController: {fileID: 0}
 --- !u!1 &1547062299528769601
 GameObject:
   m_ObjectHideFlags: 0

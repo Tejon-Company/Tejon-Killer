@@ -40,7 +40,7 @@ public class Sway : MonoBehaviour
     private Vector3 recoilRotationAccum;
 
     [Header("Player Reference")]
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] public PlayerController playerController {private get; set;}
 
     private void Start()
     {

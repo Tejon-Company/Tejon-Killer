@@ -37,6 +37,12 @@ public class PlayerWeaponManager : MonoBehaviour
             {
                 var clone = Instantiate(prefab, weaponParentSocket);
                 clone.gameObject.SetActive(false);
+
+                // 👇 Pasamos el PlayerController al Sway
+                var sway = clone.GetComponent<Sway>();
+                if (sway != null)
+                    sway.playerController = playerController;
+
                 weaponslots[i] = clone;
                 return;
             }
