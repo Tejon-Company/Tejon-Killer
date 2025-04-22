@@ -246,6 +246,7 @@ MonoBehaviour:
     type: 3}
   tracerEffectPrefab: {fileID: 4250047711496173504, guid: 7d67354dc786cab49b44038d39a18e2e,
     type: 3}
+  rayEffectTime: 2
 --- !u!114 &1723160146677635942
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -272,6 +272,14 @@ public class PlayerController : MonoBehaviour
                     jumpsRemaining = maxJumps - 1;
                     stompTimeCounter = 0f;
                 }
+                if (stompTimeCounter > 0)
+                {
+                    // Al hacer buffer‑jump tras stomp, restablece completamente la postura
+                    EndSlide();
+                    fallVelocity = jumpForce * stompJumpForceMultiplier;
+                    jumpsRemaining = maxJumps - 1;
+                    stompTimeCounter = 0f;
+                }
                 else
                 {
                     fallVelocity = jumpForce;
