@@ -266,8 +266,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (stompTimeCounter > 0)
                 {
-                    sliding=false;
-                    speedParticles.Stop();
+                    EndSlide();
                     fallVelocity = jumpForce * stompJumpForceMultiplier;
                     jumpsRemaining = maxJumps - 1;
                     stompTimeCounter = 0f;
