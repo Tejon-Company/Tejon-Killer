@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public class LifeUI : MonoBehaviour
 {
     public Image heartTemplate;
-    public int maxLives = 3;        
-    public PlayerHealth playerHealth;    
+    public PlayerHealth playerHealth;
     private List<GameObject> hearts = new List<GameObject>();
 
     void Start()
@@ -20,7 +19,7 @@ public class LifeUI : MonoBehaviour
             hearts.Add(heart.gameObject);
         }
 
-        UpdateHearts(); 
+        UpdateHearts();
     }
 
     void Update()
