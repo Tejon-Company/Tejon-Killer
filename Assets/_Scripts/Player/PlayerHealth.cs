@@ -32,14 +32,12 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
         NotifyHealthChanged();
-        Debug.Log("Curado, vida actual: " + currentHealth);
     }
 
     public void TakeDamage(int amount)
     {
         currentHealth = Mathf.Max(currentHealth - amount, 0);
         NotifyHealthChanged();
-        Debug.Log("Daño recibido, vida actual: " + currentHealth);
     }
 
     private void NotifyHealthChanged()
@@ -47,10 +45,6 @@ public class PlayerHealth : MonoBehaviour
         if (EventManager.current != null)
         {
             EventManager.current.healthChangedEvent.Invoke();
-        }
-        else
-        {
-            Debug.LogWarning("EventManager no encontrado al intentar notificar cambio de vida.");
         }
     }
 }
