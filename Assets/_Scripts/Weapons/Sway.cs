@@ -40,7 +40,7 @@ public class Sway : MonoBehaviour
     private Vector3 recoilRotationAccum;
 
     [Header("Player Reference")]
-    [SerializeField] public PlayerController playerController {private get; set;}
+    public PlayerController playerController { get; private set; }
 
     private void Start()
     {
@@ -156,5 +156,9 @@ public class Sway : MonoBehaviour
 
         // Apply a small upward rotation to simulate the opposite of recoil when stomping
         currentRecoilRotation *= Quaternion.Euler(0f, 0f, -stompOffsetRotation); // Small upward rotation on the Z-axis
+    }
+    public void SetPlayerController(PlayerController controller)
+    {
+        playerController = controller;
     }
 }

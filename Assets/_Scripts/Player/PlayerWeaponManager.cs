@@ -41,8 +41,7 @@ public class PlayerWeaponManager : MonoBehaviour
                 // 👇 Pasamos el PlayerController al Sway
                 var sway = clone.GetComponent<Sway>();
                 if (sway != null)
-                    sway.playerController = playerController;
-
+                    sway.SetPlayerController(playerController);
                 weaponslots[i] = clone;
                 return;
             }

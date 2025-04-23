@@ -29,7 +29,7 @@ public class WeaponController : MonoBehaviour
     [Header("SOUNDS & VISUALS")]
     public GameObject flashEffect;
     public GameObject tracerEffectPrefab;
-    [SerializeField] float rayEffectTime= 0.5f;
+    [SerializeField] float rayEffectTime= 0.2f;
     private Transform cameraPlayerTransform;
     private float lastShotTime = 0f;
 
