@@ -14,8 +14,8 @@ GraphicsSettings:
     m_Mode: 1
     m_Shader: {fileID: 64, guid: 0000000000000000f000000000000000, type: 0}
   m_DepthNormals:
-    m_Mode: 1
-    m_Shader: {fileID: 62, guid: 0000000000000000f000000000000000, type: 0}
+    m_Mode: 2
+    m_Shader: {fileID: 4800000, guid: 9930d2414ebb7f14da07e0727ecdcc19, type: 3}
   m_MotionVectors:
     m_Mode: 1
     m_Shader: {fileID: 75, guid: 0000000000000000f000000000000000, type: 0}
@@ -40,7 +40,7 @@ GraphicsSettings:
   m_PreloadShadersBatchTimeLimit: -1
   m_SpritesDefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000,
     type: 0}
-  m_CustomRenderPipeline: {fileID: 11400000, guid: 6cbb334173594044d902c240207198f2,
+  m_CustomRenderPipeline: {fileID: 11400000, guid: 89d3baca0c45beb4897abebba861e61c,
     type: 2}
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 0, z: 1}
