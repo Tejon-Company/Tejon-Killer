@@ -9,8 +9,10 @@ public class Berry : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Colisioné con: " + other.name);
         if (other.CompareTag("Player"))
         {
+            Debug.Log("¡El jugador tocó la baya!");
             PlayerHealth health = other.GetComponent<PlayerHealth>();
             if (health != null)
             {

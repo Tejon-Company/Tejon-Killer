@@ -7,7 +7,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Awake()
     {
-        currentHealth = maxHealth - 1;
+        currentHealth = maxHealth;
     }
 
     private void Start()

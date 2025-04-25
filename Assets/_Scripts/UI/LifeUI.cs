@@ -25,10 +25,9 @@ public class LifeUI : MonoBehaviour
         }
     }
 
-
     void Start()
     {
-        int totalHearts = Mathf.CeilToInt(playerHealth.maxHealth);
+        int totalHearts = Mathf.Min(5, Mathf.CeilToInt(playerHealth.maxHealth)); 
 
         for (int i = 0; i < totalHearts; i++)
         {
@@ -42,13 +41,12 @@ public class LifeUI : MonoBehaviour
 
     void UpdateHearts()
     {
-        int currentLives = Mathf.CeilToInt(playerHealth.currentHealth);
+        int currentLives = Mathf.Clamp(playerHealth.currentHealth, 0, 5);
 
         for (int i = 0; i < hearts.Count; i++)
         {
-            bool shouldBeActive = (i < currentLives);
+            bool shouldBeActive = i < currentLives;
             hearts[i].SetActive(shouldBeActive);
         }
     }
-
 }
