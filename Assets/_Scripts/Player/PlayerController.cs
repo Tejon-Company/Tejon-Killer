@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float stompTimeLimit = 0.3f;
     [SerializeField] private float stompJumpForceMultiplier = 1.5f;
     private float stompTimeCounter = 0f;
-
+    private bool wasGrounded;
     [Header("JUMP BUFFER")]
     [SerializeField] private float jumpBufferTime = 0.15f;
     private float jumpBufferCounter = 0f;
@@ -63,10 +63,13 @@ public class PlayerController : MonoBehaviour
         player = GetComponent<CharacterController>();
         originalHeight = player.height;
         originalCenterY = player.center.y;
+        wasGrounded = player.isGrounded;
     }
 
     private void Update()
     {
+        bool groundedNow = player.isGrounded;
+        bool justLanded = !wasGrounded && groundedNow;
         if (stompTimeCounter > 0)
             stompTimeCounter -= Time.deltaTime;
         if (jumpBufferCounter > 0)
@@ -74,6 +77,12 @@ public class PlayerController : MonoBehaviour
 
         HandleInput();
         HandleMovement();
+        if (justLanded)
+        {
+            jumpsRemaining = maxJumps;
+            slideJumpInertiaActive = false;
+            // opcional: stompTimeCounter = 0f; u otras limpiezas
+        }
 
         if (!skipGravityNextFrame)
             HandleGravity();
@@ -81,6 +90,7 @@ public class PlayerController : MonoBehaviour
 
         HandleSlideEnd();
         player.Move(movePlayer * Time.deltaTime);
+        wasGrounded = groundedNow;
     }
 
     private void HandleInput()
