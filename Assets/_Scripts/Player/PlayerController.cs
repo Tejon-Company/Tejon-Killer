@@ -1,7 +1,7 @@
 // PlayerController.cs
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, RageInterface
 {
     private CharacterController player;
 
@@ -57,12 +57,32 @@ public class PlayerController : MonoBehaviour
     // Esta referencia ya no es [SerializeField], se asigna desde el WeaponManager:
     private Sway weaponSway;
 
+    [Header("Rage Parameters")]
+    private bool isRaging = false;
+    private float rageEndTime = 0f;
+    private float originalBaseSpeed;
+    private float originalJumpForce;
+    private float originalDashMultiplier;
+
+
     private void Awake()
     {
         speedParticles.Stop();
         player = GetComponent<CharacterController>();
         originalHeight = player.height;
         originalCenterY = player.center.y;
+    }
+
+    private void OnEnable()
+    {
+        if (EventManager.current != null)
+            EventManager.current.rageBerryEvent.AddListener(ApplyRage);
+    }
+
+    private void OnDisable()
+    {
+        if (EventManager.current != null)
+            EventManager.current.rageBerryEvent.RemoveListener(ApplyRage);
     }
 
     private void Update()
@@ -81,6 +101,14 @@ public class PlayerController : MonoBehaviour
 
         HandleSlideEnd();
         player.Move(movePlayer * Time.deltaTime);
+
+        if (isRaging && Time.time >= rageEndTime)
+        {
+            baseSpeed = originalBaseSpeed;
+            jumpForce = originalJumpForce;
+            dashMultiplier = originalDashMultiplier;
+            isRaging = false;
+        }
     }
 
     private void HandleInput()
@@ -322,5 +350,22 @@ public class PlayerController : MonoBehaviour
     public Vector3 GetSlideDirection()
     {
         return slideDirection;
+    }
+
+    public void ApplyRage(float playerSpeedMultiplier, float weaponFireRateMultiplier, float duration)
+    {
+        if (!isRaging) 
+        {
+            originalBaseSpeed = baseSpeed;
+            originalJumpForce = jumpForce;
+            originalDashMultiplier = dashMultiplier;
+        }
+
+        baseSpeed = originalBaseSpeed * playerSpeedMultiplier;
+        jumpForce = originalJumpForce * playerSpeedMultiplier;
+        dashMultiplier = originalDashMultiplier * playerSpeedMultiplier;
+
+        rageEndTime = Time.time + duration;
+        isRaging = true;
     }
 }

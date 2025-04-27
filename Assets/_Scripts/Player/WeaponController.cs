@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class WeaponController : MonoBehaviour
+public class WeaponController : MonoBehaviour, RageInterface
 {
     [Header("References")]
     public Transform weaponMuzzle;
@@ -53,13 +53,13 @@ public class WeaponController : MonoBehaviour
     private void OnEnable()
     {
         if (EventManager.current != null)
-            EventManager.current.rageBerryEvent.AddListener(ApplyRageBerry);
+            EventManager.current.rageBerryEvent.AddListener(ApplyRage);
     }
 
     private void OnDisable()
     {
         if (EventManager.current != null)
-            EventManager.current.rageBerryEvent.RemoveListener(ApplyRageBerry);
+            EventManager.current.rageBerryEvent.RemoveListener(ApplyRage);
     }
 
     private void Update()
@@ -158,14 +158,6 @@ public class WeaponController : MonoBehaviour
         Destroy(tracer,0.1f);
     }
 
-    public void ApplyRageBerry(float multiplier, float duration)
-    {
-        fireRate = defaultFireRate * multiplier; 
-        rageEndTime = Time.time + duration;
-        isRaging = true;
-    }
-
-
     private IEnumerator FadeRay(LineRenderer lr, float duration)
     {
         float time = 0f;
@@ -182,5 +174,12 @@ public class WeaponController : MonoBehaviour
         }
 
         Destroy(lr.gameObject);
+    }
+
+    public void ApplyRage(float playerSpeedMultiplier, float weaponFireRateMultiplier, float duration)
+    {
+        fireRate = defaultFireRate * weaponFireRateMultiplier;
+        rageEndTime = Time.time + duration;
+        isRaging = true;
     }
 }

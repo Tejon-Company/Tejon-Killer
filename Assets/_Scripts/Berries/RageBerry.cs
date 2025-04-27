@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class RageBerry : BerryEffect
 {
-    [SerializeField] private float rageDuration = 20f;
-    [SerializeField] private float rageMultiplier = 0.5f;
+    [SerializeField] private float playerSpeedMultiplier = 2f;  
+    [SerializeField] private float weaponFireRateMultiplier = 0.5f; 
+    [SerializeField] private float rageDuration = 30f;
 
-    protected override void ApplyEffect(Collider player)
+protected override void ApplyEffect(Collider player)
     {
-        EventManager.current.rageBerryEvent.Invoke(rageMultiplier, rageDuration);
+        EventManager.current.rageBerryEvent.Invoke(playerSpeedMultiplier, weaponFireRateMultiplier, rageDuration);
     }
 }

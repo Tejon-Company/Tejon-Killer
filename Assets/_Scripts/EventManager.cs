@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering;
 
 
 [Serializable]public class Int2Event: UnityEvent<int, int>{
@@ -9,7 +8,7 @@ using UnityEngine.Rendering;
 }
 
 [Serializable]
-public class RageEvent : UnityEvent<float, float> { } 
+public class RageEvent : UnityEvent<float, float, float> { }
 
 public class EventManager : MonoBehaviour
 {
