@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 [Serializable]public class Int2Event: UnityEvent<int, int>{
 
 }
+
+[Serializable]
+public class RageEvent : UnityEvent<float, float> { } 
+
 public class EventManager : MonoBehaviour
 {
     //--------Singleton
@@ -18,4 +22,6 @@ public class EventManager : MonoBehaviour
     //---------
     public Int2Event updateBulletsEvent =new Int2Event();
     public UnityEvent NewGunEvent= new UnityEvent();
+    public RageEvent rageBerryEvent = new RageEvent(); 
+
 }

@@ -14,6 +14,11 @@ public class WeaponController : MonoBehaviour
     public float fireRange = 200;
     public float fireRate = 0.2f;
 
+    [Header("Rage Parameters")]
+    private bool isRaging = false;
+    private float rageEndTime = 0f;
+    private float defaultFireRate;
+
     [Header("AMMO")]
     [SerializeField] private int maxAmmo = 8;
     public int currentAmmo { get; private set; }
@@ -36,12 +41,25 @@ public class WeaponController : MonoBehaviour
     void Awake()
     {
         currentAmmo = maxAmmo;
+        defaultFireRate = fireRate; 
         EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
     }
 
     private void Start()
     {
         cameraPlayerTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+    }
+
+    private void OnEnable()
+    {
+        if (EventManager.current != null)
+            EventManager.current.rageBerryEvent.AddListener(ApplyRageBerry);
+    }
+
+    private void OnDisable()
+    {
+        if (EventManager.current != null)
+            EventManager.current.rageBerryEvent.RemoveListener(ApplyRageBerry);
     }
 
     private void Update()
@@ -74,6 +92,13 @@ public class WeaponController : MonoBehaviour
         if (Input.GetButtonDown("Reload") && currentAmmo < maxAmmo && !isReloading)
         {
             StartCoroutine(Reload());
+        }
+
+        // Controlar si está en modo rabia
+        if (isRaging && Time.time >= rageEndTime)
+        {
+            fireRate = defaultFireRate; 
+            isRaging = false;
         }
     }
 
@@ -120,6 +145,7 @@ public class WeaponController : MonoBehaviour
         isReloading = false;
         Debug.Log("¡Recargada!");
     }
+
     private IEnumerator ShowTracer(Vector3 start, Vector3 end)
     {
         GameObject tracer = Instantiate(tracerEffectPrefab);
@@ -131,6 +157,15 @@ public class WeaponController : MonoBehaviour
         yield return null; // 1 frame
         Destroy(tracer,0.1f);
     }
+
+    public void ApplyRageBerry(float multiplier, float duration)
+    {
+        fireRate = defaultFireRate * multiplier; 
+        rageEndTime = Time.time + duration;
+        isRaging = true;
+    }
+
+
     private IEnumerator FadeRay(LineRenderer lr, float duration)
     {
         float time = 0f;
