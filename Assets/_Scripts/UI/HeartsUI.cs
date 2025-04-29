@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class HeartsUI : MonoBehaviour
 {
-    public Image heartTemplate;
+    public Sprite heartSprite;
     public PlayerHealth playerHealth;
     private List<GameObject> hearts = new List<GameObject>();
 
@@ -31,12 +31,19 @@ public class HeartsUI : MonoBehaviour
 
         for (int i = 0; i < totalHearts; i++)
         {
-            Image heart = Instantiate(heartTemplate, transform);
-            heart.gameObject.SetActive(true);
-            hearts.Add(heart.gameObject);
+            GameObject heartObj = new GameObject("Heart", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            heartObj.transform.SetParent(transform);
+            heartObj.SetActive(true);
+
+            Image heartImage = heartObj.GetComponent<Image>();
+            heartImage.sprite = heartSprite;
+           RectTransform rt = heartObj.GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(86, 86); 
+
+            hearts.Add(heartObj);
         }
 
-        UpdateHearts(); 
+        UpdateHearts();
     }
 
     void UpdateHearts()
