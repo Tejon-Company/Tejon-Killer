@@ -49,7 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dca06cecc5d5224baa09bb1565607c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heartTemplate: {fileID: 0}
+  heartTemplate: {fileID: 2925600386609390976, guid: fc1667761f385ee4eaca89577701127d,
+    type: 3}
   playerHealth: {fileID: 0}
 --- !u!114 &404646566645043562
 MonoBehaviour:
