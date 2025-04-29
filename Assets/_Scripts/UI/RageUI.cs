@@ -3,28 +3,18 @@ using UnityEngine.UI;
 
 public class RageUI : MonoBehaviour
 {
+    [SerializeField] private GameObject frameRoot;     
     [SerializeField] private Image rageBarFill;
 
     private float maxDuration;
     private float endTime;
     private bool isActive = false;
+    private bool listenerRegistered = false;
 
-
-    private void OnRageActivated(float playerSpeedMultiplier, float weaponFireRateMultiplier, float duration)
+    private void Start()
     {
-        StartRageBar(duration);
+        frameRoot.SetActive(false); 
     }
-
-    public void StartRageBar(float duration)
-    {
-        maxDuration = duration;
-        endTime = Time.time + duration;
-        rageBarFill.fillAmount = 1f;
-        rageBarFill.gameObject.SetActive(true);
-        isActive = true;
-    }
-
-private bool listenerRegistered = false;
 
     private void Update()
     {
@@ -42,10 +32,24 @@ private bool listenerRegistered = false;
         {
             rageBarFill.fillAmount = 0f;
             isActive = false;
-            rageBarFill.gameObject.SetActive(false);
+            frameRoot.SetActive(false); // Oculta visualmente todo
             return;
         }
 
         rageBarFill.fillAmount = remaining / maxDuration;
+    }
+
+    private void OnRageActivated(float speed, float fireRate, float duration)
+    {
+        frameRoot.SetActive(true); 
+        StartRageBar(duration);
+    }
+
+    public void StartRageBar(float duration)
+    {
+        maxDuration = duration;
+        endTime = Time.time + duration;
+        rageBarFill.fillAmount = 1f;
+        isActive = true;
     }
 }
