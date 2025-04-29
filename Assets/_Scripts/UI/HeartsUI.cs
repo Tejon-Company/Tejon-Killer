@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class LifeUI : MonoBehaviour
+public class HeartsUI : MonoBehaviour
 {
     public Image heartTemplate;
     public PlayerHealth playerHealth;
@@ -41,7 +41,7 @@ public class LifeUI : MonoBehaviour
 
     void UpdateHearts()
     {
-        int currentLives = Mathf.Clamp(playerHealth.currentHealth, 0, 5);
+        int currentLives = Mathf.Clamp(playerHealth.CurrentHealth, 0, 5);
 
         for (int i = 0; i < hearts.Count; i++)
         {

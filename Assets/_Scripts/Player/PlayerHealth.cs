@@ -3,11 +3,12 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 5;
-    public int currentHealth;
+    private int _currentHealth;
+    public int CurrentHealth => _currentHealth;
 
     private void Awake()
     {
-        currentHealth = maxHealth;
+        _currentHealth = maxHealth;
     }
 
     private void Start()
@@ -30,13 +31,13 @@ public class PlayerHealth : MonoBehaviour
 
     public void Heal(int amount)
     {
-        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        _currentHealth = Mathf.Min(_currentHealth + amount, maxHealth);
         NotifyHealthChanged();
     }
 
     public void TakeDamage(int amount)
     {
-        currentHealth = Mathf.Max(currentHealth - amount, 0);
+        _currentHealth = Mathf.Max(_currentHealth - amount, 0);
         NotifyHealthChanged();
     }
 
