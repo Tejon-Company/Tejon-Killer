@@ -12,7 +12,7 @@ public class Berry : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerHealth health = other.GetComponent<PlayerHealth>();
-            if (health != null)
+            if (health != null && health.CurrentHealth > 0)
             {
                 ApplyEffect(health);
                 Destroy(gameObject);
