@@ -6,7 +6,7 @@ public class HeartsUI : MonoBehaviour
 {
     [SerializeField] private Sprite heartSprite;
     [SerializeField] private PlayerHealth playerHealth;
-    [SerializeField] private int heartPixelSize = 86;
+    [SerializeField] private int heartPixelSize = 5;
 
     private List<GameObject> hearts = new List<GameObject>();
     private int currentLives;
@@ -34,7 +34,7 @@ public class HeartsUI : MonoBehaviour
 
     void Start()
     {
-        totalHearts = Mathf.Min(playerHealth.maxHealth, Mathf.CeilToInt(playerHealth.maxHealth));
+        totalHearts = playerHealth.MaxHealth;
 
         for (int i = 0; i < totalHearts; i++)
         {
@@ -62,7 +62,7 @@ public class HeartsUI : MonoBehaviour
 
     void UpdateHearts()
     {
-        currentLives = Mathf.Clamp(playerHealth.CurrentHealth, 0, playerHealth.maxHealth);
+        currentLives = Mathf.Clamp(playerHealth.CurrentHealth, 0, playerHealth.MaxHealth);
 
         for (int i = 0; i < hearts.Count; i++)
         {

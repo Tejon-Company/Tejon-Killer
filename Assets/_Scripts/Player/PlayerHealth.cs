@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 5;
+    [SerializeField] private int _maxHealth = 5;
+    public int MaxHealth => _maxHealth;
     private int _currentHealth;
     public int CurrentHealth => _currentHealth;
 
     private void Awake()
     {
-        _currentHealth = maxHealth;
+        _currentHealth = _maxHealth;
     }
 
     private void Start()
@@ -31,7 +32,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void Heal(int amount)
     {
-        _currentHealth = Mathf.Min(_currentHealth + amount, maxHealth);
+        _currentHealth = Mathf.Min(_currentHealth + amount, _maxHealth);
         NotifyHealthChanged();
     }
 

@@ -891,7 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b986d3667e054458f42ce5eb067b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  _maxHealth: 5
 --- !u!1 &195177245
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,7 +1623,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5add1645289a1f546bc9f6297cf9e1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effect: 0
   healAmount: 1
 --- !u!1 &739874765
 GameObject:
@@ -8298,6 +8297,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2925600386609390976, guid: fc1667761f385ee4eaca89577701127d,
         type: 3}
+    - target: {fileID: 729928671246995456, guid: 1c8e6284ccaf7644fa611d681138cdd2,
+        type: 3}
+      propertyPath: heartPixelSize
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5062962733547469786, guid: 1c8e6284ccaf7644fa611d681138cdd2,
         type: 3}
       propertyPath: m_Pivot.x
