@@ -10,6 +10,7 @@ public class RageUI : MonoBehaviour
     private float endTime;
     private bool isActive = false;
     private bool listenerRegistered = false;
+    private float remainingTime;
 
     private void Start()
     {
@@ -26,17 +27,17 @@ public class RageUI : MonoBehaviour
 
         if (!isActive) return;
 
-        float remaining = endTime - Time.time;
+        remainingTime = endTime - Time.time;
 
-        if (remaining <= 0f)
+        if (remainingTime <= 0f)
         {
             rageBarFill.fillAmount = 0f;
             isActive = false;
-            frameRoot.SetActive(false); // Oculta visualmente todo
+            frameRoot.SetActive(false);
             return;
         }
 
-        rageBarFill.fillAmount = remaining / maxDuration;
+        rageBarFill.fillAmount = remainingTime / maxDuration;
     }
 
     private void OnRageActivated(float speed, float fireRate, float duration)
