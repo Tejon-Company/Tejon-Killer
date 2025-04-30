@@ -4,9 +4,16 @@ using System.Collections.Generic;
 
 public class HeartsUI : MonoBehaviour
 {
-    public Sprite heartSprite;
-    public PlayerHealth playerHealth;
+    [SerializeField] private Sprite heartSprite;
+    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private int heartPixelSize = 86;
+
     private List<GameObject> hearts = new List<GameObject>();
+    private int currentLives;
+    private int totalHearts;
+    private GameObject heart;
+    private Image heartImage;
+    private RectTransform rt;
 
     private void OnEnable()
     {
@@ -27,33 +34,39 @@ public class HeartsUI : MonoBehaviour
 
     void Start()
     {
-        int totalHearts = Mathf.Min(5, Mathf.CeilToInt(playerHealth.maxHealth)); 
+        totalHearts = Mathf.Min(playerHealth.maxHealth, Mathf.CeilToInt(playerHealth.maxHealth));
 
         for (int i = 0; i < totalHearts; i++)
         {
-            GameObject heartObj = new GameObject("Heart", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
-            heartObj.transform.SetParent(transform);
-            heartObj.SetActive(true);
-
-            Image heartImage = heartObj.GetComponent<Image>();
-            heartImage.sprite = heartSprite;
-           RectTransform rt = heartObj.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(86, 86); 
-
-            hearts.Add(heartObj);
+            heart = CreateHeart();
+            hearts.Add(heart);
         }
 
         UpdateHearts();
     }
 
+    private GameObject CreateHeart()
+    {
+        heart = new GameObject("Heart", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        heart.transform.SetParent(transform, false);
+        heart.SetActive(true);
+
+        heartImage = heart.GetComponent<Image>();
+        heartImage.sprite = heartSprite;
+
+        rt = heart.GetComponent<RectTransform>();
+        rt.sizeDelta = new Vector2(heartPixelSize, heartPixelSize);
+
+        return heart;
+    }
+
     void UpdateHearts()
     {
-        int currentLives = Mathf.Clamp(playerHealth.CurrentHealth, 0, 5);
+        currentLives = Mathf.Clamp(playerHealth.CurrentHealth, 0, playerHealth.maxHealth);
 
         for (int i = 0; i < hearts.Count; i++)
         {
-            bool shouldBeActive = i < currentLives;
-            hearts[i].SetActive(shouldBeActive);
+            hearts[i].SetActive(i < currentLives);
         }
     }
 }
