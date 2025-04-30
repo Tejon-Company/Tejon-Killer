@@ -463,12 +463,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176838099}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1637.0907, y: 170.80946, z: 296.42746}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1617.2172, y: 142.1963, z: 318.8961}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1834887326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &188717808
 GameObject:
@@ -641,7 +641,8 @@ MonoBehaviour:
   dashing: 0
   sliding: 0
   stomping: 0
-  walkingOnGrassSoundClip: {fileID: 0}
+  walkingOnGrassSoundClip: {fileID: 8300000, guid: 301847eeb8edfed4b9b8e094a919e5f1,
+    type: 3}
 --- !u!114 &188717816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3016,6 +3017,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 176838101}
   - {fileID: 1118687016}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8083,5 +8085,4 @@ SceneRoots:
   - {fileID: 188717814}
   - {fileID: 52489504}
   - {fileID: 1556665043}
-  - {fileID: 176838101}
   - {fileID: 1834887326}
