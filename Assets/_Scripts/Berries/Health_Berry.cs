@@ -13,14 +13,9 @@ public class Berry : MonoBehaviour
             health = other.GetComponent<PlayerHealth>();
             if (health != null && health.CurrentHealth > 0)
             {
-                ApplyEffect(health);
+                health.Heal(healAmount);
                 Destroy(gameObject);
             }
         }
-    }
-
-    private void ApplyEffect(PlayerHealth health)
-    {
-        health.Heal(healAmount);
     }
 }
