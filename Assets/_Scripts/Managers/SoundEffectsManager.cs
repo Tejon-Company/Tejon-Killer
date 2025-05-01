@@ -22,9 +22,6 @@ public class SoundEffectsManager : MonoBehaviour
     [Header("Player Reference")]
     [SerializeField] private PlayerController playerController;
 
-    [Header("Weapon")]
-    [SerializeField] private WeaponController weaponController;
-
 
     private void Awake()
     {
@@ -37,7 +34,6 @@ public class SoundEffectsManager : MonoBehaviour
     private void Update()
     {
         ReproduceWalkingSound();
-        ReproduceShootSound();
     }
 
     private void ReproduceWalkingSound()
@@ -52,21 +48,6 @@ public class SoundEffectsManager : MonoBehaviour
         else
         {
             StopSound(currentWalkingSound);
-        }
-    }
-
-    private void ReproduceShootSound()
-    {
-        if (weaponController.isShooting)
-        {
-            if (shootSound == null)
-            {
-                ReproduceSound(walkingOnGrassSound, transform);
-            }
-        }
-        else 
-        {
-            StopSound(shootSound);
         }
     }
 
