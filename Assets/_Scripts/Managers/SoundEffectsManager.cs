@@ -5,6 +5,7 @@ public class SoundEffectsManager : MonoBehaviour
     public static SoundEffectsManager instance { get; private set; }
 
     [SerializeField] private AudioSource soundEffectPrefab;
+    [SerializeField] private AudioClip defaultShootSound;
 
 
     private AudioSource currentWalkingSound;
@@ -33,6 +34,14 @@ public class SoundEffectsManager : MonoBehaviour
         }
     }
 
+    public void ReproduceShootSound(Transform spawnTransform)
+    {
+        AudioSource source = Instantiate(soundEffectPrefab, spawnTransform.position, Quaternion.identity);
+        source.clip = defaultShootSound;
+        source.Play();
+        Destroy(source.gameObject, defaultShootSound.length);
+    }
+
 
     private AudioSource ReproduceSound(AudioClip sound, Transform spawnTransform)
     {
@@ -49,7 +58,6 @@ public class SoundEffectsManager : MonoBehaviour
         {
             source.Stop();
             Destroy(source.gameObject);
-            source = null;
         }
     }
 }

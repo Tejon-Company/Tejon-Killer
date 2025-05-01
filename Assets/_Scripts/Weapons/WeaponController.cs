@@ -29,11 +29,9 @@ public class WeaponController : MonoBehaviour
     [Header("SOUNDS & VISUALS")]
     public GameObject flashEffect;
     public GameObject tracerEffectPrefab;
-    [SerializeField] float rayEffectTime= 0.2f;
+    [SerializeField] private float rayEffectTime= 0.2f;
     private Transform cameraPlayerTransform;
     private float lastShotTime = 0f;
-
-    [HideInInspector] public bool isShooting = false;
 
 
     void Awake()
@@ -49,33 +47,27 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        // 1) Disparos deshabilitados mientras recargo
         if (Input.GetButtonDown("Fire"))
         {
             if (isReloading)
                 return;
 
-            // 2) Si no hay balas, auto-recarga
             if (currentAmmo <= 0)
             {
                 StartCoroutine(Reload());
             }
             else
             {
-                // 3) Si hay balas y no recargo, disparo
                 if (Time.time > lastShotTime + fireRate)
                 {
-                    isShooting = true;
                     Shoot();
                     currentAmmo--;
                     EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
                     lastShotTime = Time.time;
-                    isShooting = false;
                 }
             }
         }
 
-        // 4) Recarga manual sólo si no estoy recargando y no estoy lleno
         if (Input.GetButtonDown("Reload") && currentAmmo < maxAmmo && !isReloading)
         {
             StartCoroutine(Reload());
@@ -84,7 +76,7 @@ public class WeaponController : MonoBehaviour
 
     private void Shoot()
     {
-        // Flash
+        SoundEffectsManager.instance.ReproduceShootSound(transform);
         var flashClone = Instantiate(flashEffect, weaponMuzzle.position, Quaternion.LookRotation(weaponMuzzle.forward), transform);
         Destroy(flashClone, 1f);
 

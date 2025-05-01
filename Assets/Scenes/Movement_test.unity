@@ -862,6 +862,8 @@ MonoBehaviour:
   sliding: 0
   stomping: 0
   isWalking: 0
+  walkingOnGrassSound: {fileID: 8300000, guid: 301847eeb8edfed4b9b8e094a919e5f1, type: 3}
+  walkingOnStoneSound: {fileID: 8300000, guid: d3b1edcc976f5914ab6b6f7206d572a0, type: 3}
 --- !u!114 &188717816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2230,10 +2232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEffectPrefab: {fileID: 4318004222823377860, guid: 4b2aa38908fc1f34e88af9ceb5ae6be1,
     type: 3}
-  walkingOnGrassSound: {fileID: 8300000, guid: 301847eeb8edfed4b9b8e094a919e5f1, type: 3}
-  walkingOnStoneSound: {fileID: 8300000, guid: d3b1edcc976f5914ab6b6f7206d572a0, type: 3}
-  shootEffectSound: {fileID: 8300000, guid: 678c2eb5cf3142c4c9f184b5dbaab3b0, type: 3}
-  playerController: {fileID: 188717815}
+  defaultShootSound: {fileID: 8300000, guid: 678c2eb5cf3142c4c9f184b5dbaab3b0, type: 3}
 --- !u!1 &1131534738
 GameObject:
   m_ObjectHideFlags: 0
