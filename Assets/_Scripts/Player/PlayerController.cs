@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashMultiplier = 10f;
     [SerializeField] private float dashDuration = 0.08f;
     [SerializeField] private float dashCooldown = 0.4f;
-
+    [SerializeField] private ParticleSystem dashParticles;
+    [SerializeField] private ParticleSystem speedParticles;
     [Header("SLIDE")]
     [SerializeField] private float slideSpeedMultiplier = 2.5f;
     [SerializeField] private float slideGravity = 14f;
@@ -38,28 +39,34 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float stompJumpForceMultiplier = 1.5f;
     private float stompTimeCounter = 0f;
     private bool wasGrounded;
+    [SerializeField] private ParticleSystem stompParticlesLeft;
+    [SerializeField] private ParticleSystem stompParticlesRight;
+
+
+
     [Header("JUMP BUFFER")]
     [SerializeField] private float jumpBufferTime = 0.15f;
     private float jumpBufferCounter = 0f;
 
-    [SerializeField] private ParticleSystem speedParticles;
-
-    [HideInInspector] public bool dashing = false, sliding = false, stomping = false;
+    private bool dashing = false;
+    private bool sliding = false;
+    private bool stomping = false;
+    public bool IsDashing { get { return dashing; } }
+    public bool IsSliding { get { return sliding; } }
+    public bool IsStomping { get { return stomping; } }
+    
     private bool canDash = true;
-
     private bool jumpInput, dashInput, slideInputHeld;
     private float fallVelocity;
     private Vector3 axis, movePlayer, dashDirection, slideDirection;
-
     private float originalHeight, crouchHeight = 1f;
     private float originalCenterY, crouchCenterY = 0.5f;
-
-    // Esta referencia ya no es [SerializeField], se asigna desde el WeaponManager:
     private Sway weaponSway;
 
     private void Awake()
     {
         speedParticles.Stop();
+        dashParticles.Stop();
         player = GetComponent<CharacterController>();
         originalHeight = player.height;
         originalCenterY = player.center.y;
@@ -81,7 +88,16 @@ public class PlayerController : MonoBehaviour
         {
             jumpsRemaining = maxJumps;
             slideJumpInertiaActive = false;
-            // opcional: stompTimeCounter = 0f; u otras limpiezas
+            stompTimeCounter = 0f;
+            if (stompParticlesLeft != null)
+            {
+                stompParticlesLeft.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
+            if (stompParticlesRight != null)
+            {
+                stompParticlesRight.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
+
         }
 
         if (!skipGravityNextFrame)
@@ -193,9 +209,9 @@ public class PlayerController : MonoBehaviour
         dashDirection = direction.normalized * baseSpeed * dashMultiplier;
         Invoke(nameof(EndDash), dashDuration);
         Invoke(nameof(ResetDash), dashCooldown);
-        if (speedParticles != null)
+        if (dashParticles != null)
         {
-            speedParticles.Play();
+            dashParticles.Play();
         }
     }
 
@@ -207,10 +223,11 @@ public class PlayerController : MonoBehaviour
     private void EndDash()
     {
         dashing = false;
-        if (speedParticles != null && !sliding)
+        if (dashParticles != null)
         {
-            speedParticles.Stop();
+            dashParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
+
     }
 
     private void ResetDash()
@@ -327,6 +344,8 @@ public class PlayerController : MonoBehaviour
         weaponSway?.TriggerStompEffect();
         stomping = true;
         fallVelocity = -stompForce;
+        if (stompParticlesLeft != null) stompParticlesLeft.Play();
+        if (stompParticlesRight != null) stompParticlesRight.Play();
     }
 
     public Vector3 GetSlideDirection()

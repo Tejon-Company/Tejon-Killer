@@ -63,7 +63,7 @@ public class Sway : MonoBehaviour
 
     private void UpdateSlideState()
     {
-        if (playerController != null && (playerController.sliding || playerController.dashing))
+        if (playerController != null && (playerController.IsSliding || playerController.IsDashing))
         {
             // Desplazar durante el slide/dash
             targetSlideOffset = slideOffset;

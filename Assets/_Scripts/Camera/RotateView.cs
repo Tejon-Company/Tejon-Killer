@@ -52,7 +52,7 @@ public class RotateView : MonoBehaviour
     private void HandleCameraTilt()
     {
         // Solo inclinar la cámara si el jugador está deslizando
-        if (playerController.sliding)
+        if (playerController.IsSliding)
         {
             // Revisamos si el jugador se desliza a la izquierda o derecha usando Input.GetAxis("Horizontal")
             float slideX = Input.GetAxis("Horizontal"); // Dirección de movimiento horizontal (A/D)
