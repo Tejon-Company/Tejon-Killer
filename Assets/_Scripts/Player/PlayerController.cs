@@ -56,6 +56,12 @@ public class PlayerController : MonoBehaviour
     // Esta referencia ya no es [SerializeField], se asigna desde el WeaponManager:
     private Sway weaponSway;
 
+    [Header("SOUND EFFECTS")]
+
+    [SerializeField] private AudioClip walkingOnGrassSound;
+    [SerializeField] private AudioClip walkingOnStoneSound;
+
+
     private void Awake()
     {
         speedParticles.Stop();
@@ -80,8 +86,9 @@ public class PlayerController : MonoBehaviour
 
         HandleSlideEnd();
         player.Move(movePlayer * Time.deltaTime);
-        
+
         isWalking = axis.magnitude > 0.1f && player.isGrounded && !dashing && !sliding && !stomping;
+        SoundEffectsManager.instance.ReproduceWalkingSound(isWalking, walkingOnGrassSound);
         
     }
 

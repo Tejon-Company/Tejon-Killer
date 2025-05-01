@@ -6,21 +6,8 @@ public class SoundEffectsManager : MonoBehaviour
 
     [SerializeField] private AudioSource soundEffectPrefab;
 
+
     private AudioSource currentWalkingSound;
-
-    private AudioSource shootSound;
-
-
-    [Header("Sound Effects")]
-    [SerializeField] private AudioClip walkingOnGrassSound;
-
-    [SerializeField] private AudioClip walkingOnStoneSound;
-
-    [SerializeField] private AudioClip shootEffectSound;
-
-
-    [Header("Player Reference")]
-    [SerializeField] private PlayerController playerController;
 
 
     private void Awake()
@@ -31,32 +18,29 @@ public class SoundEffectsManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void ReproduceWalkingSound(bool isWalking, AudioClip walkingSound)
+{
+    if (isWalking)
     {
-        ReproduceWalkingSound();
-    }
-
-    private void ReproduceWalkingSound()
-    {
-        if (playerController.isWalking)
+        if (currentWalkingSound == null)
         {
-            if (currentWalkingSound == null)
-            {
-                ReproduceSound(walkingOnGrassSound, transform);
-            }
-        }
-        else
-        {
-            StopSound(currentWalkingSound);
+            currentWalkingSound = ReproduceSound(walkingSound, transform);
         }
     }
-
-    private void ReproduceSound(AudioClip sound, Transform spawnTransform)
+    else
     {
-        currentWalkingSound = Instantiate(soundEffectPrefab, spawnTransform.position, Quaternion.identity);
-        currentWalkingSound.clip = sound;
-        currentWalkingSound.loop = true;
-        currentWalkingSound.Play();
+        StopSound(currentWalkingSound);
+    }
+}
+
+
+    private AudioSource ReproduceSound(AudioClip sound, Transform spawnTransform)
+    {
+        AudioSource source = Instantiate(soundEffectPrefab, spawnTransform.position, Quaternion.identity);
+        source.clip = sound;
+        source.loop = true;
+        source.Play();
+        return source;
     }
 
     private void StopSound(AudioSource source)
