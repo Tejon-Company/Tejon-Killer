@@ -39,8 +39,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float stompJumpForceMultiplier = 1.5f;
     private float stompTimeCounter = 0f;
     private bool wasGrounded;
-    [SerializeField] private ParticleSystem stompParticlesLeft;
-    [SerializeField] private ParticleSystem stompParticlesRight;
+    [SerializeField] private ParticleSystem stompParticles;
 
 
 
@@ -67,6 +66,7 @@ public class PlayerController : MonoBehaviour
     {
         speedParticles.Stop();
         dashParticles.Stop();
+        stompParticles.Stop();
         player = GetComponent<CharacterController>();
         originalHeight = player.height;
         originalCenterY = player.center.y;
@@ -89,14 +89,11 @@ public class PlayerController : MonoBehaviour
             jumpsRemaining = maxJumps;
             slideJumpInertiaActive = false;
             stompTimeCounter = 0f;
-            if (stompParticlesLeft != null)
+            if (stompParticles != null)
             {
-                stompParticlesLeft.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                stompParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             }
-            if (stompParticlesRight != null)
-            {
-                stompParticlesRight.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            }
+
 
         }
 
@@ -344,8 +341,9 @@ public class PlayerController : MonoBehaviour
         weaponSway?.TriggerStompEffect();
         stomping = true;
         fallVelocity = -stompForce;
-        if (stompParticlesLeft != null) stompParticlesLeft.Play();
-        if (stompParticlesRight != null) stompParticlesRight.Play();
+        if (stompParticles != null) {
+            stompParticles.Play();
+        }
     }
 
     public Vector3 GetSlideDirection()
