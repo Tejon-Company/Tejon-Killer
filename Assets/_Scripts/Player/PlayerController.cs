@@ -1,4 +1,3 @@
-// PlayerController.cs
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -57,9 +56,6 @@ public class PlayerController : MonoBehaviour
     // Esta referencia ya no es [SerializeField], se asigna desde el WeaponManager:
     private Sway weaponSway;
 
-    [Header("SOUND EFFECTS")]
-    [SerializeField] private AudioClip walkingOnGrassSoundClip;
-
     private void Awake()
     {
         speedParticles.Stop();
@@ -115,13 +111,13 @@ public class PlayerController : MonoBehaviour
         }
         else if (sliding)
         {
-            // 1) Detectar salto via jumpBufferCounter en lugar de Input.GetButtonDown
+            // Detectar salto via jumpBufferCounter en lugar de Input.GetButtonDown
             if (canSlideJump && jumpBufferCounter > 0f && jumpsRemaining > 0)
             {
                 EndSlide();
                 slideDirection.y = 0f;
                 jumpsRemaining--;
-                // impulso potenciado
+
                 Vector3 jumpImpulse = slideDirection * slideJumpInertiaMultiplier;
                 movePlayer = jumpImpulse;
                 fallVelocity = slideJumpForce;
@@ -131,12 +127,10 @@ public class PlayerController : MonoBehaviour
                 canSlideJump = false;
                 skipGravityNextFrame = true;
 
-                // usamos el buffer de salto y lo limpiamos
                 jumpBufferCounter = 0f;
                 return;
             }
 
-            // 2) Si no salta, seguimos deslizando
             ProcessSlide();
         }
         else
@@ -144,7 +138,6 @@ public class PlayerController : MonoBehaviour
             ProcessNormalMovement(rawMovement);
         }
 
-        // actualizar componente vertical
         movePlayer.y = fallVelocity;
     }
 
@@ -158,20 +151,10 @@ public class PlayerController : MonoBehaviour
             currentSpeed *= slideJumpInertiaMultiplier;
         }
 
-        
-
         movePlayer.x = rawMovement.x * currentSpeed;
         movePlayer.z = rawMovement.z * currentSpeed;
 
         transform.Rotate(0, Input.GetAxis("Mouse X"), 0);
-
-        bool isWalking = player.isGrounded && rawMovement.magnitude > 0.1f && !sliding && !dashing;
-
-        if (isWalking)
-        {
-            SoundEffectsManager.instance.Walking(walkingOnGrassSoundClip, transform);
-        }
-
 
         if (dashInput && canDash && axis.magnitude > 0.1f)
         {
