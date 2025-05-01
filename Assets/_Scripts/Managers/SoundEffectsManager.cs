@@ -19,19 +19,19 @@ public class SoundEffectsManager : MonoBehaviour
     }
 
     public void ReproduceWalkingSound(bool isWalking, AudioClip walkingSound)
-{
-    if (isWalking)
     {
-        if (currentWalkingSound == null)
+        if (isWalking)
         {
-            currentWalkingSound = ReproduceSound(walkingSound, transform);
+            if (currentWalkingSound == null)
+            {
+                currentWalkingSound = ReproduceSound(walkingSound, transform);
+            }
+        }
+        else
+        {
+            StopSound(currentWalkingSound);
         }
     }
-    else
-    {
-        StopSound(currentWalkingSound);
-    }
-}
 
 
     private AudioSource ReproduceSound(AudioClip sound, Transform spawnTransform)
