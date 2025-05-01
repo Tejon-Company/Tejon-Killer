@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private ParticleSystem speedParticles;
 
-    [HideInInspector] public bool dashing = false, sliding = false, stomping = false;
+    [HideInInspector] public bool dashing = false, sliding = false, stomping = false, isWalking = false;
     private bool canDash = true;
 
     private bool jumpInput, dashInput, slideInputHeld;
@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
 
         HandleSlideEnd();
         player.Move(movePlayer * Time.deltaTime);
+        isWalking = axis.magnitude > 0.1f && player.isGrounded && !dashing && !sliding && !stomping;
+        
     }
 
     private void HandleInput()
