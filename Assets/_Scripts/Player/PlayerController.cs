@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
         HandleSlideEnd();
         player.Move(movePlayer * Time.deltaTime);
+        
         isWalking = axis.magnitude > 0.1f && player.isGrounded && !dashing && !sliding && !stomping;
         
     }
