@@ -8,7 +8,7 @@ using UnityEngine.Events;
 }
 
 [Serializable]
-public class RageEvent : UnityEvent<float, float, float> { }
+public class RageEvent : UnityEvent<float, float, float, float> { }
 
 public class EventManager : MonoBehaviour
 {
@@ -21,6 +21,6 @@ public class EventManager : MonoBehaviour
     //---------
     public Int2Event updateBulletsEvent =new Int2Event();
     public UnityEvent NewGunEvent= new UnityEvent();
-    public RageEvent rageBerryEvent = new RageEvent(); 
+    public RageEvent rageBerryEvent = new RageEvent();
 
 }

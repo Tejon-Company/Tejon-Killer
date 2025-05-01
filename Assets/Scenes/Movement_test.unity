@@ -1196,6 +1196,74 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537304167}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &542427563
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.932569
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.025094032
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.727684
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9166953483842195519, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_Name
+      value: RageBerry 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 746d41c932a08c0439ebc8259e573c6e, type: 3}
 --- !u!1 &556191717
 GameObject:
   m_ObjectHideFlags: 0
@@ -1693,6 +1761,74 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808661903}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &859741998
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.6376214
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.025094032
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.641636
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9166953483842195519, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_Name
+      value: RageBerry 1 (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 746d41c932a08c0439ebc8259e573c6e, type: 3}
 --- !u!1 &879633174
 GameObject:
   m_ObjectHideFlags: 0
@@ -2512,6 +2648,74 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1801426847265323942}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1276640386
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.4363399
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.025094032
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.025795
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9166953483842195519, guid: 746d41c932a08c0439ebc8259e573c6e,
+        type: 3}
+      propertyPath: m_Name
+      value: RageBerry 1 (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 746d41c932a08c0439ebc8259e573c6e, type: 3}
 --- !u!1 &1317121175
 GameObject:
   m_ObjectHideFlags: 0
@@ -2728,89 +2932,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369600385}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1382856186
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2151456137633892686, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.9416436
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151456137633892686, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_Center.x
-      value: 0.23961167
-      objectReference: {fileID: 0}
-    - target: {fileID: 2151456137633892686, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_Center.z
-      value: -0.20203093
-      objectReference: {fileID: 0}
-    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 17.401623
-      objectReference: {fileID: 0}
-    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.42150462
-      objectReference: {fileID: 0}
-    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.1317532
-      objectReference: {fileID: 0}
-    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3394709914360987730, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9166953483842195519, guid: 746d41c932a08c0439ebc8259e573c6e,
-        type: 3}
-      propertyPath: m_Name
-      value: RageBerry 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 746d41c932a08c0439ebc8259e573c6e, type: 3}
 --- !u!1 &1554531398
 GameObject:
   m_ObjectHideFlags: 0
@@ -8391,6 +8512,11 @@ PrefabInstance:
       objectReference: {fileID: 2001308698}
     - target: {fileID: 7287786793541963805, guid: 88190e85eb1655d44bcc9f491cb5ac06,
         type: 3}
+      propertyPath: pulseSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287786793541963805, guid: 88190e85eb1655d44bcc9f491cb5ac06,
+        type: 3}
       propertyPath: rageBarFill
       value: 
       objectReference: {fileID: 1068445601}
@@ -8487,4 +8613,6 @@ SceneRoots:
   - {fileID: 1556665043}
   - {fileID: 176838101}
   - {fileID: 354288427}
-  - {fileID: 1382856186}
+  - {fileID: 542427563}
+  - {fileID: 859741998}
+  - {fileID: 1276640386}

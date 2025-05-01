@@ -62,7 +62,6 @@ public class PlayerController : MonoBehaviour, RageInterface
     private float rageEndTime = 0f;
     private float originalBaseSpeed;
     private float originalJumpForce;
-    private float originalDashMultiplier;
 
 
     private void Awake()
@@ -106,7 +105,6 @@ public class PlayerController : MonoBehaviour, RageInterface
         {
             baseSpeed = originalBaseSpeed;
             jumpForce = originalJumpForce;
-            dashMultiplier = originalDashMultiplier;
             isRaging = false;
         }
     }
@@ -352,18 +350,16 @@ public class PlayerController : MonoBehaviour, RageInterface
         return slideDirection;
     }
 
-    public void ApplyRage(float playerSpeedMultiplier, float weaponFireRateMultiplier, float duration)
+    public void ApplyRage(float playerBaseSpeedMultiplier, float playerJumpForceMultiplier, float weaponFireRateMultiplier, float duration)
     {
-        if (!isRaging) 
+        if (!isRaging)
         {
             originalBaseSpeed = baseSpeed;
             originalJumpForce = jumpForce;
-            originalDashMultiplier = dashMultiplier;
         }
 
-        baseSpeed = originalBaseSpeed * playerSpeedMultiplier;
-        jumpForce = originalJumpForce * playerSpeedMultiplier;
-        dashMultiplier = originalDashMultiplier * playerSpeedMultiplier;
+        baseSpeed = originalBaseSpeed * playerBaseSpeedMultiplier;
+        jumpForce = originalJumpForce * playerJumpForceMultiplier;
 
         rageEndTime = Time.time + duration;
         isRaging = true;

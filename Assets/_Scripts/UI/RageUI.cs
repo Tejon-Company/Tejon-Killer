@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class RageUI : MonoBehaviour
 {
-    [SerializeField] private GameObject frameRoot;     
+    [SerializeField] private GameObject frameRoot;
     [SerializeField] private Image rageBarFill;
 
     private float maxDuration;
@@ -12,9 +12,15 @@ public class RageUI : MonoBehaviour
     private bool listenerRegistered = false;
     private float remainingTime;
 
+    [Header("PULSE EFFECT")]
+    [SerializeField] private float pulseSpeed = 0.2f;
+    [SerializeField] private float pulseForce = 0.05f;
+    private Vector3 originalScale;
+
     private void Start()
     {
-        frameRoot.SetActive(false); 
+        originalScale = frameRoot.transform.localScale;
+        frameRoot.SetActive(false);
     }
 
     private void Update()
@@ -25,24 +31,29 @@ public class RageUI : MonoBehaviour
             listenerRegistered = true;
         }
 
-        if (!isActive) return;
-
-        remainingTime = endTime - Time.time;
-
-        if (remainingTime <= 0f)
+        if (isActive)
         {
-            rageBarFill.fillAmount = 0f;
-            isActive = false;
-            frameRoot.SetActive(false);
-            return;
+            remainingTime = endTime - Time.time;
+
+            if (remainingTime <= 0f)
+            {
+                rageBarFill.fillAmount = 0f;
+                isActive = false;
+                frameRoot.SetActive(false);
+                frameRoot.transform.localScale = originalScale;
+                return;
+            }
+
+            rageBarFill.fillAmount = remainingTime / maxDuration;
+
+            // Efecto de pulso en la barra
+            float pulse = Mathf.PingPong(Time.time * pulseSpeed, pulseForce);
+            frameRoot.transform.localScale = originalScale + new Vector3(pulse, pulse, pulse);
         }
-
-        rageBarFill.fillAmount = remainingTime / maxDuration;
     }
-
-    private void OnRageActivated(float speed, float fireRate, float duration)
+    private void OnRageActivated(float basespeed, float jumpForce, float fireRate, float duration)
     {
-        frameRoot.SetActive(true); 
+        frameRoot.SetActive(true);
         StartRageBar(duration);
     }
 
