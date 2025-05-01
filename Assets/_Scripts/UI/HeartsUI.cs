@@ -32,7 +32,7 @@ public class HeartsUI : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         totalHearts = playerHealth.MaxHealth;
 
@@ -60,7 +60,7 @@ public class HeartsUI : MonoBehaviour
         return heart;
     }
 
-    void UpdateHearts()
+    private void UpdateHearts()
     {
         currentLives = Mathf.Clamp(playerHealth.CurrentHealth, 0, playerHealth.MaxHealth);
 
