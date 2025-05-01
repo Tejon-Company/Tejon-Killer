@@ -25,39 +25,54 @@ public class RageUI : MonoBehaviour
 
     private void Update()
     {
-        if (!listenerRegistered && EventManager.current != null)
-        {
-            EventManager.current.rageBerryEvent.AddListener(OnRageActivated);
-            listenerRegistered = true;
-        }
-
-        if (isActive)
-        {
-            remainingTime = endTime - Time.time;
-
-            if (remainingTime <= 0f)
-            {
-                rageBarFill.fillAmount = 0f;
-                isActive = false;
-                frameRoot.SetActive(false);
-                frameRoot.transform.localScale = originalScale;
-                return;
-            }
-
-            rageBarFill.fillAmount = remainingTime / maxDuration;
-
-            // Efecto de pulso en la barra
-            float pulse = Mathf.PingPong(Time.time * pulseSpeed, pulseForce);
-            frameRoot.transform.localScale = originalScale + new Vector3(pulse, pulse, pulse);
-        }
+        RegisterEventListener();
+        UpdateRageBar();
     }
+
+    private void RegisterEventListener()
+    {
+        if (listenerRegistered || EventManager.current == null)
+            return;
+
+        EventManager.current.rageBerryEvent.AddListener(OnRageActivated);
+        listenerRegistered = true;
+    }
+
+    private void UpdateRageBar()
+    {
+        if (!isActive)
+            return;
+
+        remainingTime = endTime - Time.time;
+
+        if (EndRage())
+            return;
+
+        rageBarFill.fillAmount = remainingTime / maxDuration;
+
+        float pulse = Mathf.PingPong(Time.time * pulseSpeed, pulseForce);
+        frameRoot.transform.localScale = originalScale + new Vector3(pulse, pulse, pulse);
+    }
+
+    private bool EndRage()
+    {
+        if (remainingTime > 0f)
+            return false;
+
+        rageBarFill.fillAmount = 0f;
+        isActive = false;
+        frameRoot.SetActive(false);
+        frameRoot.transform.localScale = originalScale;
+        return true;
+    }
+
     private void OnRageActivated(float basespeed, float jumpForce, float fireRate, float duration)
     {
         frameRoot.SetActive(true);
-        StartRageBar(duration);
+        InitializeRageBar(duration);
     }
 
-    public void StartRageBar(float duration)
+    public void InitializeRageBar(float duration)
     {
         maxDuration = duration;
         endTime = Time.time + duration;
