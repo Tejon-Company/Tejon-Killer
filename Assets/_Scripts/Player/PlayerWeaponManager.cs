@@ -52,7 +52,6 @@ public class PlayerWeaponManager : MonoBehaviour
         if (index < 0 || index >= weaponslots.Length) return;
         if (index == activeWeaponIndex) return;
 
-        // (Opcional) desactivo arma anterior
         if (activeWeaponIndex >= 0)
             weaponslots[activeWeaponIndex].gameObject.SetActive(false);
 

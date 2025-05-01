@@ -12,7 +12,6 @@ public class HUD_Manager: MonoBehaviour
     public void CreateWeaponInfo(){
         var uiClone = Instantiate(WeaponInfoPrefab, transform);
 
-        // 2) Cojo el script UI y el arma activa
         var info = uiClone.GetComponent<WeaponUI_info>();
         var wc   = playerWeaponManager.GetActiveWeapon();
         if (info != null && wc != null)

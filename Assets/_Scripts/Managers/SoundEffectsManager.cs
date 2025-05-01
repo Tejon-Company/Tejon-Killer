@@ -42,7 +42,6 @@ public class SoundEffectsManager : MonoBehaviour
         Destroy(source.gameObject, defaultShootSound.length);
     }
 
-
     private AudioSource ReproduceSound(AudioClip sound, Transform spawnTransform)
     {
         AudioSource source = Instantiate(soundEffectPrefab, spawnTransform.position, Quaternion.identity);
