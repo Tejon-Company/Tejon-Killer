@@ -8,13 +8,23 @@ public class SoundEffectsManager : MonoBehaviour
 
     private AudioSource currentWalkingSound;
 
+    private AudioSource shootSound;
+
+
     [Header("Sound Effects")]
     [SerializeField] private AudioClip walkingOnGrassSound;
 
     [SerializeField] private AudioClip walkingOnStoneSound;
 
+    [SerializeField] private AudioClip shootEffectSound;
+
+
     [Header("Player Reference")]
     [SerializeField] private PlayerController playerController;
+
+    [Header("Weapon")]
+    [SerializeField] private WeaponController weaponController;
+
 
     private void Awake()
     {
@@ -26,34 +36,55 @@ public class SoundEffectsManager : MonoBehaviour
 
     private void Update()
     {
+        ReproduceWalkingSound();
+        ReproduceShootSound();
+    }
+
+    private void ReproduceWalkingSound()
+    {
         if (playerController.isWalking)
         {
             if (currentWalkingSound == null)
             {
-                ReproduceWalkingSound(transform);
+                ReproduceSound(walkingOnGrassSound, transform);
             }
         }
         else
         {
-            StopSound();
+            StopSound(currentWalkingSound);
         }
     }
 
-    public void ReproduceWalkingSound(Transform spawnTransform)
+    private void ReproduceShootSound()
+    {
+        if (weaponController.isShooting)
+        {
+            if (shootSound == null)
+            {
+                ReproduceSound(walkingOnGrassSound, transform);
+            }
+        }
+        else 
+        {
+            StopSound(shootSound);
+        }
+    }
+
+    private void ReproduceSound(AudioClip sound, Transform spawnTransform)
     {
         currentWalkingSound = Instantiate(soundEffectPrefab, spawnTransform.position, Quaternion.identity);
-        currentWalkingSound.clip = walkingOnGrassSound;
+        currentWalkingSound.clip = sound;
         currentWalkingSound.loop = true;
         currentWalkingSound.Play();
     }
 
-    public void StopSound()
+    private void StopSound(AudioSource source)
     {
-        if (currentWalkingSound != null)
+        if (source != null)
         {
-            currentWalkingSound.Stop();
-            Destroy(currentWalkingSound.gameObject);
-            currentWalkingSound = null;
+            source.Stop();
+            Destroy(source.gameObject);
+            source = null;
         }
     }
 }

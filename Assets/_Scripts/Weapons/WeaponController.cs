@@ -33,6 +33,9 @@ public class WeaponController : MonoBehaviour
     private Transform cameraPlayerTransform;
     private float lastShotTime = 0f;
 
+    [HideInInspector] public bool isShooting = false;
+
+
     void Awake()
     {
         currentAmmo = maxAmmo;
@@ -62,10 +65,12 @@ public class WeaponController : MonoBehaviour
                 // 3) Si hay balas y no recargo, disparo
                 if (Time.time > lastShotTime + fireRate)
                 {
+                    isShooting = true;
                     Shoot();
                     currentAmmo--;
                     EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
                     lastShotTime = Time.time;
+                    isShooting = false;
                 }
             }
         }
@@ -86,20 +91,17 @@ public class WeaponController : MonoBehaviour
         Ray ray = new Ray(cameraPlayerTransform.position, cameraPlayerTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, fireRange, hittableLayers))
         {
-            // Crear bullet hole
             var hole = Instantiate(bulletHolePrefab,
                                 hit.point - hit.normal * 0.01f,
                                 Quaternion.LookRotation(hit.normal));
             Destroy(hole, 4f);
 
-            // Mostrar rayo visual
             GameObject rayInstance = Instantiate(tracerEffectPrefab);
             LineRenderer lr = rayInstance.GetComponent<LineRenderer>();
             lr.SetPosition(0, weaponMuzzle.position);
             lr.SetPosition(1, hit.point);
 
-            // Iniciar la rutina para estrechar el rayo
-            StartCoroutine(FadeRay(lr, rayEffectTime)); // dura 0.1 segundos
+            StartCoroutine(FadeRay(lr, rayEffectTime));
         }
 
         sway?.ApplyRecoil();
@@ -128,7 +130,7 @@ public class WeaponController : MonoBehaviour
         lr.SetPosition(0, start);
         lr.SetPosition(1, end);
 
-        yield return null; // 1 frame
+        yield return null;
         Destroy(tracer,0.1f);
     }
     private IEnumerator FadeRay(LineRenderer lr, float duration)
