@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 
-
 [Serializable]public class Int2Event: UnityEvent<int, int>{
 
 }
@@ -18,4 +17,5 @@ public class EventManager : MonoBehaviour
     //---------
     public Int2Event updateBulletsEvent =new Int2Event();
     public UnityEvent NewGunEvent= new UnityEvent();
+    public UnityEvent healthChangedEvent = new UnityEvent();
 }

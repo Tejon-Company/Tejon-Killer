@@ -46,7 +46,7 @@ public class Scrat : MonoBehaviour
         }
         else
         {
-            rb.velocity = firePoint.forward * projectileSpeed;
+            rb.linearVelocity = firePoint.forward * projectileSpeed;
         }
     }
 }
