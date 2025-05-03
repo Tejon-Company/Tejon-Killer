@@ -8,13 +8,11 @@ using UnityEngine.Rendering;
 }
 public class EventManager : MonoBehaviour
 {
-    //--------Singleton
     public static EventManager current;
     void Awake()
     {
         if (current == null) { current = this; } else if (current != null) { Destroy(this); }
     }
-    //---------
     public Int2Event updateBulletsEvent =new Int2Event();
     public UnityEvent NewGunEvent= new UnityEvent();
     public UnityEvent healthChangedEvent = new UnityEvent();

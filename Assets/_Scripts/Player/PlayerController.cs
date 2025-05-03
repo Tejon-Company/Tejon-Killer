@@ -1,4 +1,3 @@
-// PlayerController.cs
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -135,13 +134,11 @@ public class PlayerController : MonoBehaviour
         }
         else if (sliding)
         {
-            // 1) Detectar salto via jumpBufferCounter en lugar de Input.GetButtonDown
             if (canSlideJump && jumpBufferCounter > 0f && jumpsRemaining > 0)
             {
                 EndSlide();
                 slideDirection.y = 0f;
                 jumpsRemaining--;
-                // impulso potenciado
                 Vector3 jumpImpulse = slideDirection * slideJumpInertiaMultiplier;
                 movePlayer = jumpImpulse;
                 fallVelocity = slideJumpForce;
@@ -151,12 +148,10 @@ public class PlayerController : MonoBehaviour
                 canSlideJump = false;
                 skipGravityNextFrame = true;
 
-                // usamos el buffer de salto y lo limpiamos
                 jumpBufferCounter = 0f;
                 return;
             }
 
-            // 2) Si no salta, seguimos deslizando
             ProcessSlide();
         }
         else
@@ -164,7 +159,6 @@ public class PlayerController : MonoBehaviour
             ProcessNormalMovement(rawMovement);
         }
 
-        // actualizar componente vertical
         movePlayer.y = fallVelocity;
     }
 
