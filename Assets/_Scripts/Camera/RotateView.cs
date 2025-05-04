@@ -46,23 +46,23 @@ public class RotateView : MonoBehaviour
 
     private void HandleCameraTilt()
     {
-        if (playerController.IsSliding)
-        {
-            float slideX = Input.GetAxis("Horizontal");
-
-            if (slideX > 0.1f)
-                targetTilt = -maxTiltAngle;
-            else if (slideX < -0.1f)
-                targetTilt = maxTiltAngle;
-            else
-                targetTilt = 0f;
-        }
-        else
-        {
-            targetTilt = 0f;
-        }
-
+        targetTilt = CalculateTargetTilt();
         currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
+    }
+
+    private float CalculateTargetTilt()
+    {
+        if (!playerController.IsSliding)
+            return 0f;
+
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float threshold = 0.1f;
+
+        if (Mathf.Abs(horizontalInput) <= threshold)
+            return 0f;
+
+        float direction = Mathf.Sign(horizontalInput);
+        return -direction * maxTiltAngle;
     }
 
 }

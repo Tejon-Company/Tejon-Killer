@@ -96,7 +96,7 @@ public class Sway : MonoBehaviour
 
         stompOffset = Vector3.Lerp(stompOffset, Vector3.zero, Time.deltaTime * recoilReturnSpeed);
     }
-    
+
     private void RecoverRecoil()
     {
         currentRecoilOffset = Vector3.Lerp(currentRecoilOffset, Vector3.zero, Time.deltaTime * recoilReturnSpeed);

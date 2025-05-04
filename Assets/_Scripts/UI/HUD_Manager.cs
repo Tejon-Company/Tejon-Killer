@@ -15,6 +15,6 @@ public class HUD_Manager: MonoBehaviour
         var info = uiClone.GetComponent<WeaponUI_info>();
         var wc   = playerWeaponManager.GetActiveWeapon();
         if (info != null && wc != null)
-            info.UpdateBullets(wc.currentAmmo, wc.MaxAmmo);
+            info.UpdateBullets(wc.CurrentAmmo, wc.MaxAmmo);
     }
 }
