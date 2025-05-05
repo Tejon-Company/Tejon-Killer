@@ -23,7 +23,7 @@ public class Scrat : MonoBehaviour
 
         if (distanceToPlayer <= detectionRange)
         {
-            transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z)); // Opcional: girar solo en Y
+            transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z)); 
 
             if (fireCooldown <= 0f)
             {
@@ -40,13 +40,6 @@ public class Scrat : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
-        if (rb == null)
-        {
-            Debug.LogError("El proyectil no tiene Rigidbody.");
-        }
-        else
-        {
-            rb.linearVelocity = firePoint.forward * projectileSpeed;
-        }
+        rb.linearVelocity = firePoint.forward * projectileSpeed;
     }
 }

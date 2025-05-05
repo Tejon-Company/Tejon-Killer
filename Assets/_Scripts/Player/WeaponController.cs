@@ -100,6 +100,12 @@ public class WeaponController : MonoBehaviour
 
             // Iniciar la rutina para estrechar el rayo
             StartCoroutine(FadeRay(lr, rayEffectTime)); // dura 0.1 segundos
+
+            EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(20); 
+            }
         }
 
         sway?.ApplyRecoil();

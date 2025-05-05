@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 2260865297728012339}
   - component: {fileID: 255664809550913480}
   - component: {fileID: 3787377428638527118}
+  - component: {fileID: 134294970410840591}
   m_Layer: 0
   m_Name: scrat_head
   m_TagString: Untagged
@@ -289,6 +290,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &134294970410840591
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2727853011589809885}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 140.88507, y: 113.435814, z: 169.0668}
+  m_Center: {x: 1.82333, y: 66.66149, z: -8.871526}
 --- !u!1 &4997632529125253493
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,6 +321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7437905257899697929}
   - component: {fileID: 4511043716965074419}
+  - component: {fileID: 5196464830891708559}
   m_Layer: 0
   m_Name: Scrat
   m_TagString: Untagged
@@ -315,7 +338,7 @@ Transform:
   m_GameObject: {fileID: 4997632529125253493}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7040085, z: -0, w: 0.71019155}
-  m_LocalPosition: {x: -11.7506695, y: 2.3608205, z: 6.6844325}
+  m_LocalPosition: {x: -11.54458, y: 2.3608208, z: 6.524391}
   m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -340,10 +363,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1767918667445883447, guid: a96b838e4003e24428a82e9a6fe12b73,
     type: 3}
-  firePoint: {fileID: 0}
+  firePoint: {fileID: 3524946317435774962}
   fireRate: 2
   detectionRange: 20
   projectileSpeed: 15
+--- !u!114 &5196464830891708559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4997632529125253493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8249b72f08eff134391517b297959fb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &6418645097137371955
 GameObject:
   m_ObjectHideFlags: 0
