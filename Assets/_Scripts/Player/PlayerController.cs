@@ -60,6 +60,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private AudioClip walkingOnGrassSound;
     [SerializeField] private AudioClip walkingOnStoneSound;
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip doubleJumpSound;
+
 
 
     private void Awake()
