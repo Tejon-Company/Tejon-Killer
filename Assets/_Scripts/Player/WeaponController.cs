@@ -18,6 +18,8 @@ public class WeaponController : MonoBehaviour, RageInterface
     private bool isRaging = false;
     private float rageEndTime = 0f;
     private float defaultFireRate;
+    private bool reloadNormally;
+    private bool endRage;
 
     [Header("AMMO")]
     [SerializeField] private int maxAmmo = 8;
@@ -64,12 +66,15 @@ public class WeaponController : MonoBehaviour, RageInterface
 
     private void Update()
     {
+        bool reloadNormally = currentAmmo <= 0 && !isRaging;
+        bool endRage = isRaging && Time.time >= rageEndTime;
+
         if (Input.GetButtonDown("Fire"))
         {
             if (isReloading)
                 return;
 
-            if (currentAmmo <= 0 && !isRaging)
+            if (reloadNormally)
             {
                 StartCoroutine(Reload());
             }
@@ -95,7 +100,7 @@ public class WeaponController : MonoBehaviour, RageInterface
             StartCoroutine(Reload());
         }
 
-        if (isRaging && Time.time >= rageEndTime)
+        if (endRage)
         {
             fireRate = defaultFireRate;
             isRaging = false;

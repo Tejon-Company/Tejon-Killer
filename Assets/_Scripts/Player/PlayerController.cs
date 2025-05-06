@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour, RageInterface
     private float rageEndTime = 0f;
     private float originalBaseSpeed;
     private float originalJumpForce;
-
+    private bool endRage;
 
     private void Awake()
     {
@@ -86,6 +86,8 @@ public class PlayerController : MonoBehaviour, RageInterface
 
     private void Update()
     {
+        endRage = isRaging && Time.time >= rageEndTime;
+
         if (stompTimeCounter > 0)
             stompTimeCounter -= Time.deltaTime;
         if (jumpBufferCounter > 0)
@@ -101,7 +103,7 @@ public class PlayerController : MonoBehaviour, RageInterface
         HandleSlideEnd();
         player.Move(movePlayer * Time.deltaTime);
 
-        if (isRaging && Time.time >= rageEndTime)
+        if (endRage)
         {
             baseSpeed = originalBaseSpeed;
             jumpForce = originalJumpForce;
