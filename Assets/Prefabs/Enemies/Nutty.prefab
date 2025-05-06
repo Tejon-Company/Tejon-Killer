@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7055489892716569941}
   - component: {fileID: -586792438484920891}
   - component: {fileID: 6762614517525611186}
+  - component: {fileID: 2617678375116430336}
   m_Layer: 0
   m_Name: Nutty
   m_TagString: Untagged
@@ -96,7 +97,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1767918667445883447}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 2
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -136,3 +137,16 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 41.25645
   m_Center: {x: -107.1302, y: 56.81645, z: 3.0861502}
+--- !u!114 &2617678375116430336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767918667445883447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 864161262dc71b74595f1cdaf6bc4c15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetimeAfterHit: 0.3

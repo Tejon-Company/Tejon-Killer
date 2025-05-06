@@ -40,6 +40,7 @@ public class Scrat : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
-        rb.linearVelocity = firePoint.forward * projectileSpeed;
+        Vector3 launchDir = firePoint.forward + firePoint.up * 0.2f; 
+        rb.linearVelocity = launchDir.normalized * projectileSpeed;
     }
 }
