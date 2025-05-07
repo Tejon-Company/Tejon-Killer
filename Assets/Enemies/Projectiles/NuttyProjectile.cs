@@ -27,6 +27,11 @@ public class NuttyProjectile : MonoBehaviour
             player.TakeDamage(damage);
         }
 
-        Destroy(gameObject, lifetimeAfterHit);
+        Invoke(nameof(Deactivate), lifetimeAfterHit);
+    }
+
+    private void Deactivate()
+    {
+        gameObject.SetActive(false);
     }
 }
