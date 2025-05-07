@@ -7,6 +7,7 @@ public class Scrat : MonoBehaviour
     [SerializeField] private float fireRate = 2f;
     [SerializeField] private float detectionRange = 20f;
     [SerializeField] private float projectileSpeed = 15f;
+    [SerializeField] private float verticalLaunch = 0.5f;
 
     private float fireCooldown;
     private Transform player;
@@ -20,10 +21,11 @@ public class Scrat : MonoBehaviour
     private void Update()
     {
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+        bool playerInRange = distanceToPlayer <= detectionRange;
 
-        if (distanceToPlayer <= detectionRange)
+        if (playerInRange)
         {
-            transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z)); 
+            RotateToPlayer();
 
             if (fireCooldown <= 0f)
             {
@@ -35,12 +37,20 @@ public class Scrat : MonoBehaviour
         fireCooldown -= Time.deltaTime;
     }
 
+    private void RotateToPlayer()
+    {
+        Vector3 lookPos = player.position - transform.position;
+        lookPos.y = 0;
+        Quaternion targetRotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); 
+    }
+
     private void Shoot()
     {
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
-        Vector3 launchDir = firePoint.forward + firePoint.up * 0.2f; 
+        Vector3 launchDir = firePoint.forward + firePoint.up * verticalLaunch; 
         rb.linearVelocity = launchDir.normalized * projectileSpeed;
     }
 }
