@@ -4,28 +4,45 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     [Header("Referencias")]
-    [SerializeField] private Transform weaponMuzzle;
-    [SerializeField] private Sway sway;
+    [SerializeField]
+    private Transform weaponMuzzle;
+
+    [SerializeField]
+    private Sway sway;
 
     [Header("Parámetros de disparo")]
-    [SerializeField] private LayerMask hittableLayers;
-    [SerializeField] private float fireRange = 200f;
-    [SerializeField] private float fireRate = 0.2f;
+    [SerializeField]
+    private LayerMask hittableLayers;
+
+    [SerializeField]
+    private float fireRange = 200f;
+
+    [SerializeField]
+    private float fireRate = 0.2f;
 
     [Header("Munición")]
-    [SerializeField] private int maxAmmo = 8;
+    [SerializeField]
+    private int maxAmmo = 8;
     public int CurrentAmmo { get; private set; }
     public int MaxAmmo => maxAmmo;
 
     [Header("Recarga")]
-    [SerializeField] private float reloadTime = 1.5f;
+    [SerializeField]
+    private float reloadTime = 1.5f;
     private bool isReloading;
 
     [Header("Efectos visuales")]
-    [SerializeField] private GameObject flashEffect;
-    [SerializeField] private GameObject tracerEffectPrefab;
-    [SerializeField] private GameObject bulletHolePrefab;
-    [SerializeField] private float rayEffectTime = 0.2f;
+    [SerializeField]
+    private GameObject flashEffect;
+
+    [SerializeField]
+    private GameObject tracerEffectPrefab;
+
+    [SerializeField]
+    private GameObject bulletHolePrefab;
+
+    [SerializeField]
+    private float rayEffectTime = 0.2f;
 
     private Transform cameraTransform;
     private float lastShotTime;
@@ -89,23 +106,35 @@ public class WeaponController : MonoBehaviour
 
     private void ShowFlashEffect()
     {
-        if (!flashEffect) return;
+        if (!flashEffect)
+            return;
 
-        GameObject flash = Instantiate(flashEffect, weaponMuzzle.position, Quaternion.LookRotation(weaponMuzzle.forward), transform);
+        GameObject flash = Instantiate(
+            flashEffect,
+            weaponMuzzle.position,
+            Quaternion.LookRotation(weaponMuzzle.forward),
+            transform
+        );
         Destroy(flash, 1f);
     }
 
     private void ShowBulletHole(RaycastHit hit)
     {
-        if (!bulletHolePrefab) return;
+        if (!bulletHolePrefab)
+            return;
 
-        GameObject hole = Instantiate(bulletHolePrefab, hit.point - hit.normal * 0.01f, Quaternion.LookRotation(hit.normal));
+        GameObject hole = Instantiate(
+            bulletHolePrefab,
+            hit.point - hit.normal * 0.01f,
+            Quaternion.LookRotation(hit.normal)
+        );
         Destroy(hole, 4f);
     }
 
     private void ShowTracerEffect(Vector3 start, Vector3 end)
     {
-        if (!tracerEffectPrefab) return;
+        if (!tracerEffectPrefab)
+            return;
 
         GameObject tracer = Instantiate(tracerEffectPrefab);
         LineRenderer lr = tracer.GetComponent<LineRenderer>();
@@ -119,7 +148,8 @@ public class WeaponController : MonoBehaviour
 
     private IEnumerator Reload()
     {
-        if (isReloading) yield break;
+        if (isReloading)
+            yield break;
 
         isReloading = true;
         Debug.Log("Recargando...");

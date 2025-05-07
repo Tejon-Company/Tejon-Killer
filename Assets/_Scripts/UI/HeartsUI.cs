@@ -1,12 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class HeartsUI : MonoBehaviour
 {
-    [SerializeField] private Sprite heartSprite;
-    [SerializeField] private PlayerHealth playerHealth;
-    [SerializeField] private int heartPixelSize = 5;
+    [SerializeField]
+    private Sprite heartSprite;
+
+    [SerializeField]
+    private PlayerHealth playerHealth;
+
+    [SerializeField]
+    private int heartPixelSize = 5;
 
     private List<GameObject> hearts = new List<GameObject>();
     private int currentLives;
@@ -47,7 +52,12 @@ public class HeartsUI : MonoBehaviour
 
     private GameObject CreateHeart()
     {
-        heart = new GameObject("Heart", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        heart = new GameObject(
+            "Heart",
+            typeof(RectTransform),
+            typeof(CanvasRenderer),
+            typeof(Image)
+        );
         heart.transform.SetParent(transform, false);
         heart.SetActive(true);
 

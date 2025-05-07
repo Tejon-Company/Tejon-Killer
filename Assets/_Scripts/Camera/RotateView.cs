@@ -10,8 +10,10 @@ public class RotateView : MonoBehaviour
 
     [SerializeField]
     private PlayerController playerController;
+
     [SerializeField]
     private float maxTiltAngle = 5f;
+
     [SerializeField]
     private float tiltSpeed = 5f;
 
@@ -64,5 +66,4 @@ public class RotateView : MonoBehaviour
         float direction = Mathf.Sign(horizontalInput);
         return -direction * maxTiltAngle;
     }
-
 }

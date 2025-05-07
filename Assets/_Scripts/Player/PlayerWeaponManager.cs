@@ -4,13 +4,21 @@ using UnityEngine;
 public class PlayerWeaponManager : MonoBehaviour
 {
     [Header("Referencias")]
-    [SerializeField] private PlayerController playerController;
+    [SerializeField]
+    private PlayerController playerController;
 
     [Header("Configuración de armas")]
-    [SerializeField] private List<WeaponController> startingWeapons = new();
-    [SerializeField] private Transform weaponParentSocket;
-    [SerializeField] private Transform defaultWeaponPosition;
-    [SerializeField] private Transform aimingPosition;
+    [SerializeField]
+    private List<WeaponController> startingWeapons = new();
+
+    [SerializeField]
+    private Transform weaponParentSocket;
+
+    [SerializeField]
+    private Transform defaultWeaponPosition;
+
+    [SerializeField]
+    private Transform aimingPosition;
 
     private readonly WeaponController[] weaponSlots = new WeaponController[5];
     public int ActiveWeaponIndex { get; private set; } = -1;
@@ -33,7 +41,8 @@ public class PlayerWeaponManager : MonoBehaviour
 
         for (int i = 0; i < weaponSlots.Length; i++)
         {
-            if (weaponSlots[i] != null) continue;
+            if (weaponSlots[i] != null)
+                continue;
 
             var weaponInstance = Instantiate(weaponPrefab, weaponParentSocket);
             weaponInstance.gameObject.SetActive(false);
@@ -64,7 +73,8 @@ public class PlayerWeaponManager : MonoBehaviour
 
     private void DeactivateCurrentWeapon()
     {
-        if (!IsValidSlot(ActiveWeaponIndex)) return;
+        if (!IsValidSlot(ActiveWeaponIndex))
+            return;
 
         var currentWeapon = weaponSlots[ActiveWeaponIndex];
         if (currentWeapon != null)

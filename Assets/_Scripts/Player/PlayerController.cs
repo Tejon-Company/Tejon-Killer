@@ -6,61 +6,106 @@ public class PlayerController : MonoBehaviour
     private bool _dashing = false;
     private bool _sliding = false;
     private bool _stomping = false;
-    public bool IsDashing { get { return _dashing; } }
-    public bool IsSliding { get { return _sliding; } }
-    public bool IsStomping { get { return _stomping; } }
+    public bool IsDashing
+    {
+        get { return _dashing; }
+    }
+    public bool IsSliding
+    {
+        get { return _sliding; }
+    }
+    public bool IsStomping
+    {
+        get { return _stomping; }
+    }
 
-    [SerializeField, Range(0, 40)] private float baseSpeed = 10f;
+    [SerializeField, Range(0, 40)]
+    private float baseSpeed = 10f;
 
     [Header("DASH")]
-    [SerializeField] private float dashMultiplier = 10f;
-    [SerializeField] private float dashDuration = 0.08f;
-    [SerializeField] private float dashCooldown = 0.4f;
-    [SerializeField] private ParticleSystem dashParticles;
-    [SerializeField] private ParticleSystem speedParticles;
+    [SerializeField]
+    private float dashMultiplier = 10f;
+
+    [SerializeField]
+    private float dashDuration = 0.08f;
+
+    [SerializeField]
+    private float dashCooldown = 0.4f;
+
+    [SerializeField]
+    private ParticleSystem dashParticles;
+
+    [SerializeField]
+    private ParticleSystem speedParticles;
 
     [Header("SLIDE")]
-    [SerializeField] private float slideSpeedMultiplier = 2.5f;
-    [SerializeField] private float slideGravity = 14f;
-    [SerializeField] private float slideJumpForce = 20f;
-    [SerializeField] private float slideJumpInertiaMultiplier = 2f;
+    [SerializeField]
+    private float slideSpeedMultiplier = 2.5f;
+
+    [SerializeField]
+    private float slideGravity = 14f;
+
+    [SerializeField]
+    private float slideJumpForce = 20f;
+
+    [SerializeField]
+    private float slideJumpInertiaMultiplier = 2f;
     private bool slideJumpInertiaActive = false;
     private bool canSlideJump;
     private bool skipGravityNextFrame = false;
 
     [Header("JUMP")]
-    [SerializeField] private float gravity = 25f;
-    [SerializeField] private float jumpForce = 15f;
+    [SerializeField]
+    private float gravity = 25f;
+
+    [SerializeField]
+    private float jumpForce = 15f;
 
     [Header("MULTI JUMP")]
-    [SerializeField] private int maxJumps = 2;
+    [SerializeField]
+    private int maxJumps = 2;
     private int jumpsRemaining;
 
     [Header("GRAVITY IN FREE FALL")]
-    [SerializeField] private float groundedGravity = -5f;
+    [SerializeField]
+    private float groundedGravity = -5f;
 
     [Header("STOMP")]
-    [SerializeField] private float stompForce = 40f;
-    [SerializeField] private float stompTimeLimit = 0.3f;
-    [SerializeField] private float stompJumpForceMultiplier = 1.5f;
+    [SerializeField]
+    private float stompForce = 40f;
+
+    [SerializeField]
+    private float stompTimeLimit = 0.3f;
+
+    [SerializeField]
+    private float stompJumpForceMultiplier = 1.5f;
     private float stompTimeCounter = 0f;
-    [SerializeField] private ParticleSystem stompParticles;
+
+    [SerializeField]
+    private ParticleSystem stompParticles;
 
     [Header("JUMP BUFFER")]
-    [SerializeField] private float jumpBufferTime = 0.15f;
+    [SerializeField]
+    private float jumpBufferTime = 0.15f;
     private float jumpBufferCounter = 0f;
 
     private bool canDash = true;
-    private bool jumpInput, dashInput, slideInputHeld;
+    private bool jumpInput,
+        dashInput,
+        slideInputHeld;
     private float fallVelocity;
-    private Vector3 axis, movePlayer, dashDirection, slideDirection;
-    private float originalHeight, crouchHeight = 1f;
-    private float originalCenterY, crouchCenterY = 0.5f;
+    private Vector3 axis,
+        movePlayer,
+        dashDirection,
+        slideDirection;
+    private float originalHeight,
+        crouchHeight = 1f;
+    private float originalCenterY,
+        crouchCenterY = 0.5f;
     private Sway weaponSway;
     private bool wasGrounded;
     private bool cond1;
     private bool cond2;
-
 
     private void Awake()
     {
@@ -88,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
         if (!skipGravityNextFrame)
             HandleGravity();
-        
+
         skipGravityNextFrame = false;
 
         HandleSlideEnd();
@@ -198,7 +243,6 @@ public class PlayerController : MonoBehaviour
         jumpBufferCounter = 0f;
     }
 
-
     private void ProcessNormalMovement(Vector3 rawMovement)
     {
         float currentSpeed = baseSpeed;
@@ -254,7 +298,6 @@ public class PlayerController : MonoBehaviour
         {
             dashParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
-
     }
 
     private void ResetDash()
@@ -326,7 +369,6 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-
         if (jumpBufferCounter <= 0)
         {
             if (fallVelocity <= 0f)
@@ -352,8 +394,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleAirborneGravity()
     {
-        bool cond1=jumpBufferCounter > 0 && jumpsRemaining > 0 && !_stomping;
-        bool cond2=player.collisionFlags == CollisionFlags.Above && fallVelocity > 0;
+        bool cond1 = jumpBufferCounter > 0 && jumpsRemaining > 0 && !_stomping;
+        bool cond2 = player.collisionFlags == CollisionFlags.Above && fallVelocity > 0;
         if (cond1)
         {
             fallVelocity = jumpForce;
@@ -388,7 +430,8 @@ public class PlayerController : MonoBehaviour
         weaponSway?.TriggerStompEffect();
         _stomping = true;
         fallVelocity = -stompForce;
-        if (stompParticles != null) {
+        if (stompParticles != null)
+        {
             stompParticles.Play();
         }
     }
