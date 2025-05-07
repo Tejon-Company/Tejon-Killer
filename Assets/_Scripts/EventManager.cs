@@ -16,7 +16,7 @@ public class EventManager : MonoBehaviour
         {
             current = this;
         }
-        else if (current != null)
+        else
         {
             Destroy(this);
         }
