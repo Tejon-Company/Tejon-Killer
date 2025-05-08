@@ -1481,7 +1481,7 @@ GameObject:
   - component: {fileID: 1027963803}
   - component: {fileID: 1027963804}
   m_Layer: 0
-  m_Name: SoundEffectsManager
+  m_Name: AudioManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1518,6 +1518,7 @@ MonoBehaviour:
     type: 3}
   _defaultShootSound: {fileID: 8300000, guid: 82a6ce4a95ecbbe44aa73b8828facd1a, type: 3}
   _defaultReloadSound: {fileID: 8300000, guid: af9c9146348533340a2e558f8c9a754b, type: 3}
+  menuMusic: {fileID: 0}
 --- !u!1 &1101577426
 GameObject:
   m_ObjectHideFlags: 0
