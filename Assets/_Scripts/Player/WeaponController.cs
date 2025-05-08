@@ -92,7 +92,8 @@ public class WeaponController : MonoBehaviour
 
     private void Shoot()
     {
-        SoundEffectsManager.instance.ReproduceShootSound(transform);
+        AudioClip shootSound = SoundEffectsManager.instance.defaultShootSound;
+        SoundEffectsManager.instance.ReproduceSoundEffect(shootSound, transform);
         ShowFlashEffect();
 
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);

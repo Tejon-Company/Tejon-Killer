@@ -8,7 +8,11 @@ public class SoundEffectsManager : MonoBehaviour
     private AudioSource soundEffectPrefab;
 
     [SerializeField]
-    private AudioClip defaultShootSound;
+    private AudioClip _defaultShootSound;
+    public AudioClip defaultShootSound
+    {
+        get => _defaultShootSound;
+    }
 
     private AudioSource currentWalkingSound;
 
@@ -26,7 +30,7 @@ public class SoundEffectsManager : MonoBehaviour
         {
             if (currentWalkingSound == null)
             {
-                currentWalkingSound = ReproduceSound(walkingSound, transform);
+                currentWalkingSound = ReproduceLoopSound(walkingSound, transform);
             }
         }
         else
@@ -35,19 +39,19 @@ public class SoundEffectsManager : MonoBehaviour
         }
     }
 
-    public void ReproduceShootSound(Transform spawnTransform)
+    public void ReproduceSoundEffect(AudioClip audio, Transform spawnTransform)
     {
         AudioSource source = Instantiate(
             soundEffectPrefab,
             spawnTransform.position,
             Quaternion.identity
         );
-        source.clip = defaultShootSound;
+        source.clip = audio;
         source.Play();
         Destroy(source.gameObject, defaultShootSound.length);
     }
 
-    private AudioSource ReproduceSound(AudioClip sound, Transform spawnTransform)
+    private AudioSource ReproduceLoopSound(AudioClip sound, Transform spawnTransform)
     {
         AudioSource source = Instantiate(
             soundEffectPrefab,

@@ -404,6 +404,7 @@ public class PlayerController : MonoBehaviour
         {
             fallVelocity = jumpForce;
             jumpsRemaining--;
+            SoundEffectsManager.instance.ReproduceSoundEffect(jumpSound, transform);
         }
 
         jumpBufferCounter = 0f;
@@ -418,6 +419,7 @@ public class PlayerController : MonoBehaviour
             fallVelocity = jumpForce;
             jumpsRemaining--;
             jumpBufferCounter = 0f;
+            SoundEffectsManager.instance.ReproduceSoundEffect(doubleJumpSound, transform);
         }
 
         if (isPlayerJumping)
