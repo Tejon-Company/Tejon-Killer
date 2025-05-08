@@ -119,6 +119,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private AudioClip doubleJumpSound;
 
+    [SerializeField]
+    private AudioClip slideSound;
+
+    [SerializeField]
+    private AudioClip stompSound;
+
     private void Awake()
     {
         speedParticles.Stop();
@@ -324,6 +330,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartSlide(Vector3 direction)
     {
+        SoundEffectsManager.instance.ReproduceSoundEffect(slideSound, transform);
         _sliding = true;
         canSlideJump = true;
         slideDirection = direction.normalized * baseSpeed * slideSpeedMultiplier;
@@ -446,6 +453,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartStomp()
     {
+        SoundEffectsManager.instance.ReproduceSoundEffect(stompSound, transform);
         weaponSway?.TriggerStompEffect();
         _stomping = true;
         fallVelocity = -stompForce;
