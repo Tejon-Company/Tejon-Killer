@@ -19,6 +19,8 @@ public class WeaponController : MonoBehaviour
 
     [SerializeField]
     private float fireRate = 0.2f;
+    [SerializeField]
+    private int shotDamage = 10;
 
     [Header("Munición")]
     [SerializeField]
@@ -103,7 +105,7 @@ public class WeaponController : MonoBehaviour
              EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
             if (enemy != null)
             {
-                enemy.TakeDamage(20); 
+                enemy.TakeDamage(shotDamage); 
             }
         }
 
