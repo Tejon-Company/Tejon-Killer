@@ -752,17 +752,17 @@ PrefabInstance:
     - target: {fileID: 6583136370420449749, guid: bc9f8422515d64c4da59933e3dd39642,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.12922734
+      value: -0.124
       objectReference: {fileID: 0}
     - target: {fileID: 6583136370420449749, guid: bc9f8422515d64c4da59933e3dd39642,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.3630292
+      value: 2.363
       objectReference: {fileID: 0}
     - target: {fileID: 6583136370420449749, guid: bc9f8422515d64c4da59933e3dd39642,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.960088
+      value: 11.495
       objectReference: {fileID: 0}
     - target: {fileID: 6583136370420449749, guid: bc9f8422515d64c4da59933e3dd39642,
         type: 3}
@@ -1373,7 +1373,7 @@ PrefabInstance:
     - target: {fileID: 6583136370420449749, guid: bc9f8422515d64c4da59933e3dd39642,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.059288
+      value: -11.178
       objectReference: {fileID: 0}
     - target: {fileID: 6583136370420449749, guid: bc9f8422515d64c4da59933e3dd39642,
         type: 3}
@@ -1383,7 +1383,7 @@ PrefabInstance:
     - target: {fileID: 6583136370420449749, guid: bc9f8422515d64c4da59933e3dd39642,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.253366
+      value: 6.261
       objectReference: {fileID: 0}
     - target: {fileID: 6583136370420449749, guid: bc9f8422515d64c4da59933e3dd39642,
         type: 3}
@@ -1461,8 +1461,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1767918667445883447, guid: a96b838e4003e24428a82e9a6fe12b73,
     type: 3}
-  poolSize: 10
-  projectileSpeed: 15
+  poolSize: 20
+  projectileSpeed: 12
 --- !u!4 &949839504
 Transform:
   m_ObjectHideFlags: 0

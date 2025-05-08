@@ -5,7 +5,7 @@ public class AcornPool : MonoBehaviour
 {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private int poolSize = 10;
-    [SerializeField] private float projectileSpeed = 15f;
+    [SerializeField] private float projectileSpeed = 10f;
     private List<GameObject> pool;
 
 
@@ -29,7 +29,6 @@ public class AcornPool : MonoBehaviour
             {
                 proj.transform.position = position;
                 proj.transform.rotation = Quaternion.LookRotation(direction);
-                proj.SetActive(true);
 
                 Rigidbody rb = proj.GetComponent<Rigidbody>();
                 rb.linearVelocity = direction.normalized * projectileSpeed; 

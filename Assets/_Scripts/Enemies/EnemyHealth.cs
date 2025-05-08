@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] private int maxHealth = 10;
+    [SerializeField] private int maxHealth = 20;
     private int currentHealth;
+    [SerializeField] private GameObject deathEffect;
+
 
     private void Start()
     {
@@ -13,10 +15,16 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
+        GetComponent<Scrat>().FlashRed();
 
         if (currentHealth <= 0)
         {
-            Destroy(gameObject); 
+            if (deathEffect != null)
+            {
+                Instantiate(deathEffect, transform.position, Quaternion.identity);
+            }
+
+            Destroy(gameObject);
         }
     }
 }

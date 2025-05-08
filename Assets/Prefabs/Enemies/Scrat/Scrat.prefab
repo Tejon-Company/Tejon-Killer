@@ -111,7 +111,7 @@ Transform:
   m_GameObject: {fileID: 4172977452914024032}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 76.6, z: 0}
+  m_LocalPosition: {x: 35.3, y: 94.6, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 187353887812980457}
   - component: {fileID: 5635114062671586734}
   - component: {fileID: 640693494921622117}
-  - component: {fileID: 2289422024516209456}
+  - component: {fileID: 6797706901751676946}
   m_Layer: 0
   m_Name: scrat_head
   m_TagString: Untagged
@@ -290,8 +290,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2289422024516209456
-BoxCollider:
+--- !u!136 &6797706901751676946
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -308,9 +308,11 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 140.88507, y: 113.435814, z: 169.0668}
-  m_Center: {x: 1.82333, y: 66.66149, z: -8.871526}
+  serializedVersion: 2
+  m_Radius: 87.434494
+  m_Height: 124.050705
+  m_Direction: 1
+  m_Center: {x: -0.0000000072712076, y: 61.35405, z: -7.8073997}
 --- !u!1 &7148311795481839594
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,7 +341,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7040085, z: -0, w: 0.71019155}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8218297572126277182}
@@ -365,7 +367,9 @@ MonoBehaviour:
   firePoint: {fileID: 7068726677019969806}
   fireRate: 2
   detectionRange: 20
-  verticalLaunch: 0.5
+  minVerticalLaunch: 0.05
+  maxVerticalLaunch: 1.5
+  flashDuration: 0.3
 --- !u!114 &850522276252107268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,7 +382,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8249b72f08eff134391517b297959fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 30
+  deathEffect: {fileID: 6507373157393611270, guid: dd7cc688307b6b64b95d02bc1df1bae8,
+    type: 3}
 --- !u!1 &7312828639562326196
 GameObject:
   m_ObjectHideFlags: 0
