@@ -1,55 +1,66 @@
 using System.Collections;
 using UnityEngine;
 
-public class WeaponController : MonoBehaviour, RageInterface
+public class WeaponController : MonoBehaviour
 {
-    [Header("References")]
-    public Transform weaponMuzzle;
+    [Header("Referencias")]
+    [SerializeField]
+    private Transform weaponMuzzle;
 
-    [Header("General")]
-    public LayerMask hittableLayers;
-    public GameObject bulletHolePrefab;
+    [SerializeField]
+    private Sway sway;
 
-    [Header("Shoot Parameters")]
-    public float fireRange = 200;
-    public float fireRate = 0.2f;
+    [Header("Parámetros de disparo")]
+    [SerializeField]
+    private LayerMask hittableLayers;
 
-    [Header("Rage Parameters")]
+    [SerializeField]
+    private float fireRange = 200f;
+
+    [SerializeField]
+    private float fireRate = 0.2f;
+
+    [Header("Munición")]
+    [SerializeField]
+    private int maxAmmo = 8;
+    public int CurrentAmmo { get; private set; }
+    public int MaxAmmo => maxAmmo;
+
+    [Header("Recarga")]
+    [SerializeField]
+    private float reloadTime = 1.5f;
+    private bool isReloading;
+    [Header("Rabia")]
     private bool isRaging = false;
     private float rageEndTime = 0f;
     private float defaultFireRate;
-    private bool reloadNormally;
-    private bool endRage;
 
-    [Header("AMMO")]
-    [SerializeField] private int maxAmmo = 8;
-    public int currentAmmo { get; private set; }
-    public int MaxAmmo => maxAmmo;
+    [Header("Efectos visuales")]
+    [SerializeField]
+    private GameObject flashEffect;
 
-    [Header("RELOAD")]
-    public float reloadTime = 1.5f;
-    private bool isReloading = false;
+    [SerializeField]
+    private GameObject tracerEffectPrefab;
 
-    [Header("References")]
-    [SerializeField] private Sway sway;
+    [SerializeField]
+    private GameObject bulletHolePrefab;
 
-    [Header("SOUNDS & VISUALS")]
-    public GameObject flashEffect;
-    public GameObject tracerEffectPrefab;
-    [SerializeField] private float rayEffectTime = 0.2f;
-    private Transform cameraPlayerTransform;
-    private float lastShotTime = 0f;
+    [SerializeField]
+    private float rayEffectTime = 0.2f;
 
-    void Awake()
+    private Transform cameraTransform;
+    private float lastShotTime;
+
+    private void Awake()
     {
-        currentAmmo = maxAmmo;
+        CurrentAmmo = maxAmmo;
         defaultFireRate = fireRate;
-        EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
+        UpdateAmmoUI();
     }
 
     private void Start()
     {
-        cameraPlayerTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        cameraTransform = GameObject.FindGameObjectWithTag("MainCamera")?.transform;
     }
 
     private void OnEnable()
@@ -66,41 +77,40 @@ public class WeaponController : MonoBehaviour, RageInterface
 
     private void Update()
     {
-        bool reloadNormally = currentAmmo <= 0 && !isRaging;
-        bool endRage = isRaging && Time.time >= rageEndTime;
+        HandleFireInput();
+        HandleReloadInput();
+        HandleRageState();
+    }
 
-        if (Input.GetButtonDown("Fire"))
-        {
-            if (isReloading)
-                return;
+    private void HandleFireInput()
+    {
+        if (!Input.GetButtonDown("Fire") || isReloading)
+            return;
 
-            if (reloadNormally)
-            {
-                StartCoroutine(Reload());
-            }
-            else
-            {
-                if (Time.time > lastShotTime + fireRate)
-                {
-                    Shoot();
-
-                    if (!isRaging)
-                    {
-                        currentAmmo--;
-                        EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
-                    }
-
-                    lastShotTime = Time.time;
-                }
-            }
-        }
-
-        if (Input.GetButtonDown("Reload") && currentAmmo < maxAmmo && !isReloading)
+        if (CurrentAmmo <= 0)
         {
             StartCoroutine(Reload());
+            return;
         }
 
-        if (endRage)
+        if (Time.time >= lastShotTime + fireRate)
+        {
+            Shoot();
+            CurrentAmmo--;
+            UpdateAmmoUI();
+            lastShotTime = Time.time;
+        }
+    }
+
+    private void HandleReloadInput()
+    {
+        if (Input.GetButtonDown("Reload") && CurrentAmmo < MaxAmmo && !isReloading)
+            StartCoroutine(Reload());
+    }
+
+    private void HandleRageState()
+    {
+        if (isRaging && Time.time >= rageEndTime)
         {
             fireRate = defaultFireRate;
             isRaging = false;
@@ -109,26 +119,59 @@ public class WeaponController : MonoBehaviour, RageInterface
 
     private void Shoot()
     {
-        var flashClone = Instantiate(flashEffect, weaponMuzzle.position, Quaternion.LookRotation(weaponMuzzle.forward), transform);
-        Destroy(flashClone, 1f);
+        ShowFlashEffect();
 
-        Ray ray = new Ray(cameraPlayerTransform.position, cameraPlayerTransform.forward);
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, fireRange, hittableLayers))
         {
-            var hole = Instantiate(bulletHolePrefab,
-                                hit.point - hit.normal * 0.01f,
-                                Quaternion.LookRotation(hit.normal));
-            Destroy(hole, 4f);
-
-            GameObject rayInstance = Instantiate(tracerEffectPrefab);
-            LineRenderer lr = rayInstance.GetComponent<LineRenderer>();
-            lr.SetPosition(0, weaponMuzzle.position);
-            lr.SetPosition(1, hit.point);
-
-            StartCoroutine(FadeRay(lr, rayEffectTime));
+            ShowBulletHole(hit);
+            ShowTracerEffect(weaponMuzzle.position, hit.point);
         }
 
         sway?.ApplyRecoil();
+    }
+
+    private void ShowFlashEffect()
+    {
+        if (!flashEffect)
+            return;
+
+        GameObject flash = Instantiate(
+            flashEffect,
+            weaponMuzzle.position,
+            Quaternion.LookRotation(weaponMuzzle.forward),
+            transform
+        );
+        Destroy(flash, 1f);
+    }
+
+    private void ShowBulletHole(RaycastHit hit)
+    {
+        if (!bulletHolePrefab)
+            return;
+
+        GameObject hole = Instantiate(
+            bulletHolePrefab,
+            hit.point - hit.normal * 0.01f,
+            Quaternion.LookRotation(hit.normal)
+        );
+        Destroy(hole, 4f);
+    }
+
+    private void ShowTracerEffect(Vector3 start, Vector3 end)
+    {
+    
+        if (!tracerEffectPrefab)
+            return;
+
+        GameObject tracer = Instantiate(tracerEffectPrefab);
+        LineRenderer lr = tracer.GetComponent<LineRenderer>();
+        if (lr)
+        {
+            lr.SetPosition(0, start);
+            lr.SetPosition(1, end);
+            StartCoroutine(FadeRay(lr, rayEffectTime));
+        }
     }
 
     private IEnumerator Reload()
@@ -140,11 +183,15 @@ public class WeaponController : MonoBehaviour, RageInterface
         Debug.Log("Recargando...");
         yield return new WaitForSeconds(reloadTime);
 
-        currentAmmo = maxAmmo;
-        EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
-
+        CurrentAmmo = MaxAmmo;
+        UpdateAmmoUI();
         isReloading = false;
         Debug.Log("¡Recargada!");
+    }
+
+    private void UpdateAmmoUI()
+    {
+        EventManager.current.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
     }
 
     private IEnumerator FadeRay(LineRenderer lr, float duration)
@@ -169,8 +216,8 @@ public class WeaponController : MonoBehaviour, RageInterface
     {
         fireRate = defaultFireRate * weaponFireRateMultiplier;
         rageEndTime = Time.time + duration;
-        currentAmmo = maxAmmo;
-        EventManager.current.updateBulletsEvent.Invoke(currentAmmo, maxAmmo);
+        CurrentAmmo = MaxAmmo;
+        UpdateAmmoUI();
         isRaging = true;
     }
 }
