@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Berry : MonoBehaviour
 {
-    [SerializeField] private int healAmount = 1;
+    [SerializeField]
+    private int healAmount = 1;
 
     private PlayerHealth health;
 

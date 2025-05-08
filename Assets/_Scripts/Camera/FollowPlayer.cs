@@ -7,8 +7,6 @@ public class FollowPlayer : MonoBehaviour
 
     private void LateUpdate()
     {
-        // Mantener la posición de la cámara con un pequeño ajuste en Y
         transform.position = player.position + offset;
     }
 }
-    
