@@ -42,16 +42,15 @@ public class AudioManager : MonoBehaviour
 
     public void ReproduceWalkingSound(bool isWalking, AudioClip walkingSound)
     {
-        if (isWalking)
-        {
-            if (currentWalkingSound == null)
-            {
-                currentWalkingSound = ReproduceLoopSound(walkingSound, transform);
-            }
-        }
-        else
+        if (!isWalking)
         {
             StopSound(currentWalkingSound);
+            return;
+        }
+
+        if (currentWalkingSound == null)
+        {
+            currentWalkingSound = ReproduceLoopSound(walkingSound, transform);
         }
     }
 
