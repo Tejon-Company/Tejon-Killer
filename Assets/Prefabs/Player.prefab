@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7326908400747997446}
   - component: {fileID: 2746080814660782187}
   - component: {fileID: 875228739375634365}
+  - component: {fileID: -1257731431615800992}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -190,6 +191,19 @@ MonoBehaviour:
   weaponParentSocket: {fileID: 2515262720201210835}
   defaultWeaponPosition: {fileID: 4712225824902755639}
   aimingPosition: {fileID: 5451704795567666543}
+--- !u!114 &-1257731431615800992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897021697823669765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b986d3667e054458f42ce5eb067b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 5
 --- !u!1 &1136526572092323781
 GameObject:
   m_ObjectHideFlags: 0

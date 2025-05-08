@@ -25,19 +25,6 @@ public class PlayerHealth : MonoBehaviour
         NotifyHealthChanged();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Heal(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            TakeDamage(1);
-        }
-    }
-
     public void Heal(int amount)
     {
         _currentHealth = Mathf.Min(_currentHealth + amount, _maxHealth);
