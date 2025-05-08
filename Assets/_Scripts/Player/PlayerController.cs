@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
         _walking =
             axis.magnitude > 0.1f && player.isGrounded && !_dashing && !_sliding && !_stomping;
-        SoundEffectsManager.instance.ReproduceWalkingSound(_walking, walkingOnGrassSound);
+        AudioManager.instance.ReproduceWalkingSound(_walking, walkingOnGrassSound);
 
         wasGrounded = groundedNow;
     }
@@ -301,7 +301,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartDash(Vector3 direction)
     {
-        SoundEffectsManager.instance.ReproduceSoundEffect(dashSound, transform);
+        AudioManager.instance.ReproduceSoundEffect(dashSound, transform);
         _dashing = true;
         canDash = false;
         dashDirection = direction.normalized * baseSpeed * dashMultiplier;
@@ -334,7 +334,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartSlide(Vector3 direction)
     {
-        SoundEffectsManager.instance.ReproduceSoundEffect(slideSound, transform);
+        AudioManager.instance.ReproduceSoundEffect(slideSound, transform);
         _sliding = true;
         canSlideJump = true;
         slideDirection = direction.normalized * baseSpeed * slideSpeedMultiplier;
@@ -415,7 +415,7 @@ public class PlayerController : MonoBehaviour
         {
             fallVelocity = jumpForce;
             jumpsRemaining--;
-            SoundEffectsManager.instance.ReproduceSoundEffect(jumpSound, transform);
+            AudioManager.instance.ReproduceSoundEffect(jumpSound, transform);
         }
 
         jumpBufferCounter = 0f;
@@ -430,7 +430,7 @@ public class PlayerController : MonoBehaviour
             fallVelocity = jumpForce;
             jumpsRemaining--;
             jumpBufferCounter = 0f;
-            SoundEffectsManager.instance.ReproduceSoundEffect(doubleJumpSound, transform);
+            AudioManager.instance.ReproduceSoundEffect(doubleJumpSound, transform);
         }
 
         if (isPlayerJumping)
@@ -457,7 +457,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartStomp()
     {
-        SoundEffectsManager.instance.ReproduceSoundEffect(stompSound, transform);
+        AudioManager.instance.ReproduceSoundEffect(stompSound, transform);
         weaponSway?.TriggerStompEffect();
         _stomping = true;
         fallVelocity = -stompForce;

@@ -92,8 +92,8 @@ public class WeaponController : MonoBehaviour
 
     private void Shoot()
     {
-        AudioClip shootSound = SoundEffectsManager.instance.defaultShootSound;
-        SoundEffectsManager.instance.ReproduceSoundEffect(shootSound, transform);
+        AudioClip shootSound = AudioManager.instance.defaultShootSound;
+        AudioManager.instance.ReproduceSoundEffect(shootSound, transform);
         ShowFlashEffect();
 
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
@@ -159,8 +159,8 @@ public class WeaponController : MonoBehaviour
 
         CurrentAmmo = MaxAmmo;
         UpdateAmmoUI();
-        AudioClip reloadSound = SoundEffectsManager.instance.defaultReloadSound;
-        SoundEffectsManager.instance.ReproduceSoundEffect(reloadSound, transform);
+        AudioClip reloadSound = AudioManager.instance.defaultReloadSound;
+        AudioManager.instance.ReproduceSoundEffect(reloadSound, transform);
         isReloading = false;
         Debug.Log("¡Recargada!");
     }

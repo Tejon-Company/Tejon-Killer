@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class SoundEffectsManager : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
-    public static SoundEffectsManager instance { get; private set; }
+    public static AudioManager instance { get; private set; }
 
     [SerializeField]
     private AudioSource soundEffectPrefab;
@@ -21,13 +21,22 @@ public class SoundEffectsManager : MonoBehaviour
         get => _defaultReloadSound;
     }
 
+    [SerializeField]
+    private AudioClip menuMusic;
+
     private AudioSource currentWalkingSound;
+    private AudioSource currentMusic;
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -44,6 +53,35 @@ public class SoundEffectsManager : MonoBehaviour
         {
             StopSound(currentWalkingSound);
         }
+    }
+
+    public void ReproduceMenuMusic()
+    {
+        ReproduceMusic(menuMusic);
+    }
+
+    public void ReproduceMusic(AudioClip music)
+    {
+        if (currentMusic != null)
+        {
+            if (currentMusic.clip == music && currentMusic.isPlaying)
+            {
+                return;
+            }
+            StopMusic();
+        }
+
+        currentMusic = gameObject.AddComponent<AudioSource>();
+        currentMusic.clip = music;
+        currentMusic.loop = true;
+        currentMusic.playOnAwake = false;
+        currentMusic.volume = 1f;
+        currentMusic.Play();
+    }
+
+    public void StopMusic()
+    {
+        StopSound(currentMusic);
     }
 
     public void ReproduceSoundEffect(AudioClip audio, Transform spawnTransform)
