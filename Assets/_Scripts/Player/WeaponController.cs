@@ -159,6 +159,8 @@ public class WeaponController : MonoBehaviour
 
         CurrentAmmo = MaxAmmo;
         UpdateAmmoUI();
+        AudioClip reloadSound = SoundEffectsManager.instance.defaultReloadSound;
+        SoundEffectsManager.instance.ReproduceSoundEffect(reloadSound, transform);
         isReloading = false;
         Debug.Log("¡Recargada!");
     }

@@ -14,6 +14,13 @@ public class SoundEffectsManager : MonoBehaviour
         get => _defaultShootSound;
     }
 
+    [SerializeField]
+    private AudioClip _defaultReloadSound;
+    public AudioClip defaultReloadSound
+    {
+        get => _defaultReloadSound;
+    }
+
     private AudioSource currentWalkingSound;
 
     private void Awake()

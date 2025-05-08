@@ -125,6 +125,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private AudioClip stompSound;
 
+    [SerializeField]
+    private AudioClip dashSound;
+
     private void Awake()
     {
         speedParticles.Stop();
@@ -298,6 +301,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartDash(Vector3 direction)
     {
+        SoundEffectsManager.instance.ReproduceSoundEffect(dashSound, transform);
         _dashing = true;
         canDash = false;
         dashDirection = direction.normalized * baseSpeed * dashMultiplier;
