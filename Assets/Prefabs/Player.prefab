@@ -172,6 +172,13 @@ MonoBehaviour:
   stompJumpForceMultiplier: 1.5
   stompParticles: {fileID: 6808207003398842574}
   jumpBufferTime: 0.15
+  walkingOnGrassSound: {fileID: 8300000, guid: d2ca4f09705130846aa15fc9578a141b, type: 3}
+  walkingOnStoneSound: {fileID: 8300000, guid: b803821c247630a438522bb49eac3c01, type: 3}
+  jumpSound: {fileID: 8300000, guid: 5fdce24254516d24f85b89ce3f7c0879, type: 3}
+  doubleJumpSound: {fileID: 8300000, guid: 1fe2bb150719ae84a8447c7b9cc2d61e, type: 3}
+  slideSound: {fileID: 8300000, guid: d3f6dfce3ec2763429e93a65525446af, type: 3}
+  stompSound: {fileID: 8300000, guid: c676ade4ec43aaf4dad2d358873058c7, type: 3}
+  dashSound: {fileID: 8300000, guid: 6dd446d61d2f0ec4f8675f878d2f9640, type: 3}
 --- !u!114 &875228739375634365
 MonoBehaviour:
   m_ObjectHideFlags: 0

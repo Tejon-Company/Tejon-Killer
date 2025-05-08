@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     private bool _dashing = false;
     private bool _sliding = false;
     private bool _stomping = false;
+    private bool _walking = false;
     public bool IsDashing
     {
         get { return _dashing; }
@@ -104,8 +105,28 @@ public class PlayerController : MonoBehaviour
         crouchCenterY = 0.5f;
     private Sway weaponSway;
     private bool wasGrounded;
-    private bool cond1;
-    private bool cond2;
+
+    [Header("SOUND EFFECTS")]
+    [SerializeField]
+    private AudioClip walkingOnGrassSound;
+
+    [SerializeField]
+    private AudioClip walkingOnStoneSound;
+
+    [SerializeField]
+    private AudioClip jumpSound;
+
+    [SerializeField]
+    private AudioClip doubleJumpSound;
+
+    [SerializeField]
+    private AudioClip slideSound;
+
+    [SerializeField]
+    private AudioClip stompSound;
+
+    [SerializeField]
+    private AudioClip dashSound;
 
     private void Awake()
     {
@@ -139,6 +160,11 @@ public class PlayerController : MonoBehaviour
         HandleSlideEnd();
 
         player.Move(movePlayer * Time.deltaTime);
+
+        _walking =
+            axis.magnitude > 0.1f && player.isGrounded && !_dashing && !_sliding && !_stomping;
+        AudioManager.instance.ReproduceWalkingSound(_walking, walkingOnGrassSound);
+
         wasGrounded = groundedNow;
     }
 
@@ -275,6 +301,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartDash(Vector3 direction)
     {
+        AudioManager.instance.ReproduceSoundEffect(dashSound, transform);
         _dashing = true;
         canDash = false;
         dashDirection = direction.normalized * baseSpeed * dashMultiplier;
@@ -307,6 +334,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartSlide(Vector3 direction)
     {
+        AudioManager.instance.ReproduceSoundEffect(slideSound, transform);
         _sliding = true;
         canSlideJump = true;
         slideDirection = direction.normalized * baseSpeed * slideSpeedMultiplier;
@@ -387,6 +415,7 @@ public class PlayerController : MonoBehaviour
         {
             fallVelocity = jumpForce;
             jumpsRemaining--;
+            AudioManager.instance.ReproduceSoundEffect(jumpSound, transform);
         }
 
         jumpBufferCounter = 0f;
@@ -394,16 +423,17 @@ public class PlayerController : MonoBehaviour
 
     private void HandleAirborneGravity()
     {
-        bool cond1 = jumpBufferCounter > 0 && jumpsRemaining > 0 && !_stomping;
-        bool cond2 = player.collisionFlags == CollisionFlags.Above && fallVelocity > 0;
-        if (cond1)
+        bool canJump = jumpBufferCounter > 0 && jumpsRemaining > 0 && !_stomping;
+        bool isPlayerJumping = player.collisionFlags == CollisionFlags.Above && fallVelocity > 0;
+        if (canJump)
         {
             fallVelocity = jumpForce;
             jumpsRemaining--;
             jumpBufferCounter = 0f;
+            AudioManager.instance.ReproduceSoundEffect(doubleJumpSound, transform);
         }
 
-        if (cond2)
+        if (isPlayerJumping)
         {
             fallVelocity = -1f;
         }
@@ -427,6 +457,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartStomp()
     {
+        AudioManager.instance.ReproduceSoundEffect(stompSound, transform);
         weaponSway?.TriggerStompEffect();
         _stomping = true;
         fallVelocity = -stompForce;
