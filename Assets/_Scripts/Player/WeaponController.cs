@@ -19,6 +19,7 @@ public class WeaponController : MonoBehaviour
 
     [SerializeField]
     private float fireRate = 0.2f;
+
     [SerializeField]
     private int shotDamage = 10;
 
@@ -102,10 +103,10 @@ public class WeaponController : MonoBehaviour
             ShowBulletHole(hit);
             ShowTracerEffect(weaponMuzzle.position, hit.point);
 
-             EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
+            EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
             if (enemy != null)
             {
-                enemy.TakeDamage(shotDamage); 
+                enemy.TakeDamage(shotDamage);
             }
         }
 

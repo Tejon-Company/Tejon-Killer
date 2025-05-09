@@ -385,6 +385,8 @@ MonoBehaviour:
   maxHealth: 3
   deathEffect: {fileID: 6507373157393611270, guid: dd7cc688307b6b64b95d02bc1df1bae8,
     type: 3}
+  damageEffect: {fileID: 5580431672248492859, guid: af59b9a260d6f8740bb10cf5219aa15b,
+    type: 3}
 --- !u!1 &7312828639562326196
 GameObject:
   m_ObjectHideFlags: 0

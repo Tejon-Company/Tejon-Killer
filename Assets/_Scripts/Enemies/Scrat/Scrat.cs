@@ -1,92 +1,133 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class Scrat : MonoBehaviour
 {
-    [SerializeField] private AcornPool acornPool;
-    [SerializeField] private Transform firePoint;
+    [Header("Referencias")]
+    [SerializeField]
+    private AcornPool acornPool;
+
+    [SerializeField]
+    private Transform firePoint;
 
     [Header("Variables de disparo")]
-    [SerializeField] private float fireRate = 2f;
-    [SerializeField] private float detectionRange = 20f;
-    [SerializeField] private float minVerticalLaunch = 0.1f;
-    [SerializeField] private float maxVerticalLaunch = 1.0f;
-    private float lastShotTime = -Mathf.Infinity;
+    [SerializeField]
+    private float fireRate = 2f;
+
+    [SerializeField]
+    private float detectionRange = 20f;
+
+    [SerializeField]
+    private float minVerticalLaunch = 0.1f;
+
+    [SerializeField]
+    private float maxVerticalLaunch = 1.0f;
 
     [Header("Efectos")]
-    [SerializeField] private float flashDuration = 0.3f;
+    [SerializeField]
+    private float flashDuration = 0.3f;
+
+    [SerializeField]
+    private Color flashColor = new Color(0.6f, 0.1f, 0.1f, 1f);
+    private float lastShotTime = Mathf.NegativeInfinity;
     private Renderer[] scratRenderers;
     private Color[] originalColors;
-
     private Transform player;
+    private MaterialPropertyBlock propBlock;
 
-    private void Start()
+    private void Awake()
     {
         scratRenderers = GetComponentsInChildren<Renderer>();
         originalColors = new Color[scratRenderers.Length];
+        propBlock = new MaterialPropertyBlock();
 
         for (int i = 0; i < scratRenderers.Length; i++)
         {
-            originalColors[i] = scratRenderers[i].material.GetColor("_BaseColor");
+            scratRenderers[i].GetPropertyBlock(propBlock);
+            originalColors[i] = propBlock.GetColor("_BaseColor");
         }
-
-        player = GameObject.FindGameObjectWithTag("Player").transform;
 
         if (acornPool == null)
         {
             acornPool = FindFirstObjectByType<AcornPool>();
+            if (acornPool == null)
+            {
+                Debug.LogError("No se encontró una instancia de AcornPool.");
+            }
+        }
+
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+        }
+        else
+        {
+            Debug.LogError("No se encontró el jugador con la etiqueta 'Player'.");
         }
     }
 
     private void Update()
     {
-        float distance = Vector3.Distance(player.position, transform.position);
-        bool playerInRange = distance <= detectionRange;
-        bool canShoot = Time.time - lastShotTime >= fireRate;
+        if (player == null)
+            return;
 
-        if (playerInRange)
+        float distance = Vector3.Distance(player.position, transform.position);
+
+        if (distance <= detectionRange && Time.time - lastShotTime >= fireRate)
         {
             RotateToPlayer();
-            if (canShoot)
-            {
-                Shoot();
-                lastShotTime = Time.time;
-            }
+            Shoot();
+            lastShotTime = Time.time;
         }
     }
 
     private void RotateToPlayer()
     {
-        Vector3 lookPos = player.position - transform.position;
-        lookPos.y = 0;
-        transform.rotation = Quaternion.LookRotation(lookPos);
+        Vector3 direction = player.position - transform.position;
+        direction.y = 0;
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
     }
 
     private void Shoot()
     {
-        float distance = Vector3.Distance(player.position, transform.position);
-        float verticalLaunch = Mathf.Lerp(minVerticalLaunch, maxVerticalLaunch, distance / detectionRange);
+        if (acornPool == null || player == null || firePoint == null)
+            return;
 
-        Vector3 dir = (player.position - firePoint.position).normalized + Vector3.up * verticalLaunch;
-        GameObject projectile = acornPool.GetProjectile(firePoint.position, dir);
+        float distance = Vector3.Distance(player.position, transform.position);
+        float verticalLaunch = Mathf.Lerp(
+            minVerticalLaunch,
+            maxVerticalLaunch,
+            distance / detectionRange
+        );
+
+        Vector3 direction =
+            (player.position - firePoint.position).normalized + Vector3.up * verticalLaunch;
+
+        GameObject projectile = acornPool.GetProjectile(firePoint.position, direction);
 
         if (projectile.TryGetComponent(out Collider projectileCol))
         {
-            Collider[] scratColliders = GetComponentsInChildren<Collider>();
-
-            foreach (var scratCol in scratColliders)
+            foreach (var col in GetComponentsInChildren<Collider>())
             {
-                Physics.IgnoreCollision(projectileCol, scratCol);
+                Physics.IgnoreCollision(projectileCol, col);
             }
         }
 
         projectile.SetActive(true);
     }
-    
+
     public void FlashRed()
     {
-        foreach (var renderer in scratRenderers)
-            renderer.material.SetColor("_BaseColor", new Color(0.6f, 0.1f, 0.1f, 1f));
+        for (int i = 0; i < scratRenderers.Length; i++)
+        {
+            scratRenderers[i].GetPropertyBlock(propBlock);
+            propBlock.SetColor("_BaseColor", flashColor);
+            scratRenderers[i].SetPropertyBlock(propBlock);
+        }
 
         Invoke(nameof(RestoreOriginalColor), flashDuration);
     }
@@ -94,6 +135,10 @@ public class Scrat : MonoBehaviour
     private void RestoreOriginalColor()
     {
         for (int i = 0; i < scratRenderers.Length; i++)
-            scratRenderers[i].material.SetColor("_BaseColor", originalColors[i]);
+        {
+            scratRenderers[i].GetPropertyBlock(propBlock);
+            propBlock.SetColor("_BaseColor", originalColors[i]);
+            scratRenderers[i].SetPropertyBlock(propBlock);
+        }
     }
 }
