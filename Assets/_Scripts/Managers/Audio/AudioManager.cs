@@ -11,6 +11,9 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField]
     private AudioSource sfxSource;
+    
+    [SerializeField]
+    private AudioSource footstepSource;
 
     [Header("AUDIO CLIP")]
     [SerializeField]
@@ -82,5 +85,20 @@ public class AudioManager : MonoBehaviour
             return;
             
         sfxSource.PlayOneShot(clip);
+    }
+    
+    public void PlayFootstepSfx(AudioClip clip)
+    {
+        if (footstepSource.isPlaying && footstepSource.clip == clip)
+            return;
+        
+        footstepSource.Stop();
+        footstepSource.clip = clip;
+        footstepSource.Play();
+    }
+    
+    public void StopFootstepSfx()
+    {
+        footstepSource.Stop();
     }
 }

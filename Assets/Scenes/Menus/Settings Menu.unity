@@ -150,7 +150,7 @@ PrefabInstance:
     - target: {fileID: 3330948118244518752, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_Name
-      value: Button Panel
+      value: Return Button Panel
       objectReference: {fileID: 0}
     - target: {fileID: 4242405518022224268, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -770,6 +770,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 603202758}
     m_Modifications:
+    - target: {fileID: 4234564394360936957, guid: 3327b5587f0a3594c8699511d29da6e9,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234564394360936957, guid: 3327b5587f0a3594c8699511d29da6e9,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234564394360936957, guid: 3327b5587f0a3594c8699511d29da6e9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4913096421921153287, guid: 3327b5587f0a3594c8699511d29da6e9,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -778,6 +793,21 @@ PrefabInstance:
     - target: {fileID: 4913096421921153287, guid: 3327b5587f0a3594c8699511d29da6e9,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204109741243114588, guid: 3327b5587f0a3594c8699511d29da6e9,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204109741243114588, guid: 3327b5587f0a3594c8699511d29da6e9,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5204109741243114588, guid: 3327b5587f0a3594c8699511d29da6e9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6500749221082845532, guid: 3327b5587f0a3594c8699511d29da6e9,
