@@ -68,12 +68,19 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(AudioClip clip)
     {
+        if (musicSource.isPlaying && musicSource.clip == clip)
+            return;
+        
+        musicSource.Stop();
         musicSource.clip = clip;
         musicSource.Play();
     }
-   
+
     public void PlaySfx(AudioClip clip)
     {
+        if (sfxSource.isPlaying && sfxSource.clip == clip)
+            return;
+            
         sfxSource.PlayOneShot(clip);
     }
 }

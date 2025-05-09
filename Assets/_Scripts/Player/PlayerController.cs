@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
         _walking =
             axis.magnitude > 0.1f && player.isGrounded && !_dashing && !_sliding && !_stomping;
         
-        //AudioManager1.Instance.PlaySfx(AudioManager1.Instance.GrassSteps);
+        //AudioManager.Instance.PlaySfx(AudioManager.Instance.GrassSteps);
 
         wasGrounded = groundedNow;
     }
