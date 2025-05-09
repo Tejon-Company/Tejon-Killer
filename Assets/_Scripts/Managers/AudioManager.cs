@@ -1,37 +1,63 @@
+﻿using System;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance { get; private set; }
+    public static AudioManager Instance { get; private set; }
+
+    [Header("AUDIO SOURCE")]
+    [SerializeField]
+    private AudioSource musicSource;
 
     [SerializeField]
-    private AudioSource soundEffectPrefab;
+    private AudioSource sfxSource;
+
+    [Header("AUDIO CLIP")]
+    [SerializeField]
+    private AudioClip menuBackgroundMusic;
+    public AudioClip MenuBackgroundMusic => menuBackgroundMusic;
 
     [SerializeField]
-    private AudioClip _defaultShootSound;
-    public AudioClip defaultShootSound
-    {
-        get => _defaultShootSound;
-    }
+    private AudioClip shoot;
+    public AudioClip Shoot => shoot;
 
     [SerializeField]
-    private AudioClip _defaultReloadSound;
-    public AudioClip defaultReloadSound
-    {
-        get => _defaultReloadSound;
-    }
+    private AudioClip reload;
+    public AudioClip Reload => reload;
 
     [SerializeField]
-    private AudioClip menuMusic;
+    private AudioClip jump;
+    public AudioClip Jump => jump;
 
-    private AudioSource currentWalkingSound;
-    private AudioSource currentMusic;
+    [SerializeField]
+    private AudioClip grassSteps;
+    public AudioClip GrassSteps => grassSteps;
+
+    [SerializeField]
+    private AudioClip stoneSteps;
+    public AudioClip StoneSteps => stoneSteps;
+
+    [SerializeField]
+    private AudioClip doubleJump;
+    public AudioClip DoubleJump => doubleJump;
+
+    [SerializeField]
+    private AudioClip slide;
+    public AudioClip Slide => slide;
+
+    [SerializeField]
+    private AudioClip stomp;
+    public AudioClip Stomp => stomp;
+
+    [SerializeField]
+    private AudioClip dash;
+    public AudioClip Dash => dash;
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance is null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -40,80 +66,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void ReproduceWalkingSound(bool isWalking, AudioClip walkingSound)
+   
+    public void PlaySfx(AudioClip clip)
     {
-        if (!isWalking)
-        {
-            StopSound(currentWalkingSound);
-            return;
-        }
-
-        if (currentWalkingSound == null)
-        {
-            currentWalkingSound = ReproduceLoopSound(walkingSound, transform);
-        }
-    }
-
-    public void ReproduceMenuMusic()
-    {
-        ReproduceMusic(menuMusic);
-    }
-
-    public void ReproduceMusic(AudioClip music)
-    {
-        if (currentMusic != null)
-        {
-            if (currentMusic.clip == music && currentMusic.isPlaying)
-            {
-                return;
-            }
-            StopMusic();
-        }
-
-        currentMusic = gameObject.AddComponent<AudioSource>();
-        currentMusic.clip = music;
-        currentMusic.loop = true;
-        currentMusic.playOnAwake = false;
-        currentMusic.volume = 1f;
-        currentMusic.Play();
-    }
-
-    public void StopMusic()
-    {
-        StopSound(currentMusic);
-    }
-
-    public void ReproduceSoundEffect(AudioClip audio, Transform spawnTransform)
-    {
-        AudioSource source = Instantiate(
-            soundEffectPrefab,
-            spawnTransform.position,
-            Quaternion.identity
-        );
-        source.clip = audio;
-        source.Play();
-        Destroy(source.gameObject, defaultShootSound.length);
-    }
-
-    private AudioSource ReproduceLoopSound(AudioClip sound, Transform spawnTransform)
-    {
-        AudioSource source = Instantiate(
-            soundEffectPrefab,
-            spawnTransform.position,
-            Quaternion.identity
-        );
-        source.clip = sound;
-        source.loop = true;
-        source.Play();
-        return source;
-    }
-
-    private void StopSound(AudioSource source)
-    {
-        if (source != null)
-        {
-            source.Stop();
-            Destroy(source.gameObject);
-        }
+        sfxSource.PlayOneShot(clip);
     }
 }

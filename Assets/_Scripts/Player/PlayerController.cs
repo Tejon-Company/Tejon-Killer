@@ -11,10 +11,8 @@ public class PlayerController : MonoBehaviour
     {
         get { return _dashing; }
     }
-    public bool IsSliding
-    {
-        get { return _sliding; }
-    }
+    public bool IsSliding => _sliding;
+
     public bool IsStomping
     {
         get { return _stomping; }
@@ -106,28 +104,6 @@ public class PlayerController : MonoBehaviour
     private Sway weaponSway;
     private bool wasGrounded;
 
-    [Header("SOUND EFFECTS")]
-    [SerializeField]
-    private AudioClip walkingOnGrassSound;
-
-    [SerializeField]
-    private AudioClip walkingOnStoneSound;
-
-    [SerializeField]
-    private AudioClip jumpSound;
-
-    [SerializeField]
-    private AudioClip doubleJumpSound;
-
-    [SerializeField]
-    private AudioClip slideSound;
-
-    [SerializeField]
-    private AudioClip stompSound;
-
-    [SerializeField]
-    private AudioClip dashSound;
-
     private void Awake()
     {
         speedParticles.Stop();
@@ -163,7 +139,8 @@ public class PlayerController : MonoBehaviour
 
         _walking =
             axis.magnitude > 0.1f && player.isGrounded && !_dashing && !_sliding && !_stomping;
-        AudioManager.instance.ReproduceWalkingSound(_walking, walkingOnGrassSound);
+        
+        //AudioManager1.Instance.PlaySfx(AudioManager1.Instance.GrassSteps);
 
         wasGrounded = groundedNow;
     }
@@ -301,7 +278,8 @@ public class PlayerController : MonoBehaviour
 
     private void StartDash(Vector3 direction)
     {
-        AudioManager.instance.ReproduceSoundEffect(dashSound, transform);
+        AudioManager.Instance.PlaySfx(AudioManager.Instance.Dash);
+        
         _dashing = true;
         canDash = false;
         dashDirection = direction.normalized * baseSpeed * dashMultiplier;
@@ -334,10 +312,11 @@ public class PlayerController : MonoBehaviour
 
     private void StartSlide(Vector3 direction)
     {
-        AudioManager.instance.ReproduceSoundEffect(slideSound, transform);
+        AudioManager.Instance.PlaySfx(AudioManager.Instance.Slide);
+
         _sliding = true;
         canSlideJump = true;
-        slideDirection = direction.normalized * baseSpeed * slideSpeedMultiplier;
+        slideDirection = direction.normalized * (baseSpeed * slideSpeedMultiplier);
         player.height = crouchHeight;
         player.center = new Vector3(player.center.x, crouchCenterY, player.center.z);
 
@@ -415,7 +394,7 @@ public class PlayerController : MonoBehaviour
         {
             fallVelocity = jumpForce;
             jumpsRemaining--;
-            AudioManager.instance.ReproduceSoundEffect(jumpSound, transform);
+            AudioManager.Instance.PlaySfx(AudioManager.Instance.Jump);
         }
 
         jumpBufferCounter = 0f;
@@ -430,7 +409,7 @@ public class PlayerController : MonoBehaviour
             fallVelocity = jumpForce;
             jumpsRemaining--;
             jumpBufferCounter = 0f;
-            AudioManager.instance.ReproduceSoundEffect(doubleJumpSound, transform);
+            AudioManager.Instance.PlaySfx(AudioManager.Instance.DoubleJump);
         }
 
         if (isPlayerJumping)
@@ -457,7 +436,8 @@ public class PlayerController : MonoBehaviour
 
     private void StartStomp()
     {
-        AudioManager.instance.ReproduceSoundEffect(stompSound, transform);
+        AudioManager.Instance.PlaySfx(AudioManager.Instance.Stomp);
+        
         weaponSway?.TriggerStompEffect();
         _stomping = true;
         fallVelocity = -stompForce;

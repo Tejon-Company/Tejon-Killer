@@ -5,7 +5,7 @@ public class SceneSelector : MonoBehaviour
 {
     void Start()
     {
-        AudioManager.instance.ReproduceMenuMusic();
+        
     }
 
     public void GoToScene(string sceneName)
