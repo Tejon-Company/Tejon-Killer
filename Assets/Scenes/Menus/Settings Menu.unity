@@ -287,12 +287,12 @@ PrefabInstance:
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SettingsMenu, Assembly-CSharp
+      value: SceneSelector, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: MainMenu
+      value: Main Menu
       objectReference: {fileID: 0}
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -730,7 +730,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2052841143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e40b3e6114b97ae44bda496d46fe6a6d, type: 3}
+  m_Script: {fileID: 11500000, guid: 252d136d29581094a8cbfaec3a70a404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807

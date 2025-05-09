@@ -525,6 +525,7 @@ GameObject:
   - component: {fileID: 307895709}
   - component: {fileID: 307895708}
   - component: {fileID: 307895712}
+  - component: {fileID: 307895713}
   m_Layer: 5
   m_Name: Main Canvas
   m_TagString: Untagged
@@ -624,7 +625,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 307895707}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62c0935e7b8bd3c47b5b8d1ef96abf04, type: 3}
+  m_Script: {fileID: 11500000, guid: 252d136d29581094a8cbfaec3a70a404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &307895713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307895707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73f19a1da419d04479791aa545287943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &455685976
@@ -848,7 +861,7 @@ PrefabInstance:
     - target: {fileID: 3330948118244518752, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_Name
-      value: Quit Panel
+      value: Quit Button Panel
       objectReference: {fileID: 0}
     - target: {fileID: 4242405518022224268, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -969,7 +982,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 307895712}
+      objectReference: {fileID: 307895713}
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -983,7 +996,7 @@ PrefabInstance:
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MainMenu, Assembly-CSharp
+      value: ExitHandler, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -1012,7 +1025,7 @@ PrefabInstance:
     - target: {fileID: 3330948118244518752, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_Name
-      value: Settings Panel
+      value: Settings Button Panel
       objectReference: {fileID: 0}
     - target: {fileID: 4242405518022224268, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -1152,7 +1165,7 @@ PrefabInstance:
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: SettingsMenu
+      value: Settings Menu
       objectReference: {fileID: 0}
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -1422,7 +1435,7 @@ PrefabInstance:
     - target: {fileID: 3330948118244518752, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_Name
-      value: Play Panel
+      value: Play Button Panel
       objectReference: {fileID: 0}
     - target: {fileID: 4242405518022224268, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
