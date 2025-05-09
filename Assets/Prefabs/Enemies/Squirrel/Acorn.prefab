@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6762614517525611186}
   - component: {fileID: 2617678375116430336}
   m_Layer: 0
-  m_Name: Nutty
+  m_Name: Acorn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

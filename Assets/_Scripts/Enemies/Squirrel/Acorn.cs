@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NuttyProjectile : MonoBehaviour
+public class Acorn : MonoBehaviour
 {
     [SerializeField]
     private float lifetimeAfterHit = 0.3f;
@@ -13,9 +13,12 @@ public class NuttyProjectile : MonoBehaviour
 
     private Rigidbody rb;
 
+    private AcornPool pool;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        pool = FindFirstObjectByType<AcornPool>();
     }
 
     private void FixedUpdate()
@@ -40,6 +43,13 @@ public class NuttyProjectile : MonoBehaviour
 
     private void Deactivate()
     {
-        gameObject.SetActive(false);
+        if (pool != null)
+        {
+            pool.ReturnProjectile(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false); 
+        }
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Scrat : MonoBehaviour
+public class Squirrel : MonoBehaviour
 {
     [Header("Referencias")]
     [SerializeField]
@@ -29,6 +29,7 @@ public class Scrat : MonoBehaviour
 
     [SerializeField]
     private Color flashColor = new Color(0.6f, 0.1f, 0.1f, 1f);
+
     private float lastShotTime = Mathf.NegativeInfinity;
     private Renderer[] scratRenderers;
     private Color[] originalColors;
@@ -69,8 +70,7 @@ public class Scrat : MonoBehaviour
 
     private void Update()
     {
-        if (player == null)
-            return;
+        if (player == null) return;
 
         float distance = Vector3.Distance(player.position, transform.position);
 
@@ -98,17 +98,17 @@ public class Scrat : MonoBehaviour
             return;
 
         float distance = Vector3.Distance(player.position, transform.position);
-        float verticalLaunch = Mathf.Lerp(
-            minVerticalLaunch,
-            maxVerticalLaunch,
-            distance / detectionRange
-        );
+        float verticalLaunch = Mathf.Lerp(minVerticalLaunch, maxVerticalLaunch, distance / detectionRange);
 
         Vector3 direction =
             (player.position - firePoint.position).normalized + Vector3.up * verticalLaunch;
 
         GameObject projectile = acornPool.GetProjectile(firePoint.position, direction);
 
+        if (projectile == null)
+            return;
+
+        // Ignorar colisiones con el propio enemigo
         if (projectile.TryGetComponent(out Collider projectileCol))
         {
             foreach (var col in GetComponentsInChildren<Collider>())
@@ -116,8 +116,6 @@ public class Scrat : MonoBehaviour
                 Physics.IgnoreCollision(projectileCol, col);
             }
         }
-
-        projectile.SetActive(true);
     }
 
     public void FlashRed()

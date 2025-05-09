@@ -1,23 +1,12 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AcornPool : MonoBehaviour
+public class AcornPool : ProjectilesPool
 {
-    [SerializeField]
-    private GameObject projectilePrefab;
-
-    [SerializeField]
-    private int poolSize = 10;
-
     [SerializeField]
     private float projectileSpeed = 10f;
 
-    private Queue<GameObject> pool;
-
-    private void Awake()
+    protected override void CreatePool()
     {
-        pool = new Queue<GameObject>();
-
         for (int i = 0; i < poolSize; i++)
         {
             GameObject proj = Instantiate(projectilePrefab);
@@ -28,17 +17,22 @@ public class AcornPool : MonoBehaviour
 
     public GameObject GetProjectile(Vector3 position, Vector3 direction)
     {
+        GameObject proj = GetProjectileFromPool();
+        return LaunchProjectile(proj, position, direction);
+    }
+
+    private GameObject GetProjectileFromPool()
+    {
         if (pool.Count > 0)
         {
-            GameObject proj = pool.Dequeue();
-            return LaunchProjectile(proj, position, direction);
+            return pool.Dequeue();
         }
         else
         {
-            Debug.LogWarning("No hay proyectiles disponibles en el pool.");
             return null;
         }
     }
+
 
     private GameObject LaunchProjectile(GameObject proj, Vector3 position, Vector3 direction)
     {
@@ -53,10 +47,16 @@ public class AcornPool : MonoBehaviour
         return proj;
     }
 
+    public override void Shoot(Vector3 position, Vector3 direction)
+    {
+        GameObject proj = GetProjectile(position, direction);
+        if (proj == null)
+            return;
+    }
+
     public void ReturnProjectile(GameObject proj)
     {
         proj.SetActive(false);
-
         pool.Enqueue(proj);
     }
 }

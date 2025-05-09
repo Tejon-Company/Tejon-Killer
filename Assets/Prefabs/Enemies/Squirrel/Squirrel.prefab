@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 2175173188599664901}
   - component: {fileID: 850522276252107268}
   m_Layer: 0
-  m_Name: Scrat
+  m_Name: Squirrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
