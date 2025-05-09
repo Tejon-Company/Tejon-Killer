@@ -142,9 +142,9 @@ public class PlayerController : MonoBehaviour
             axis.magnitude > 0.1f && player.isGrounded && !_dashing && !_sliding && !_stomping;
         
         if (_walking)
-            AudioManager.Instance.PlayFootstepSfx(AudioManager.Instance.GrassSteps);
+            FootstepSfxManager.Instance.PlayFootstepSfx(FootstepSfxManager.Instance.GrassSteps);
         else
-            AudioManager.Instance.StopFootstepSfx();
+            FootstepSfxManager.Instance.StopFootstepSfx();
 
         wasGrounded = groundedNow;
     }
@@ -282,7 +282,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartDash(Vector3 direction)
     {
-        AudioManager.Instance.PlaySfx(AudioManager.Instance.Dash);
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Dash);
         
         _dashing = true;
         canDash = false;
@@ -316,7 +316,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartSlide(Vector3 direction)
     {
-        AudioManager.Instance.PlaySfx(AudioManager.Instance.Slide);
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Slide);
 
         _sliding = true;
         canSlideJump = true;
@@ -398,7 +398,7 @@ public class PlayerController : MonoBehaviour
         {
             fallVelocity = jumpForce;
             jumpsRemaining--;
-            AudioManager.Instance.PlaySfx(AudioManager.Instance.Jump);
+            SfxManager.Instance.PlaySfx(SfxManager.Instance.Jump);
         }
 
         jumpBufferCounter = 0f;
@@ -413,7 +413,7 @@ public class PlayerController : MonoBehaviour
             fallVelocity = jumpForce;
             jumpsRemaining--;
             jumpBufferCounter = 0f;
-            AudioManager.Instance.PlaySfx(AudioManager.Instance.DoubleJump);
+            SfxManager.Instance.PlaySfx(SfxManager.Instance.DoubleJump);
         }
 
         if (isPlayerJumping)
@@ -440,7 +440,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartStomp()
     {
-        AudioManager.Instance.PlaySfx(AudioManager.Instance.Stomp);
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Stomp);
         
         weaponSway?.TriggerStompEffect();
         _stomping = true;

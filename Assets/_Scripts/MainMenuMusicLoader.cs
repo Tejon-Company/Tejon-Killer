@@ -7,7 +7,7 @@ namespace _Scripts
     {
         private void Start()
         {
-            AudioManager.Instance.PlayMusic(AudioManager.Instance.MenuBackgroundMusic);
+            MusicManager.Instance.PlayMusic(MusicManager.Instance.MenuBackgroundMusic);
         }
     }
 }

@@ -93,7 +93,7 @@ public class WeaponController : MonoBehaviour
 
     private void Shoot()
     {
-        AudioManager.Instance.PlaySfx(AudioManager.Instance.Shoot);
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Shoot);
         ShowFlashEffect();
 
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
@@ -155,7 +155,7 @@ public class WeaponController : MonoBehaviour
 
         isReloading = true;
         Debug.Log("Recargando...");
-        AudioManager.Instance.PlaySfx(AudioManager.Instance.Reload);
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
         yield return new WaitForSeconds(reloadTime);
 
         CurrentAmmo = MaxAmmo;

@@ -6,9 +6,14 @@ namespace _Scripts.Managers.Audio
 {
     public class VolumeSettings : MonoBehaviour
     {
-        [SerializeField] private AudioMixer audioMixer;
-        [SerializeField] private Slider musicSlider;
-        [SerializeField] private Slider sfxSlider;
+        [SerializeField]
+        private AudioMixer audioMixer;
+        
+        [SerializeField]
+        private Slider musicSlider;
+        
+        [SerializeField]
+        private Slider sfxSlider;
     
         public void SetMusicVolume()
         {
