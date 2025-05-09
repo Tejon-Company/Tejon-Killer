@@ -1,4 +1,5 @@
 using System.Collections;
+using _Scripts.Managers.Audio;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
