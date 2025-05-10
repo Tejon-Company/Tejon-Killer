@@ -4,10 +4,12 @@ namespace _Scripts.Managers.Audio
 {
     public class MusicManager : MonoBehaviour
     {
-        [Header("AUDIO SOURCE")] [SerializeField]
+        [Header("AUDIO SOURCE")]
+        [SerializeField]
         private AudioSource musicSource;
 
-        [Header("AUDIO CLIP")] [SerializeField]
+        [Header("AUDIO CLIP")]
+        [SerializeField]
         private AudioClip menuBackgroundMusic;
 
         public static MusicManager Instance { get; private set; }

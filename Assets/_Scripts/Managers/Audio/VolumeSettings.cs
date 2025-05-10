@@ -8,13 +8,13 @@ namespace _Scripts.Managers.Audio
     {
         [SerializeField]
         private AudioMixer audioMixer;
-        
+
         [SerializeField]
         private Slider musicSlider;
-        
+
         [SerializeField]
         private Slider sfxSlider;
-    
+
         public void SetMusicVolume()
         {
             var volume = musicSlider.value;

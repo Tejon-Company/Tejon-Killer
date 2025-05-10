@@ -3,10 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneSelector : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
+    void Start() { }
 
     public void GoToScene(string sceneName)
     {

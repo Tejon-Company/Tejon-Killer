@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
 
         _walking =
             axis.magnitude > 0.1f && player.isGrounded && !_dashing && !_sliding && !_stomping;
-        
+
         if (_walking)
             FootstepSfxManager.Instance.PlayFootstepSfx(FootstepSfxManager.Instance.GrassSteps);
         else
@@ -283,7 +283,7 @@ public class PlayerController : MonoBehaviour
     private void StartDash(Vector3 direction)
     {
         SfxManager.Instance.PlaySfx(SfxManager.Instance.Dash);
-        
+
         _dashing = true;
         canDash = false;
         dashDirection = direction.normalized * baseSpeed * dashMultiplier;
@@ -441,7 +441,7 @@ public class PlayerController : MonoBehaviour
     private void StartStomp()
     {
         SfxManager.Instance.PlaySfx(SfxManager.Instance.Stomp);
-        
+
         weaponSway?.TriggerStompEffect();
         _stomping = true;
         fallVelocity = -stompForce;

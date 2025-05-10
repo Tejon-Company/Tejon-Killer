@@ -5,11 +5,11 @@ namespace _Scripts.Managers.Audio
     public class SfxManager : MonoBehaviour
     {
         public static SfxManager Instance { get; private set; }
-        
+
         [Header("AUDIO SOURCE")]
         [SerializeField]
         private AudioSource sfxSource;
-        
+
         [Header("AUDIO CLIP")]
         [SerializeField]
         private AudioClip shoot;
@@ -38,7 +38,7 @@ namespace _Scripts.Managers.Audio
         [SerializeField]
         private AudioClip dash;
         public AudioClip Dash => dash;
-        
+
         private void Awake()
         {
             if (Instance is null)
@@ -51,12 +51,12 @@ namespace _Scripts.Managers.Audio
                 Destroy(gameObject);
             }
         }
-        
+
         public void PlaySfx(AudioClip clip)
         {
             if (sfxSource.isPlaying && sfxSource.clip == clip)
                 return;
-            
+
             sfxSource.PlayOneShot(clip);
         }
     }
