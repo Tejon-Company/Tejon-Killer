@@ -155,9 +155,9 @@ public class WeaponController : MonoBehaviour
 
         isReloading = true;
         Debug.Log("Recargando...");
-        SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
         yield return new WaitForSeconds(reloadTime);
 
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
         CurrentAmmo = MaxAmmo;
         UpdateAmmoUI();
         isReloading = false;
