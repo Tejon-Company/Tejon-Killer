@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Acorn : MonoBehaviour
 {
+    [Header("Variables de disparo")]
     [SerializeField]
     private float lifetimeAfterHit = 0.3f;
 
@@ -13,12 +14,16 @@ public class Acorn : MonoBehaviour
 
     private Rigidbody rb;
 
-    private AcornPool pool;
+    private ProjectilesPool pool;
 
-    private void Start()
+    public void Init(ProjectilesPool poolRef)
+    {
+        pool = poolRef;
+    }
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        pool = FindFirstObjectByType<AcornPool>();
     }
 
     private void FixedUpdate()

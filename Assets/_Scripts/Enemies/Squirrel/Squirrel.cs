@@ -5,7 +5,7 @@ public class Squirrel : MonoBehaviour
 {
     [Header("Referencias")]
     [SerializeField]
-    private AcornPool acornPool;
+    private ProjectilesPool acornPool;
 
     [SerializeField]
     private Transform firePoint;
@@ -31,12 +31,20 @@ public class Squirrel : MonoBehaviour
     private Color flashColor = new Color(0.6f, 0.1f, 0.1f, 1f);
 
     private float lastShotTime = Mathf.NegativeInfinity;
+    private float distanceToPlayer;
+    private float verticalLaunch;
     private Renderer[] scratRenderers;
     private Color[] originalColors;
     private Transform player;
     private MaterialPropertyBlock propBlock;
 
     private void Awake()
+    {
+        InitRenderers();
+        FindReferences();
+    }
+
+    private void InitRenderers()
     {
         scratRenderers = GetComponentsInChildren<Renderer>();
         originalColors = new Color[scratRenderers.Length];
@@ -47,24 +55,19 @@ public class Squirrel : MonoBehaviour
             scratRenderers[i].GetPropertyBlock(propBlock);
             originalColors[i] = propBlock.GetColor("_BaseColor");
         }
+    }
 
+    private void FindReferences()
+    {
         if (acornPool == null)
         {
-            acornPool = FindFirstObjectByType<AcornPool>();
-            if (acornPool == null)
-            {
-                Debug.LogError("No se encontró una instancia de AcornPool.");
-            }
+            acornPool = FindFirstObjectByType<ProjectilesPool>();
         }
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
             player = playerObj.transform;
-        }
-        else
-        {
-            Debug.LogError("No se encontró el jugador con la etiqueta 'Player'.");
         }
     }
 
@@ -97,24 +100,50 @@ public class Squirrel : MonoBehaviour
         if (acornPool == null || player == null || firePoint == null)
             return;
 
-        float distance = Vector3.Distance(player.position, transform.position);
-        float verticalLaunch = Mathf.Lerp(minVerticalLaunch, maxVerticalLaunch, distance / detectionRange);
+        Vector3 targetPosition = GetTargetPosition();
+        LaunchAt(targetPosition);
+    }
 
-        Vector3 direction =
-            (player.position - firePoint.position).normalized + Vector3.up * verticalLaunch;
+    private Vector3 GetTargetPosition()
+    {
+        if (player.TryGetComponent(out Collider playerCollider))
+        {
+            return playerCollider.bounds.center;
+        }
+        else
+        {
+            return player.position + Vector3.up * 1.0f;
+        }
+    }
 
-        GameObject projectile = acornPool.GetProjectile(firePoint.position, direction);
+    private void LaunchAt(Vector3 targetPosition)
+    {
+        distanceToPlayer = Vector3.Distance(targetPosition, transform.position);
 
+        float launchThreshold = detectionRange * 0.5f; 
+        verticalLaunch = (distanceToPlayer < launchThreshold) ? minVerticalLaunch : maxVerticalLaunch;
+
+        GameObject projectile = acornPool.GetProjectile(firePoint);
         if (projectile == null)
             return;
 
-        // Ignorar colisiones con el propio enemigo
-        if (projectile.TryGetComponent(out Collider projectileCol))
+        Vector3 toTarget = targetPosition - firePoint.position;
+        Vector3 direction = new Vector3(toTarget.x, verticalLaunch, toTarget.z).normalized;
+
+        acornPool.LaunchProjectile(projectile, direction);
+
+        IgnoreSelfCollisions(projectile);
+    }
+
+    private void IgnoreSelfCollisions(GameObject other)
+    {
+        if (!other.TryGetComponent(out Collider otherCol))
+            return;
+
+        Collider[] ownColliders = GetComponentsInChildren<Collider>();
+        foreach (var col in ownColliders)
         {
-            foreach (var col in GetComponentsInChildren<Collider>())
-            {
-                Physics.IgnoreCollision(projectileCol, col);
-            }
+            Physics.IgnoreCollision(otherCol, col);
         }
     }
 
