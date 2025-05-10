@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using _Scripts.Managers;
+using _Scripts.Menus;
 using UnityEngine;
 
 namespace _Scripts.Player
@@ -23,7 +25,7 @@ namespace _Scripts.Player
         private Transform aimingPosition;
 
         private readonly WeaponController[] weaponSlots = new WeaponController[5];
-        public int ActiveWeaponIndex { get; private set; } = -1;
+        private int ActiveWeaponIndex { get; set; } = -1;
 
         private void Start()
         {
@@ -41,9 +43,9 @@ namespace _Scripts.Player
         {
             weaponParentSocket.position = defaultWeaponPosition.position;
 
-            for (int i = 0; i < weaponSlots.Length; i++)
+            for (var i = 0; i < weaponSlots.Length; i++)
             {
-                if (weaponSlots[i] != null)
+                if (weaponSlots[i] is not null)
                     continue;
 
                 var weaponInstance = Instantiate(weaponPrefab, weaponParentSocket);
@@ -64,7 +66,7 @@ namespace _Scripts.Player
             DeactivateCurrentWeapon();
 
             var newWeapon = weaponSlots[index];
-            if (newWeapon == null)
+            if (newWeapon is null)
             {
                 Debug.LogWarning($"No hay arma en el slot {index}");
                 return;
@@ -79,8 +81,7 @@ namespace _Scripts.Player
                 return;
 
             var currentWeapon = weaponSlots[ActiveWeaponIndex];
-            if (currentWeapon != null)
-                currentWeapon.gameObject.SetActive(false);
+            currentWeapon?.gameObject.SetActive(false);
         }
 
         private void ActivateWeapon(WeaponController weapon, int index)
@@ -94,11 +95,9 @@ namespace _Scripts.Player
         private void SetupSway(WeaponController weapon)
         {
             var sway = weapon.GetComponent<Sway>();
-            if (sway != null)
-            {
-                sway.SetPlayerController(playerController);
-                playerController.SetWeaponSway(sway);
-            }
+            if (sway is null) return;
+            sway.SetPlayerController(playerController);
+            playerController.SetWeaponSway(sway);
         }
 
         private bool IsValidSlot(int index)

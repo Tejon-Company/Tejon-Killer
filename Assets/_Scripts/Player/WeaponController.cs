@@ -1,5 +1,7 @@
 using System.Collections;
+using _Scripts.Managers;
 using _Scripts.Managers.Audio;
+using _Scripts.Menus;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -61,6 +63,10 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
+        if (PauseMenuHandler.IsPaused)
+        {
+            return;
+        }
         HandleFireInput();
         HandleReloadInput();
     }

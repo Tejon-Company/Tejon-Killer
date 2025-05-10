@@ -3,24 +3,27 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-[Serializable]
-public class Int2Event : UnityEvent<int, int>
+namespace _Scripts.Managers
 {
-}
-
-public class EventManager : MonoBehaviour
-{
-    public static EventManager current;
-
-    public Int2Event updateBulletsEvent = new();
-    [FormerlySerializedAs("NewGunEvent")] public UnityEvent newGunEvent = new();
-    public UnityEvent healthChangedEvent = new();
-
-    private void Awake()
+    [Serializable]
+    public class Int2Event : UnityEvent<int, int>
     {
-        if (current is null)
-            current = this;
-        else
-            Destroy(this);
+    }
+
+    public class EventManager : MonoBehaviour
+    {
+        public static EventManager current;
+
+        public Int2Event updateBulletsEvent = new();
+        [FormerlySerializedAs("NewGunEvent")] public UnityEvent newGunEvent = new();
+        public UnityEvent healthChangedEvent = new();
+
+        private void Awake()
+        {
+            if (current is null)
+                current = this;
+            else
+                Destroy(this);
+        }
     }
 }
