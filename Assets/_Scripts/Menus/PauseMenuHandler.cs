@@ -1,40 +1,50 @@
 ﻿using System;
 using UnityEngine;
 
-namespace _Scripts
+namespace _Scripts.Menus
 {
     public class PauseMenuHandler : MonoBehaviour
     {
-        private bool isPaused;
-        
+        public static bool IsPaused { get; private set; }
+
+        [SerializeField]
+        private GameObject pauseMenu;
+
+        private void Start()
+        {
+            //pauseMenu.SetActive(false);
+        }
+
         private void Update()
         {
             if (!Input.GetKeyDown(KeyCode.Escape))
             {
                 return;
             }
-            
-            if (!isPaused)
+
+            Debug.Log("scape pressed");
+
+            if (IsPaused)
             {
-                isPaused = true;
-                Show();
+                ResumeGame();
             }
             else
             {
-                isPaused = false;
-                Resume();
+                ShowPauseMenu();
             }
         }
 
-        private void Show()
+        private void ShowPauseMenu()
         {
-            gameObject.SetActive(true);
+            IsPaused = true;
+            pauseMenu.SetActive(true);
             Time.timeScale = 0f;
         }
-        
-        public void Resume()
+
+        public void ResumeGame()
         {
-            gameObject.SetActive(false);
+            IsPaused = false;
+            pauseMenu.SetActive(false);
             Time.timeScale = 1f;
         }
     }

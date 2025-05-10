@@ -88,7 +88,7 @@ namespace _Scripts.Player
             weapon.gameObject.SetActive(true);
             SetupSway(weapon);
             ActiveWeaponIndex = index;
-            EventManager.current.NewGunEvent.Invoke();
+            EventManager.current.newGunEvent.Invoke();
         }
 
         private void SetupSway(WeaponController weapon)

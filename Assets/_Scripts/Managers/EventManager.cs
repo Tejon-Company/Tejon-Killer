@@ -1,28 +1,26 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 [Serializable]
-public class Int2Event : UnityEvent<int, int> { }
+public class Int2Event : UnityEvent<int, int>
+{
+}
 
 public class EventManager : MonoBehaviour
 {
     public static EventManager current;
 
-    void Awake()
-    {
-        if (current == null)
-        {
-            current = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
-    }
+    public Int2Event updateBulletsEvent = new();
+    [FormerlySerializedAs("NewGunEvent")] public UnityEvent newGunEvent = new();
+    public UnityEvent healthChangedEvent = new();
 
-    public Int2Event updateBulletsEvent = new Int2Event();
-    public UnityEvent NewGunEvent = new UnityEvent();
-    public UnityEvent healthChangedEvent = new UnityEvent();
+    private void Awake()
+    {
+        if (current is null)
+            current = this;
+        else
+            Destroy(this);
+    }
 }
