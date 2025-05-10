@@ -1,4 +1,5 @@
 using System.Collections;
+using _Scripts.Managers.Audio;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -119,6 +120,7 @@ public class WeaponController : MonoBehaviour
 
     private void Shoot()
     {
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Shoot);
         ShowFlashEffect();
 
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
@@ -183,6 +185,7 @@ public class WeaponController : MonoBehaviour
         Debug.Log("Recargando...");
         yield return new WaitForSeconds(reloadTime);
 
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
         CurrentAmmo = MaxAmmo;
         UpdateAmmoUI();
         isReloading = false;
