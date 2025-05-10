@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RageUI : MonoBehaviour
+public class RageHUD : MonoBehaviour
 {
     [SerializeField] private GameObject frameRoot;
     [SerializeField] private Image rageBarFill;
