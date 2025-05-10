@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 4929301819164015792}
   - component: {fileID: 387820757797381042}
   - component: {fileID: 3335210250472109512}
+  - component: {fileID: 6916228344230268104}
   m_Layer: 0
   m_Name: Audio Manager
   m_TagString: Untagged
@@ -216,6 +217,21 @@ MonoBehaviour:
   footstepSource: {fileID: 4200487428066354185}
   grassSteps: {fileID: 8300000, guid: d2ca4f09705130846aa15fc9578a141b, type: 3}
   stoneSteps: {fileID: 8300000, guid: b803821c247630a438522bb49eac3c01, type: 3}
+--- !u!114 &6916228344230268104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4893496218062252445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8535312c2c5c488c8fdcacf9409a0628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 255eac4512733c74f9d9edfce16ac5ad, type: 2}
+  musicSlider: {fileID: 0}
+  sfxSlider: {fileID: 0}
 --- !u!1 &7047622834401027821
 GameObject:
   m_ObjectHideFlags: 0

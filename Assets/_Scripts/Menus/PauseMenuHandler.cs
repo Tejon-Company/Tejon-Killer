@@ -6,11 +6,19 @@ namespace _Scripts.Menus
 {
     public class PauseMenuHandler : MonoBehaviour
     {
-        private static bool isPaused;
-        public static bool IsPaused => isPaused;
+        public static bool IsPaused { get; private set; }
 
         [SerializeField]
         private GameObject pauseMenu;
+
+        private void Start()
+        {
+            if (pauseMenu is null)
+                throw new NullReferenceException("Pause menu is not assigned in the inspector.");
+
+            pauseMenu.SetActive(false);
+            IsPaused = false;
+        }
 
         private void Update()
         {
@@ -26,7 +34,7 @@ namespace _Scripts.Menus
         private void ShowPauseMenu()
         {
             RotateView.UnlockCursor();
-            isPaused = true;
+            IsPaused = true;
             pauseMenu.SetActive(true);
             Time.timeScale = 0f;
         }
@@ -34,7 +42,7 @@ namespace _Scripts.Menus
         public void ResumeGame()
         {
             RotateView.LockCursor();
-            isPaused = false;
+            IsPaused = false;
             pauseMenu.SetActive(false);
             Time.timeScale = 1f;
         }
