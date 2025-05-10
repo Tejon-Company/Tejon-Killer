@@ -525,6 +525,8 @@ GameObject:
   - component: {fileID: 307895709}
   - component: {fileID: 307895708}
   - component: {fileID: 307895712}
+  - component: {fileID: 307895713}
+  - component: {fileID: 307895714}
   m_Layer: 5
   m_Name: Main Canvas
   m_TagString: Untagged
@@ -624,7 +626,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 307895707}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62c0935e7b8bd3c47b5b8d1ef96abf04, type: 3}
+  m_Script: {fileID: 11500000, guid: 252d136d29581094a8cbfaec3a70a404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &307895713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307895707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73f19a1da419d04479791aa545287943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &307895714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307895707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a8340d38134e2e984487ea8c6ad12e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &455685976
@@ -703,55 +729,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 455685976}
   m_CullTransparentMesh: 1
---- !u!1 &521049670
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 521049672}
-  - component: {fileID: 521049671}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &521049671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 521049670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e464c85b7684364ebaa017e74d107a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundEffectPrefab: {fileID: 4318004222823377860, guid: 4b2aa38908fc1f34e88af9ceb5ae6be1,
-    type: 3}
-  _defaultShootSound: {fileID: 8300000, guid: 82a6ce4a95ecbbe44aa73b8828facd1a, type: 3}
-  _defaultReloadSound: {fileID: 8300000, guid: af9c9146348533340a2e558f8c9a754b, type: 3}
-  menuMusic: {fileID: 8300000, guid: 25635da129086364aa704b24a19cea6e, type: 3}
---- !u!4 &521049672
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 521049670}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50.753593, y: 2.388011, z: -10.53313}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &907704693
 GameObject:
   m_ObjectHideFlags: 0
@@ -848,7 +825,7 @@ PrefabInstance:
     - target: {fileID: 3330948118244518752, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_Name
-      value: Quit Panel
+      value: Quit Button Panel
       objectReference: {fileID: 0}
     - target: {fileID: 4242405518022224268, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -969,7 +946,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 307895712}
+      objectReference: {fileID: 307895713}
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -983,7 +960,7 @@ PrefabInstance:
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MainMenu, Assembly-CSharp
+      value: ExitHandler, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -1012,7 +989,7 @@ PrefabInstance:
     - target: {fileID: 3330948118244518752, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_Name
-      value: Settings Panel
+      value: Settings Button Panel
       objectReference: {fileID: 0}
     - target: {fileID: 4242405518022224268, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -1152,7 +1129,7 @@ PrefabInstance:
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: SettingsMenu
+      value: Settings Menu
       objectReference: {fileID: 0}
     - target: {fileID: 6655770696965665275, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -1170,6 +1147,74 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1695786765}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1792908831
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4893496218062252445, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_Name
+      value: Audio Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393557296453013098, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393557296453013098, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393557296453013098, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393557296453013098, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393557296453013098, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393557296453013098, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393557296453013098, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393557296453013098, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393557296453013098, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8393557296453013098, guid: 4705d86337f5c7940942558b0a16618f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4705d86337f5c7940942558b0a16618f, type: 3}
 --- !u!1 &2101156261
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,7 +1467,7 @@ PrefabInstance:
     - target: {fileID: 3330948118244518752, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
       propertyPath: m_Name
-      value: Play Panel
+      value: Play Button Panel
       objectReference: {fileID: 0}
     - target: {fileID: 4242405518022224268, guid: 71cdebfeadbd442439da2c9ad92d0c38,
         type: 3}
@@ -1591,4 +1636,4 @@ SceneRoots:
   - {fileID: 2117007968}
   - {fileID: 307895711}
   - {fileID: 151149330}
-  - {fileID: 521049672}
+  - {fileID: 1792908831}
