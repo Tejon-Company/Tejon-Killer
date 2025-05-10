@@ -17,6 +17,7 @@ namespace _Scripts.Managers.Audio
 
         public void SetMusicVolume()
         {
+            Debug.Log("Setting music volume");
             var volume = musicSlider.value;
             var volumeInDecibels = Mathf.Log10(volume) * 20;
             audioMixer.SetFloat("Music", volumeInDecibels);
