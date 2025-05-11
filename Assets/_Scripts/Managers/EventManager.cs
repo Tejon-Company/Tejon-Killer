@@ -3,16 +3,16 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-namespace _Scripts.Managers
-{
-    [Serializable]
-    public class Int2Event : UnityEvent<int, int>
-    {
-    }
+[Serializable]
+public class Int2Event : UnityEvent<int, int> { }
 
-    public class EventManager : MonoBehaviour
-    {
-        public static EventManager current;
+
+[Serializable]
+public class RageEvent : UnityEvent<float, float, float, float> { }
+
+public class EventManager : MonoBehaviour
+{
+    public static EventManager current;
 
         public Int2Event updateBulletsEvent = new();
         [FormerlySerializedAs("NewGunEvent")] public UnityEvent newGunEvent = new();
@@ -26,4 +26,10 @@ namespace _Scripts.Managers
                 Destroy(this);
         }
     }
+
+    public Int2Event updateBulletsEvent = new Int2Event();
+    public UnityEvent NewGunEvent = new UnityEvent();
+    public UnityEvent healthChangedEvent = new UnityEvent();
+    public RageEvent rageBerryEvent = new RageEvent();
+
 }

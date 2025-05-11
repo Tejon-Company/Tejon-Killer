@@ -3,7 +3,7 @@ using _Scripts.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeartsUI : MonoBehaviour
+public class HeartsHUD : MonoBehaviour
 {
     [SerializeField]
     private Sprite heartSprite;

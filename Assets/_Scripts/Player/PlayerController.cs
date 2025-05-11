@@ -106,7 +106,12 @@ namespace _Scripts.Player
         private Sway weaponSway;
         private bool wasGrounded;
 
-        private void Awake()
+        [Header("Rage Parameters")]
+    private bool isRaging = false;
+    private float rageEndTime = 0f;
+    private float originalBaseSpeed;
+    private float originalJumpForce;
+    private bool endRage;private void Awake()
         {
             speedParticles.Stop();
             dashParticles.Stop();
@@ -125,6 +130,22 @@ namespace _Scripts.Player
                 return;
             }
         
+            UpdateTimers();
+        private void OnEnable()
+        {
+            if (EventManager.current != null)
+                EventManager.current.rageBerryEvent.AddListener(ApplyRage);
+        }
+
+        private void OnDisable()
+        {
+            if (EventManager.current != null)
+                EventManager.current.rageBerryEvent.RemoveListener(ApplyRage);
+        }
+
+        private void Update()
+        {
+            HandleRageState();
             UpdateTimers();
 
             var groundedNow = player.isGrounded;
@@ -160,6 +181,20 @@ namespace _Scripts.Player
         {
             if (stompTimeCounter > 0f)
                 stompTimeCounter -= Time.deltaTime;
+    private void HandleRageState()
+    {
+        if (isRaging && Time.time >= rageEndTime)
+        {
+            baseSpeed = originalBaseSpeed;
+            jumpForce = originalJumpForce;
+            isRaging = false;
+        }
+    }
+
+    private void UpdateTimers()
+    {
+        if (stompTimeCounter > 0f)
+            stompTimeCounter -= Time.deltaTime;
 
             if (jumpBufferCounter > 0f)
                 jumpBufferCounter -= Time.deltaTime;
@@ -173,6 +208,14 @@ namespace _Scripts.Player
 
             stompParticles?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
+
+        if (endRage)
+        {
+            baseSpeed = originalBaseSpeed;
+            jumpForce = originalJumpForce;
+            isRaging = false;
+        }
+    }
 
         private void HandleInput()
         {
@@ -444,5 +487,20 @@ namespace _Scripts.Player
         {
             return slideDirection;
         }
+    }
+
+    public void ApplyRage(float playerBaseSpeedMultiplier, float playerJumpForceMultiplier, float weaponFireRateMultiplier, float duration)
+    {
+        if (!isRaging)
+        {
+            originalBaseSpeed = baseSpeed;
+            originalJumpForce = jumpForce;
+        }
+
+        baseSpeed = originalBaseSpeed * playerBaseSpeedMultiplier;
+        jumpForce = originalJumpForce * playerJumpForceMultiplier;
+
+        rageEndTime = Time.time + duration;
+        isRaging = true;
     }
 }
