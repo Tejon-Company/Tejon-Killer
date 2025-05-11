@@ -91,7 +91,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
     private void SetupSway(WeaponController weapon)
     {
-        var sway = weapon.GetComponent<Sway>();
+        var sway = weapon.GetComponent<GunAnimations>();
         if (sway != null)
         {
             sway.SetPlayerController(playerController);

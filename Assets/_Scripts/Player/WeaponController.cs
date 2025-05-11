@@ -8,7 +8,7 @@ public class WeaponController : MonoBehaviour
     private Transform weaponMuzzle;
 
     [SerializeField]
-    private Sway sway;
+    private GunAnimations sway;
 
     [Header("Parámetros de disparo")]
     [SerializeField]
@@ -20,6 +20,9 @@ public class WeaponController : MonoBehaviour
     [SerializeField]
     private float fireRate = 0.2f;
 
+    [SerializeField]
+    private int shotDamage = 10;
+
     [Header("Munición")]
     [SerializeField]
     private int maxAmmo = 8;
@@ -28,7 +31,7 @@ public class WeaponController : MonoBehaviour
 
     [Header("Recarga")]
     [SerializeField]
-    private float reloadTime = 1.5f;
+    private float reloadTime = 0.85f;
     private bool isReloading;
 
     [Header("Efectos visuales")]
@@ -99,6 +102,12 @@ public class WeaponController : MonoBehaviour
         {
             ShowBulletHole(hit);
             ShowTracerEffect(weaponMuzzle.position, hit.point);
+            /*
+                        EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
+                        if (enemy != null)
+                        {
+                            enemy.TakeDamage(shotDamage);
+                        }*/
         }
 
         sway?.ApplyRecoil();
@@ -152,13 +161,15 @@ public class WeaponController : MonoBehaviour
             yield break;
 
         isReloading = true;
-        Debug.Log("Recargando...");
+
+        if (sway != null)
+            sway.PlayReloadAnimation(reloadTime);
+
         yield return new WaitForSeconds(reloadTime);
 
         CurrentAmmo = MaxAmmo;
         UpdateAmmoUI();
         isReloading = false;
-        Debug.Log("¡Recargada!");
     }
 
     private void UpdateAmmoUI()

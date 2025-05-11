@@ -1,10 +1,12 @@
+using System.Collections;
 using UnityEngine;
 
-public class Sway : MonoBehaviour
+public class GunAnimations : MonoBehaviour
 {
     private Quaternion originLocalRotation;
     private Vector3 originLocalPosition;
     private Vector3 targetSlideOffset;
+    private Quaternion reloadRotation = Quaternion.identity;
 
     [Header("Sway Settings")]
     [SerializeField]
@@ -55,6 +57,8 @@ public class Sway : MonoBehaviour
     private float stompOffsetRotation = 340f;
     private Vector3 stompOffset = Vector3.zero;
 
+    private Vector3 reloadPositionOffset = Vector3.zero;
+    private Coroutine reloadAnimationCoroutine;
     private Vector3 recoilOffsetAccum;
     private Vector3 recoilRotationAccum;
 
@@ -101,7 +105,8 @@ public class Sway : MonoBehaviour
         swayRotation *= Quaternion.AngleAxis(-xInput * balanceFactor, Vector3.up);
         swayRotation *= Quaternion.AngleAxis(yInput * balanceFactor, Vector3.right);
 
-        Quaternion targetRotation = originLocalRotation * currentRecoilRotation * swayRotation;
+        Quaternion targetRotation =
+            originLocalRotation * currentRecoilRotation * swayRotation * reloadRotation;
 
         transform.localRotation = Quaternion.Lerp(
             transform.localRotation,
@@ -117,7 +122,8 @@ public class Sway : MonoBehaviour
             + targetSlideOffset
             + currentRecoilOffset
             + jumpOffset
-            + stompOffset;
+            + stompOffset
+            + reloadPositionOffset;
         transform.localPosition = Vector3.Lerp(
             transform.localPosition,
             finalPosition,
@@ -197,5 +203,64 @@ public class Sway : MonoBehaviour
     public void SetPlayerController(PlayerController controller)
     {
         playerController = controller;
+    }
+
+    public void PlayReloadAnimation(float duration)
+    {
+        if (reloadAnimationCoroutine != null)
+            StopCoroutine(reloadAnimationCoroutine);
+
+        reloadAnimationCoroutine = StartCoroutine(ReloadAnimation(duration));
+    }
+
+    private IEnumerator ReloadAnimation(float duration)
+    {
+        float elapsed = 0f;
+        float quarter = duration / 4f;
+        Vector3 downOffset = new Vector3(0f, -0.1f, 0f);
+
+        while (elapsed < quarter)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / quarter);
+            float angle = Mathf.Lerp(0f, 45f, t);
+            reloadRotation = Quaternion.Euler(0f, 0f, angle);
+            reloadPositionOffset = Vector3.zero;
+            yield return null;
+        }
+
+        elapsed = 0f;
+        while (elapsed < quarter)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / quarter);
+            reloadRotation = Quaternion.Euler(0f, 0f, 45f);
+            reloadPositionOffset = Vector3.Lerp(Vector3.zero, downOffset, t);
+            yield return null;
+        }
+
+        elapsed = 0f;
+        while (elapsed < quarter)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / quarter);
+            reloadRotation = Quaternion.Euler(0f, 0f, 45f);
+            reloadPositionOffset = Vector3.Lerp(downOffset, Vector3.zero, t);
+            yield return null;
+        }
+
+        elapsed = 0f;
+        while (elapsed < quarter)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / quarter);
+            float angle = Mathf.Lerp(45f, 0f, t);
+            reloadRotation = Quaternion.Euler(0f, 0f, angle);
+            reloadPositionOffset = Vector3.zero;
+            yield return null;
+        }
+
+        reloadRotation = Quaternion.identity;
+        reloadPositionOffset = Vector3.zero;
     }
 }

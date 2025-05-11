@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
         crouchHeight = 1f;
     private float originalCenterY,
         crouchCenterY = 0.5f;
-    private Sway weaponSway;
+    private GunAnimations gunAnimations;
     private bool wasGrounded;
     private bool cond1;
     private bool cond2;
@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
         if (jumpInput)
         {
             jumpBufferCounter = jumpBufferTime;
-            weaponSway?.TriggerJumpEffect();
+            gunAnimations?.TriggerJumpEffect();
         }
 
         dashInput = Input.GetButtonDown("Sprint");
@@ -268,9 +268,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetWeaponSway(Sway newSway)
+    public void SetWeaponSway(GunAnimations gunAnimation)
     {
-        weaponSway = newSway;
+        gunAnimations = gunAnimation;
     }
 
     private void StartDash(Vector3 direction)
@@ -427,7 +427,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartStomp()
     {
-        weaponSway?.TriggerStompEffect();
+        gunAnimations?.TriggerStompEffect();
         _stomping = true;
         fallVelocity = -stompForce;
         if (stompParticles != null)
