@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.Audio;
 
 namespace _Scripts.Managers.Audio
@@ -21,46 +23,55 @@ namespace _Scripts.Managers.Audio
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
                 LoadSavedVolumes();
+                StartCoroutine(ReapplyVolumesAfterDelay());
             }
             else
             {
                 Destroy(gameObject);
             }
         }
-
+        
+        private IEnumerator ReapplyVolumesAfterDelay()
+        {
+            // Wait for the first frame to ensure the audio mixer is initialized
+            yield return null;
+            
+            ApplyMusicVolume();
+            ApplySfxVolume();
+        }
+       
         private void LoadSavedVolumes()
         {
-            Debug.Log("load seved volumes");
             MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
             SfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
             
-            ApplyMusicVolume(MusicVolume);
-            ApplySfxVolume(SfxVolume);
+            ApplyMusicVolume();
+            ApplySfxVolume();
         }
 
         public void SetMusicVolume(float volume)
         {
             MusicVolume = volume;
             PlayerPrefs.SetFloat("MusicVolume", volume);
-            ApplyMusicVolume(volume);
+            ApplyMusicVolume();
         }
 
         public void SetSfxVolume(float volume)
         {
             SfxVolume = volume;
             PlayerPrefs.SetFloat("SFXVolume", volume);
-            ApplySfxVolume(volume);
+            ApplySfxVolume();
         }
         
-        private void ApplyMusicVolume(float volume)
+        private void ApplyMusicVolume()
         {
-            var volumeInDecibels = Mathf.Log10(volume) * 20;
+            var volumeInDecibels = Mathf.Log10(MusicVolume) * 20;
             audioMixer.SetFloat("Music", volumeInDecibels);
         }
         
-        private void ApplySfxVolume(float volume)
+        private void ApplySfxVolume()
         {
-            var volumeInDecibels = Mathf.Log10(volume) * 20;
+            var volumeInDecibels = Mathf.Log10(SfxVolume) * 20;
             audioMixer.SetFloat("SFX", volumeInDecibels);
         }
     }

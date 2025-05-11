@@ -14,7 +14,6 @@ namespace _Scripts.Managers.Audio
 
         private void Start()
         {
-            Debug.Log("VolumeSettingsConnector Start");
             if (VolumeSettings.Instance is null)
                 return;
             
