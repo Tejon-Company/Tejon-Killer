@@ -11,7 +11,7 @@ public class HUD_Manager : MonoBehaviour
 
     void Start()
     {
-        EventManager.current.newGunEvent.AddListener(CreateWeaponInfo);
+        EventManager.Current.newGunEvent.AddListener(CreateWeaponInfo);
     }
 
     public void CreateWeaponInfo()

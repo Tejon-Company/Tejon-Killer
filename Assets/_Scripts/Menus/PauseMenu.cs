@@ -2,7 +2,6 @@
 using _Scripts.Camera;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace _Scripts.Menus
 {
@@ -54,7 +53,7 @@ namespace _Scripts.Menus
             Time.timeScale = 1f;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-        
+
         public void QuitGame()
         {
             Debug.Log("Quit game");

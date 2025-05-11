@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using _Scripts.Managers;
-using _Scripts.Menus;
 using UnityEngine;
 
 namespace _Scripts.Player
@@ -24,7 +23,7 @@ namespace _Scripts.Player
         [SerializeField]
         private Transform aimingPosition;
 
-        private readonly WeaponController[] weaponSlots = new WeaponController[5];
+        private readonly WeaponController[] _weaponSlots = new WeaponController[5];
         private int ActiveWeaponIndex { get; set; } = -1;
 
         private void Start()
@@ -43,15 +42,15 @@ namespace _Scripts.Player
         {
             weaponParentSocket.position = defaultWeaponPosition.position;
 
-            for (var i = 0; i < weaponSlots.Length; i++)
+            for (var i = 0; i < _weaponSlots.Length; i++)
             {
-                if (weaponSlots[i] is not null)
+                if (_weaponSlots[i] is not null)
                     continue;
 
                 var weaponInstance = Instantiate(weaponPrefab, weaponParentSocket);
                 weaponInstance.gameObject.SetActive(false);
                 SetupSway(weaponInstance);
-                weaponSlots[i] = weaponInstance;
+                _weaponSlots[i] = weaponInstance;
                 return;
             }
 
@@ -65,7 +64,7 @@ namespace _Scripts.Player
 
             DeactivateCurrentWeapon();
 
-            var newWeapon = weaponSlots[index];
+            var newWeapon = _weaponSlots[index];
             if (newWeapon is null)
             {
                 Debug.LogWarning($"No hay arma en el slot {index}");
@@ -80,7 +79,7 @@ namespace _Scripts.Player
             if (!IsValidSlot(ActiveWeaponIndex))
                 return;
 
-            var currentWeapon = weaponSlots[ActiveWeaponIndex];
+            var currentWeapon = _weaponSlots[ActiveWeaponIndex];
             currentWeapon?.gameObject.SetActive(false);
         }
 
@@ -89,25 +88,26 @@ namespace _Scripts.Player
             weapon.gameObject.SetActive(true);
             SetupSway(weapon);
             ActiveWeaponIndex = index;
-            EventManager.current.newGunEvent.Invoke();
+            EventManager.Current.newGunEvent.Invoke();
         }
 
         private void SetupSway(WeaponController weapon)
         {
             var sway = weapon.GetComponent<Sway>();
-            if (sway is null) return;
+            if (sway is null)
+                return;
             sway.SetPlayerController(playerController);
             playerController.SetWeaponSway(sway);
         }
 
         private bool IsValidSlot(int index)
         {
-            return index >= 0 && index < weaponSlots.Length;
+            return index >= 0 && index < _weaponSlots.Length;
         }
 
         public WeaponController GetActiveWeapon()
         {
-            return IsValidSlot(ActiveWeaponIndex) ? weaponSlots[ActiveWeaponIndex] : null;
+            return IsValidSlot(ActiveWeaponIndex) ? _weaponSlots[ActiveWeaponIndex] : null;
         }
     }
 }

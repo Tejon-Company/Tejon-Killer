@@ -1,48 +1,43 @@
 using _Scripts.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class PlayerHealth : MonoBehaviour
+namespace _Scripts.Player
 {
-    [SerializeField]
-    private int _maxHealth = 5;
-    public int MaxHealth
+    public class PlayerHealth : MonoBehaviour
     {
-        get => _maxHealth;
-    }
+        [FormerlySerializedAs("_maxHealth")]
+        [SerializeField]
+        private int maxHealth = 5;
+        public int MaxHealth => maxHealth;
 
-    private int _currentHealth;
-    public int CurrentHealth
-    {
-        get => _currentHealth;
-    }
+        public int CurrentHealth { get; private set; }
 
-    private void Awake()
-    {
-        _currentHealth = _maxHealth;
-    }
-
-    private void Start()
-    {
-        NotifyHealthChanged();
-    }
-
-    public void Heal(int amount)
-    {
-        _currentHealth = Mathf.Min(_currentHealth + amount, _maxHealth);
-        NotifyHealthChanged();
-    }
-
-    public void TakeDamage(int amount)
-    {
-        _currentHealth = Mathf.Max(_currentHealth - amount, 0);
-        NotifyHealthChanged();
-    }
-
-    private void NotifyHealthChanged()
-    {
-        if (EventManager.current != null)
+        private void Awake()
         {
-            EventManager.current.healthChangedEvent.Invoke();
+            CurrentHealth = maxHealth;
+        }
+
+        private void Start()
+        {
+            NotifyHealthChanged();
+        }
+
+        public void Heal(int amount)
+        {
+            CurrentHealth = Mathf.Min(CurrentHealth + amount, maxHealth);
+            NotifyHealthChanged();
+        }
+
+        public void TakeDamage(int amount)
+        {
+            CurrentHealth = Mathf.Max(CurrentHealth - amount, 0);
+            NotifyHealthChanged();
+        }
+
+        private static void NotifyHealthChanged()
+        {
+            EventManager.Current?.healthChangedEvent.Invoke();
         }
     }
 }

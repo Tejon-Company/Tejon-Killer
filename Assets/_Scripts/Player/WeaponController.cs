@@ -68,14 +68,14 @@ public class WeaponController : MonoBehaviour
 
     private void OnEnable()
     {
-        if (EventManager.current != null)
-            EventManager.current.rageBerryEvent.AddListener(ApplyRage);
+        if (EventManager.Current != null)
+            EventManager.Current.rageBerryEvent.AddListener(ApplyRage);
     }
 
     private void OnDisable()
     {
-        if (EventManager.current != null)
-            EventManager.current.rageBerryEvent.RemoveListener(ApplyRage);
+        if (EventManager.Current != null)
+            EventManager.Current.rageBerryEvent.RemoveListener(ApplyRage);
     }
 
     private void Update()
@@ -200,7 +200,7 @@ public class WeaponController : MonoBehaviour
 
     private void UpdateAmmoUI()
     {
-        EventManager.current.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
+        EventManager.Current.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
     }
 
     private IEnumerator FadeRay(LineRenderer lr, float duration)

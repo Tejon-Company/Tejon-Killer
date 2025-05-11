@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace _Scripts.Managers.Audio
@@ -16,10 +15,10 @@ namespace _Scripts.Managers.Audio
         {
             if (VolumeSettings.Instance is null)
                 return;
-            
+
             musicSlider.value = VolumeSettings.Instance.MusicVolume;
             musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
-            
+
             sfxSlider.value = VolumeSettings.Instance.SfxVolume;
             sfxSlider.onValueChanged.AddListener(OnSfxVolumeChanged);
         }
