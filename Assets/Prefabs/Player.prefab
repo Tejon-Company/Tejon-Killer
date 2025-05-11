@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 897021697823669765}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: -13.7, y: -7.64, z: 11.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10089,7 +10089,6 @@ GameObject:
   - component: {fileID: 7606796265213952688}
   - component: {fileID: 2233650534005881951}
   - component: {fileID: 7534644996516588820}
-  - component: {fileID: 6646295568401340295}
   - component: {fileID: 8202944597846312581}
   - component: {fileID: 3296994459806568558}
   m_Layer: 0
@@ -10108,7 +10107,7 @@ Transform:
   m_GameObject: {fileID: 5826406702991813831}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.355, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10176,19 +10175,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5826406702991813831}
   m_Enabled: 1
---- !u!114 &6646295568401340295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5826406702991813831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0c3e98958c51bf4c9750a8ab0cc49f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 2871691323692886264}
 --- !u!114 &8202944597846312581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10206,6 +10192,11 @@ MonoBehaviour:
   playerController: {fileID: 2746080814660782187}
   maxTiltAngle: 5
   tiltSpeed: 5
+  playerCamera: {fileID: 2233650534005881951}
+  baseFOV: 60
+  slideFOV: 80
+  dashFOV: 90
+  fovLerpSpeed: 5
 --- !u!114 &3296994459806568558
 MonoBehaviour:
   m_ObjectHideFlags: 0

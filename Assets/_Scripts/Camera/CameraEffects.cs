@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RotateView : MonoBehaviour
+public class CameraEffects : MonoBehaviour
 {
     [SerializeField]
     private Vector2 sensibility = new Vector2(3f, 3f);
@@ -17,6 +17,22 @@ public class RotateView : MonoBehaviour
     [SerializeField]
     private float tiltSpeed = 5f;
 
+    [Header("Camera FOV Settings")]
+    [SerializeField]
+    private Camera playerCamera;
+
+    [SerializeField]
+    private float baseFOV = 60f;
+
+    [SerializeField]
+    private float slideFOV = 80f;
+
+    [SerializeField]
+    private float dashFOV = 95f;
+
+    [SerializeField]
+    private float fovLerpSpeed = 5f;
+
     private float verticalRotation = 0f;
     private float targetTilt = 0f;
     private float currentTilt = 0f;
@@ -25,12 +41,18 @@ public class RotateView : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (playerCamera != null)
+        {
+            playerCamera.fieldOfView = baseFOV;
+        }
     }
 
     private void Update()
     {
         HandleMouseLook();
         HandleCameraTilt();
+        UpdateFOV();
     }
 
     private void HandleMouseLook()
@@ -65,5 +87,28 @@ public class RotateView : MonoBehaviour
 
         float direction = Mathf.Sign(horizontalInput);
         return -direction * maxTiltAngle;
+    }
+
+    private void UpdateFOV()
+    {
+        if (playerCamera == null)
+            return;
+
+        float targetFOV = baseFOV;
+
+        if (playerController.IsDashing)
+        {
+            targetFOV = dashFOV;
+        }
+        else if (playerController.IsSliding)
+        {
+            targetFOV = slideFOV;
+        }
+
+        playerCamera.fieldOfView = Mathf.Lerp(
+            playerCamera.fieldOfView,
+            targetFOV,
+            Time.deltaTime * fovLerpSpeed
+        );
     }
 }
