@@ -32,7 +32,7 @@ namespace _Scripts.Camera
 
         private void Update()
         {
-            if (PauseMenuHandler.IsPaused)
+            if (PauseMenu.IsPaused)
             {
                 return;
             }

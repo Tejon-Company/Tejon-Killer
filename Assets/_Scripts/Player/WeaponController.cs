@@ -63,7 +63,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (PauseMenuHandler.IsPaused)
+        if (PauseMenu.IsPaused)
         {
             return;
         }

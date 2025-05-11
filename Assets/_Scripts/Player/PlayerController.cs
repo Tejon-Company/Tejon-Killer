@@ -119,7 +119,7 @@ namespace _Scripts.Player
 
         private void Update()
         {
-            if (PauseMenuHandler.IsPaused)
+            if (PauseMenu.IsPaused)
             {
                 FootstepSfxManager.Instance.StopFootstepSfx();
                 return;

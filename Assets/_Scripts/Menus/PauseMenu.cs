@@ -1,22 +1,24 @@
 ﻿using System;
 using _Scripts.Camera;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace _Scripts.Menus
 {
-    public class PauseMenuHandler : MonoBehaviour
+    public class PauseMenu : MonoBehaviour
     {
         public static bool IsPaused { get; private set; }
 
         [SerializeField]
-        private GameObject pauseMenu;
+        private GameObject canvas;
 
         private void Start()
         {
-            if (pauseMenu is null)
+            if (canvas is null)
                 throw new NullReferenceException("Pause menu is not assigned in the inspector.");
 
-            pauseMenu.SetActive(false);
+            canvas.SetActive(false);
             IsPaused = false;
         }
 
@@ -35,7 +37,7 @@ namespace _Scripts.Menus
         {
             RotateView.UnlockCursor();
             IsPaused = true;
-            pauseMenu.SetActive(true);
+            canvas.SetActive(true);
             Time.timeScale = 0f;
         }
 
@@ -43,8 +45,20 @@ namespace _Scripts.Menus
         {
             RotateView.LockCursor();
             IsPaused = false;
-            pauseMenu.SetActive(false);
+            canvas.SetActive(false);
             Time.timeScale = 1f;
+        }
+
+        public void ReloadLevel()
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        
+        public void QuitGame()
+        {
+            Debug.Log("Quit game");
+            Application.Quit();
         }
     }
 }

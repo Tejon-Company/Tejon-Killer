@@ -1,5 +1,6 @@
 ﻿using _Scripts.Managers.Audio;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Scripts
 {
@@ -26,6 +27,17 @@ namespace _Scripts
         {
             mainMenuUI.SetActive(false);
             settingsUI.SetActive(true);
+        }
+        
+        public void StartFirstLevel()
+        {
+            SceneManager.LoadScene("Level 1");
+        }
+
+        public void QuitGame()
+        {
+            Debug.Log("Quit game");
+            Application.Quit();
         }
     }
 }
