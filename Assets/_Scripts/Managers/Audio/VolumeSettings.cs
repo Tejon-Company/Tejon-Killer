@@ -1,7 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
 
 namespace _Scripts.Managers.Audio
 {
@@ -12,11 +10,9 @@ namespace _Scripts.Managers.Audio
         [SerializeField]
         private AudioMixer audioMixer;
 
-        [SerializeField]
-        private Slider musicSlider;
+        public float MusicVolume { get; private set; } = 1f;
 
-        [SerializeField]
-        private Slider sfxSlider;
+        public float SfxVolume { get; private set; } = 1f;
 
         private void Awake()
         {
@@ -24,51 +20,46 @@ namespace _Scripts.Managers.Audio
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
+                LoadSavedVolumes();
             }
             else
             {
                 Destroy(gameObject);
             }
         }
-        private void Start()
-        {
-            if (PlayerPrefs.HasKey("Volume"))
-            {
-                var volume = PlayerPrefs.GetFloat("Volume");
-                musicSlider.value = volume;
-                SetMusicVolume();
-            }
-            else
-            {
-                PlayerPrefs.SetFloat("Volume", 1);
-            }
 
-            if (PlayerPrefs.HasKey("SFXVolume"))
-            {
-                var sfxVolume = PlayerPrefs.GetFloat("SFXVolume");
-                sfxSlider.value = sfxVolume;
-                SetSfxVolume();
-            }
-            else
-            {
-                PlayerPrefs.SetFloat("SFXVolume", 1);
-            }
+        private void LoadSavedVolumes()
+        {
+            Debug.Log("load seved volumes");
+            MusicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+            SfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+            
+            ApplyMusicVolume(MusicVolume);
+            ApplySfxVolume(SfxVolume);
         }
 
-        public void SetMusicVolume()
+        public void SetMusicVolume(float volume)
         {
-            var volume = musicSlider.value;
-            PlayerPrefs.SetFloat("Volume", volume);
-            
+            MusicVolume = volume;
+            PlayerPrefs.SetFloat("MusicVolume", volume);
+            ApplyMusicVolume(volume);
+        }
+
+        public void SetSfxVolume(float volume)
+        {
+            SfxVolume = volume;
+            PlayerPrefs.SetFloat("SFXVolume", volume);
+            ApplySfxVolume(volume);
+        }
+        
+        private void ApplyMusicVolume(float volume)
+        {
             var volumeInDecibels = Mathf.Log10(volume) * 20;
             audioMixer.SetFloat("Music", volumeInDecibels);
         }
-
-        public void SetSfxVolume()
+        
+        private void ApplySfxVolume(float volume)
         {
-            var volume = sfxSlider.value;
-            PlayerPrefs.SetFloat("SFXVolume", volume);
-            
             var volumeInDecibels = Mathf.Log10(volume) * 20;
             audioMixer.SetFloat("SFX", volumeInDecibels);
         }
