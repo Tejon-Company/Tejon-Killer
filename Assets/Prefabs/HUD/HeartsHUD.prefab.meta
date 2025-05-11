@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Prefabs/HUD/HeartsHUD.prefab.meta
 guid: 7d08bfbce363235489fdd47091a7584e
-========
-guid: 025595d0899b76d41a445ca2fdb2dd14
->>>>>>>> develop:Assets/Prefabs/HUD/RageUI.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

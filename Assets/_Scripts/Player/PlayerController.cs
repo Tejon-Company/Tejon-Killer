@@ -1,19 +1,19 @@
+using _Scripts.Managers.Audio;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, RageInterface
 {
     private CharacterController player;
     private bool _dashing = false;
     private bool _sliding = false;
     private bool _stomping = false;
+    private bool _walking = false;
     public bool IsDashing
     {
         get { return _dashing; }
     }
-    public bool IsSliding
-    {
-        get { return _sliding; }
-    }
+    public bool IsSliding => _sliding;
+
     public bool IsStomping
     {
         get { return _stomping; }
@@ -104,8 +104,13 @@ public class PlayerController : MonoBehaviour
         crouchCenterY = 0.5f;
     private Sway weaponSway;
     private bool wasGrounded;
-    private bool cond1;
-    private bool cond2;
+
+    [Header("Rage Parameters")]
+    private bool isRaging = false;
+    private float rageEndTime = 0f;
+    private float originalBaseSpeed;
+    private float originalJumpForce;
+    private bool endRage;
 
     private void Awake()
     {
@@ -118,8 +123,21 @@ public class PlayerController : MonoBehaviour
         wasGrounded = player.isGrounded;
     }
 
+    private void OnEnable()
+    {
+        if (EventManager.current != null)
+            EventManager.current.rageBerryEvent.AddListener(ApplyRage);
+    }
+
+    private void OnDisable()
+    {
+        if (EventManager.current != null)
+            EventManager.current.rageBerryEvent.RemoveListener(ApplyRage);
+    }
+
     private void Update()
     {
+        HandleRageState();
         UpdateTimers();
 
         bool groundedNow = player.isGrounded;
@@ -139,7 +157,26 @@ public class PlayerController : MonoBehaviour
         HandleSlideEnd();
 
         player.Move(movePlayer * Time.deltaTime);
+
+        _walking =
+            axis.magnitude > 0.1f && player.isGrounded && !_dashing && !_sliding && !_stomping;
+
+        if (_walking)
+            FootstepSfxManager.Instance.PlayFootstepSfx(FootstepSfxManager.Instance.GrassSteps);
+        else
+            FootstepSfxManager.Instance.StopFootstepSfx();
+
         wasGrounded = groundedNow;
+    }
+
+    private void HandleRageState()
+    {
+        if (isRaging && Time.time >= rageEndTime)
+        {
+            baseSpeed = originalBaseSpeed;
+            jumpForce = originalJumpForce;
+            isRaging = false;
+        }
     }
 
     private void UpdateTimers()
@@ -160,6 +197,13 @@ public class PlayerController : MonoBehaviour
         if (stompParticles != null)
         {
             stompParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+
+        if (endRage)
+        {
+            baseSpeed = originalBaseSpeed;
+            jumpForce = originalJumpForce;
+            isRaging = false;
         }
     }
 
@@ -275,6 +319,8 @@ public class PlayerController : MonoBehaviour
 
     private void StartDash(Vector3 direction)
     {
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Dash);
+
         _dashing = true;
         canDash = false;
         dashDirection = direction.normalized * baseSpeed * dashMultiplier;
@@ -307,9 +353,11 @@ public class PlayerController : MonoBehaviour
 
     private void StartSlide(Vector3 direction)
     {
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Slide);
+
         _sliding = true;
         canSlideJump = true;
-        slideDirection = direction.normalized * baseSpeed * slideSpeedMultiplier;
+        slideDirection = direction.normalized * (baseSpeed * slideSpeedMultiplier);
         player.height = crouchHeight;
         player.center = new Vector3(player.center.x, crouchCenterY, player.center.z);
 
@@ -387,6 +435,7 @@ public class PlayerController : MonoBehaviour
         {
             fallVelocity = jumpForce;
             jumpsRemaining--;
+            SfxManager.Instance.PlaySfx(SfxManager.Instance.Jump);
         }
 
         jumpBufferCounter = 0f;
@@ -394,16 +443,17 @@ public class PlayerController : MonoBehaviour
 
     private void HandleAirborneGravity()
     {
-        bool cond1 = jumpBufferCounter > 0 && jumpsRemaining > 0 && !_stomping;
-        bool cond2 = player.collisionFlags == CollisionFlags.Above && fallVelocity > 0;
-        if (cond1)
+        bool canJump = jumpBufferCounter > 0 && jumpsRemaining > 0 && !_stomping;
+        bool isPlayerJumping = player.collisionFlags == CollisionFlags.Above && fallVelocity > 0;
+        if (canJump)
         {
             fallVelocity = jumpForce;
             jumpsRemaining--;
             jumpBufferCounter = 0f;
+            SfxManager.Instance.PlaySfx(SfxManager.Instance.DoubleJump);
         }
 
-        if (cond2)
+        if (isPlayerJumping)
         {
             fallVelocity = -1f;
         }
@@ -427,6 +477,8 @@ public class PlayerController : MonoBehaviour
 
     private void StartStomp()
     {
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Stomp);
+
         weaponSway?.TriggerStompEffect();
         _stomping = true;
         fallVelocity = -stompForce;
@@ -439,5 +491,20 @@ public class PlayerController : MonoBehaviour
     public Vector3 GetSlideDirection()
     {
         return slideDirection;
+    }
+
+    public void ApplyRage(float playerBaseSpeedMultiplier, float playerJumpForceMultiplier, float weaponFireRateMultiplier, float duration)
+    {
+        if (!isRaging)
+        {
+            originalBaseSpeed = baseSpeed;
+            originalJumpForce = jumpForce;
+        }
+
+        baseSpeed = originalBaseSpeed * playerBaseSpeedMultiplier;
+        jumpForce = originalJumpForce * playerJumpForceMultiplier;
+
+        rageEndTime = Time.time + duration;
+        isRaging = true;
     }
 }
