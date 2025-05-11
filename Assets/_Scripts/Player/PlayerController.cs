@@ -11,86 +11,68 @@ namespace _Scripts.Player
         public bool IsDashing { get; private set; }
 
         private bool isWalking;
-        
+
         public bool IsSliding { get; private set; }
 
         private bool isStomping;
 
-        [SerializeField, Range(0, 40)]
-        private float baseSpeed = 10f;
+        [SerializeField, Range(0, 40)] private float baseSpeed = 10f;
 
-        [Header("DASH")]
-        [SerializeField]
-        private float dashMultiplier = 10f;
+        [Header("DASH")] [SerializeField] private float dashMultiplier = 10f;
 
-        [SerializeField]
-        private float dashDuration = 0.08f;
+        [SerializeField] private float dashDuration = 0.08f;
 
-        [SerializeField]
-        private float dashCooldown = 0.4f;
+        [SerializeField] private float dashCooldown = 0.4f;
 
-        [SerializeField]
-        private ParticleSystem dashParticles;
+        [SerializeField] private ParticleSystem dashParticles;
 
-        [SerializeField]
-        private ParticleSystem speedParticles;
+        [SerializeField] private ParticleSystem speedParticles;
 
-        [Header("SLIDE")]
-        [SerializeField]
-        private float slideSpeedMultiplier = 2.5f;
+        [Header("SLIDE")] [SerializeField] private float slideSpeedMultiplier = 2.5f;
 
-        [SerializeField]
-        private float slideGravity = 14f;
+        [SerializeField] private float slideGravity = 14f;
 
-        [SerializeField]
-        private float slideJumpForce = 20f;
+        [SerializeField] private float slideJumpForce = 20f;
 
-        [SerializeField]
-        private float slideJumpInertiaMultiplier = 2f;
+        [SerializeField] private float slideJumpInertiaMultiplier = 2f;
         private bool slideJumpInertiaActive;
         private bool canSlideJump;
         private bool skipGravityNextFrame;
 
-        [Header("JUMP")]
-        [SerializeField]
-        private float gravity = 25f;
+        [Header("JUMP")] [SerializeField] private float gravity = 25f;
 
-        [SerializeField]
-        private float jumpForce = 15f;
+        [SerializeField] private float jumpForce = 15f;
 
-        [Header("MULTI JUMP")]
-        [SerializeField]
+        [Header("MULTI JUMP")] [SerializeField]
         private int maxJumps = 2;
+
         private int jumpsRemaining;
 
-        [Header("GRAVITY IN FREE FALL")]
-        [SerializeField]
+        [Header("GRAVITY IN FREE FALL")] [SerializeField]
         private float groundedGravity = -5f;
 
-        [Header("STOMP")]
-        [SerializeField]
-        private float stompForce = 40f;
+        [Header("STOMP")] [SerializeField] private float stompForce = 40f;
 
-        [SerializeField]
-        private float stompTimeLimit = 0.3f;
+        [SerializeField] private float stompTimeLimit = 0.3f;
 
-        [SerializeField]
-        private float stompJumpForceMultiplier = 1.5f;
+        [SerializeField] private float stompJumpForceMultiplier = 1.5f;
         private float stompTimeCounter;
 
-        [SerializeField]
-        private ParticleSystem stompParticles;
+        [SerializeField] private ParticleSystem stompParticles;
 
-        [Header("JUMP BUFFER")]
-        [SerializeField]
+        [Header("JUMP BUFFER")] [SerializeField]
         private float jumpBufferTime = 0.15f;
+
         private float jumpBufferCounter;
 
         private bool canDash = true;
+
         private bool jumpInput,
             dashInput,
             slideInputHeld;
+
         private float fallVelocity;
+
         private Vector3 axis,
             movePlayer,
             dashDirection,
@@ -106,12 +88,12 @@ namespace _Scripts.Player
         private Sway weaponSway;
         private bool wasGrounded;
 
-        [Header("Rage Parameters")]
-    private bool isRaging = false;
-    private float rageEndTime = 0f;
-    private float originalBaseSpeed;
-    private float originalJumpForce;
-    private bool endRage;private void Awake()
+        [Header("Rage Parameters")] private bool isRaging = false;
+        private float rageEndTime = 0f;
+        private float originalBaseSpeed;
+        private float originalJumpForce;
+
+        private void Awake()
         {
             speedParticles.Stop();
             dashParticles.Stop();
@@ -122,15 +104,6 @@ namespace _Scripts.Player
             wasGrounded = player.isGrounded;
         }
 
-        private void Update()
-        {
-            if (PauseMenu.IsPaused)
-            {
-                FootstepSfxManager.Instance.StopFootstepSfx();
-                return;
-            }
-        
-            UpdateTimers();
         private void OnEnable()
         {
             if (EventManager.current != null)
@@ -145,6 +118,12 @@ namespace _Scripts.Player
 
         private void Update()
         {
+            if (PauseMenu.IsPaused)
+            {
+                FootstepSfxManager.Instance.StopFootstepSfx();
+                return;
+            }
+
             HandleRageState();
             UpdateTimers();
 
@@ -177,24 +156,20 @@ namespace _Scripts.Player
             wasGrounded = groundedNow;
         }
 
+        private void HandleRageState()
+        {
+            if (isRaging && Time.time >= rageEndTime)
+            {
+                baseSpeed = originalBaseSpeed;
+                jumpForce = originalJumpForce;
+                isRaging = false;
+            }
+        }
+
         private void UpdateTimers()
         {
             if (stompTimeCounter > 0f)
                 stompTimeCounter -= Time.deltaTime;
-    private void HandleRageState()
-    {
-        if (isRaging && Time.time >= rageEndTime)
-        {
-            baseSpeed = originalBaseSpeed;
-            jumpForce = originalJumpForce;
-            isRaging = false;
-        }
-    }
-
-    private void UpdateTimers()
-    {
-        if (stompTimeCounter > 0f)
-            stompTimeCounter -= Time.deltaTime;
 
             if (jumpBufferCounter > 0f)
                 jumpBufferCounter -= Time.deltaTime;
@@ -208,14 +183,6 @@ namespace _Scripts.Player
 
             stompParticles?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
-
-        if (endRage)
-        {
-            baseSpeed = originalBaseSpeed;
-            jumpForce = originalJumpForce;
-            isRaging = false;
-        }
-    }
 
         private void HandleInput()
         {
@@ -487,20 +454,21 @@ namespace _Scripts.Player
         {
             return slideDirection;
         }
-    }
 
-    public void ApplyRage(float playerBaseSpeedMultiplier, float playerJumpForceMultiplier, float weaponFireRateMultiplier, float duration)
-    {
-        if (!isRaging)
+        public void ApplyRage(float playerBaseSpeedMultiplier, float playerJumpForceMultiplier,
+            float weaponFireRateMultiplier, float duration)
         {
-            originalBaseSpeed = baseSpeed;
-            originalJumpForce = jumpForce;
+            if (!isRaging)
+            {
+                originalBaseSpeed = baseSpeed;
+                originalJumpForce = jumpForce;
+            }
+
+            baseSpeed = originalBaseSpeed * playerBaseSpeedMultiplier;
+            jumpForce = originalJumpForce * playerJumpForceMultiplier;
+
+            rageEndTime = Time.time + duration;
+            isRaging = true;
         }
-
-        baseSpeed = originalBaseSpeed * playerBaseSpeedMultiplier;
-        jumpForce = originalJumpForce * playerJumpForceMultiplier;
-
-        rageEndTime = Time.time + duration;
-        isRaging = true;
     }
 }
