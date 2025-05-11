@@ -21,6 +21,9 @@ public class WeaponController : MonoBehaviour
     [SerializeField]
     private float fireRate = 0.2f;
 
+    [SerializeField]
+    private int shotDamage = 10;
+
     [Header("Munición")]
     [SerializeField]
     private int maxAmmo = 8;
@@ -128,6 +131,12 @@ public class WeaponController : MonoBehaviour
         {
             ShowBulletHole(hit);
             ShowTracerEffect(weaponMuzzle.position, hit.point);
+
+            EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(shotDamage);
+            }
         }
 
         sway?.ApplyRecoil();
