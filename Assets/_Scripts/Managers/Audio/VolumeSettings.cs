@@ -17,17 +17,16 @@ namespace _Scripts.Managers.Audio
 
         private void Awake()
         {
-            if (Instance is null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-                LoadSavedVolumes();
-                StartCoroutine(ReapplyVolumesAfterDelay());
-            }
-            else
+            if (Instance is not null)
             {
                 Destroy(gameObject);
+                return;
             }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            LoadSavedVolumes();
+            StartCoroutine(ReapplyVolumesAfterDelay());
         }
 
         private IEnumerator ReapplyVolumesAfterDelay()
