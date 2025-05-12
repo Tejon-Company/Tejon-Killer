@@ -33,10 +33,10 @@ public class Squirrel : MonoBehaviour
     private float lastShotTime = Mathf.NegativeInfinity;
     private float distanceToPlayer;
     private float verticalLaunch;
+    private float launchLimit;
     private Renderer[] scratRenderers;
     private Color[] originalColors;
     private Transform player;
-    private MaterialPropertyBlock propBlock;
 
     private void Awake()
     {
@@ -48,13 +48,22 @@ public class Squirrel : MonoBehaviour
     {
         scratRenderers = GetComponentsInChildren<Renderer>();
         originalColors = new Color[scratRenderers.Length];
-        propBlock = new MaterialPropertyBlock();
 
         for (int i = 0; i < scratRenderers.Length; i++)
         {
-            scratRenderers[i].GetPropertyBlock(propBlock);
-            originalColors[i] = propBlock.GetColor("_BaseColor");
+            originalColors[i] = GetRendererColor(scratRenderers[i]);
         }
+    }
+
+    private Color GetRendererColor(Renderer renderer)
+    {
+        Material mat = renderer.material;
+        if (mat.HasProperty("_BaseColor"))
+            return mat.GetColor("_BaseColor");
+        else if (mat.HasProperty("_Color"))
+            return mat.GetColor("_Color");
+        else
+            return Color.white;
     }
 
     private void FindReferences()
@@ -120,8 +129,8 @@ public class Squirrel : MonoBehaviour
     {
         distanceToPlayer = Vector3.Distance(targetPosition, transform.position);
 
-        float launchThreshold = detectionRange * 0.5f; 
-        verticalLaunch = (distanceToPlayer < launchThreshold) ? minVerticalLaunch : maxVerticalLaunch;
+        launchLimit = detectionRange * 0.5f; 
+        verticalLaunch = (distanceToPlayer < launchLimit) ? minVerticalLaunch : maxVerticalLaunch;
 
         GameObject projectile = acornPool.GetProjectile(firePoint);
         if (projectile == null)
@@ -149,23 +158,28 @@ public class Squirrel : MonoBehaviour
 
     public void FlashRed()
     {
-        for (int i = 0; i < scratRenderers.Length; i++)
+        foreach (var renderer in scratRenderers)
         {
-            scratRenderers[i].GetPropertyBlock(propBlock);
-            propBlock.SetColor("_BaseColor", flashColor);
-            scratRenderers[i].SetPropertyBlock(propBlock);
+            SetRendererColor(renderer, flashColor);
         }
 
         Invoke(nameof(RestoreOriginalColor), flashDuration);
+    }
+
+    private void SetRendererColor(Renderer renderer, Color color)
+    {
+        Material mat = renderer.material;
+        if (mat.HasProperty("_BaseColor"))
+            mat.SetColor("_BaseColor", color);
+        else if (mat.HasProperty("_Color"))
+            mat.SetColor("_Color", color);
     }
 
     private void RestoreOriginalColor()
     {
         for (int i = 0; i < scratRenderers.Length; i++)
         {
-            scratRenderers[i].GetPropertyBlock(propBlock);
-            propBlock.SetColor("_BaseColor", originalColors[i]);
-            scratRenderers[i].SetPropertyBlock(propBlock);
+            SetRendererColor(scratRenderers[i], originalColors[i]);
         }
     }
 }
