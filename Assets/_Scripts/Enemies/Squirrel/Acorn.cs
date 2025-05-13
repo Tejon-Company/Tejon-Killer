@@ -36,14 +36,18 @@ public class Acorn : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        PlayerHealth player = collision.collider.GetComponentInParent<PlayerHealth>();
-
-        if (player != null)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            player.TakeDamage(damage);
-        }
+            PlayerHealth player = collision.collider.GetComponentInParent<PlayerHealth>();
 
-        Invoke(nameof(Deactivate), lifetimeAfterHit);
+            if (player != null)
+            {
+                player.TakeDamage(damage);
+            }
+            Invoke(nameof(Deactivate), 0);
+        }
+        else
+            Invoke(nameof(Deactivate), lifetimeAfterHit);
     }
 
     private void Deactivate()
@@ -54,7 +58,7 @@ public class Acorn : MonoBehaviour
         }
         else
         {
-            gameObject.SetActive(false); 
+            gameObject.SetActive(false);
         }
     }
 }
