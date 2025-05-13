@@ -4,8 +4,11 @@ using UnityEngine.UI;
 
 public class RageHUD : MonoBehaviour
 {
-    [SerializeField] private GameObject frameRoot;
-    [SerializeField] private Image rageBarFill;
+    [SerializeField]
+    private GameObject frameRoot;
+
+    [SerializeField]
+    private Image rageBarFill;
 
     private float maxDuration;
     private float endTime;
@@ -14,8 +17,11 @@ public class RageHUD : MonoBehaviour
     private float remainingTime;
 
     [Header("PULSE EFFECT")]
-    [SerializeField] private float pulseSpeed = 0.2f;
-    [SerializeField] private float pulseForce = 0.05f;
+    [SerializeField]
+    private float pulseSpeed = 0.2f;
+
+    [SerializeField]
+    private float pulseForce = 0.05f;
     private Vector3 originalScale;
 
     private void Start()

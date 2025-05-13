@@ -7,7 +7,6 @@ namespace _Scripts.Managers
     [Serializable]
     public class Int2Event : UnityEvent<int, int> { }
 
-
     [Serializable]
     public class RageEvent : UnityEvent<float, float, float, float> { }
 
@@ -17,7 +16,7 @@ namespace _Scripts.Managers
 
         private void Awake()
         {
-            if (Current is null)
+            if (!Current)
                 Current = this;
             else
                 Destroy(this);
@@ -27,5 +26,6 @@ namespace _Scripts.Managers
         public UnityEvent newGunEvent = new();
         public UnityEvent healthChangedEvent = new();
         public RageEvent rageBerryEvent = new();
+        public UnityEvent<bool> damageCooldownEvent;
     }
 }

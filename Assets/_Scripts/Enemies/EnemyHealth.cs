@@ -1,41 +1,59 @@
+using _Scripts.Player;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+namespace _Scripts.Enemies.Squirrel
 {
-    [SerializeField]
-    private int maxHealth = 20;
-    private int currentHealth;
-
-    [SerializeField]
-    private GameObject deathEffect;
-
-    [SerializeField]
-    private GameObject damageEffect;
-
-    private void Start()
+    public class Acorn : MonoBehaviour
     {
-        currentHealth = maxHealth;
-    }
+        [Header("Variables de disparo")]
+        [SerializeField]
+        private float speed = 12f;
 
-    public void TakeDamage(int amount)
-    {
-        currentHealth -= amount;
+        [SerializeField]
+        private float lifetimeAfterHit = 0.3f;
 
-        GetComponent<Squirrel>()?.FlashRed(); 
+        [SerializeField]
+        private int damage = 1;
 
-        if (damageEffect != null && currentHealth != 0)
+        [SerializeField]
+        private float gravityMultiplier = 2f;
+
+        private Rigidbody _rigidbody;
+
+        private void Awake()
         {
-            Instantiate(damageEffect, transform.position, Quaternion.identity);
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
-        if (currentHealth <= 0)
+        private void FixedUpdate()
         {
-            if (deathEffect != null)
+            _rigidbody.AddForce(
+                Vector3.down * (Physics.gravity.magnitude * (gravityMultiplier - 1)),
+                ForceMode.Acceleration
+            );
+        }
+
+        public void Launch(Vector3 direction)
+        {
+            _rigidbody.linearVelocity = direction.normalized * speed;
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (!collision.gameObject.CompareTag("Player"))
             {
-                Instantiate(deathEffect, transform.position, Quaternion.identity);
+                Invoke(nameof(Deactivate), lifetimeAfterHit);
+                return;
             }
 
-            Destroy(gameObject);
+            Invoke(nameof(Deactivate), 0);
+            var player = collision.collider.GetComponentInParent<PlayerHealth>();
+            player?.TakeDamage(damage);
+        }
+
+        private void Deactivate()
+        {
+            gameObject.SetActive(false);
         }
     }
 }
