@@ -21,9 +21,7 @@ namespace _Scripts.Managers
         
         private IEnumerator SubscribeToEventManager()
         {
-            // Wait for the first frame to ensure the audio mixer is initialized
             yield return null;
-
             EventManager.Current.healthChangedEvent.AddListener(OnHealthChanged);
         }
 
@@ -34,7 +32,6 @@ namespace _Scripts.Managers
 
         private void OnHealthChanged()
         {
-            Debug.Log("health changed");
             if (_playerHealth && _playerHealth.CurrentHealth <= 0)
                 SceneManager.LoadScene("Game Over Menu");
         }

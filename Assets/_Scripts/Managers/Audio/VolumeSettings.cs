@@ -32,7 +32,6 @@ namespace _Scripts.Managers.Audio
 
         private IEnumerator ReapplyVolumesAfterDelay()
         {
-            // Wait for the first frame to ensure the audio mixer is initialized
             yield return null;
 
             ApplyMusicVolume();
