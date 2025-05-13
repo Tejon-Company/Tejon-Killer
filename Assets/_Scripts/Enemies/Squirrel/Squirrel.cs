@@ -73,11 +73,11 @@ namespace _Scripts.Enemies.Squirrel
             if (!_player)
                 return;
 
-            var withinRange =
+            var playerIsInRange =
                 Vector3.Distance(_player.position, transform.position) <= detectionRange;
             var canShoot = Time.time - _lastShotTime >= fireRate;
 
-            if (!withinRange || !canShoot)
+            if (!playerIsInRange || !canShoot)
                 return;
 
             RotateToPlayer();
