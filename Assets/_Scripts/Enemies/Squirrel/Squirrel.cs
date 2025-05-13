@@ -32,7 +32,7 @@ namespace _Scripts.Enemies.Squirrel
         private float flashDuration = 0.3f;
 
         [SerializeField]
-        private Color flashColor = new Color(0.6f, 0.1f, 0.1f, 1f);
+        private Color flashColor = new(0.6f, 0.1f, 0.1f, 1f);
 
         private float _lastShotTime = Mathf.NegativeInfinity;
         private Renderer[] _renderers;
@@ -56,16 +56,10 @@ namespace _Scripts.Enemies.Squirrel
 
         private static Color GetRendererColor(Renderer renderer)
         {
-            var material = renderer.material;
-            if (material.HasProperty(BaseColor))
-            {
-                return material.GetColor(BaseColor);
-            }
-            if (material.HasProperty(Color1))
-            {
-                return material.GetColor(Color1);
-            }
-            return Color.white;
+            var mat = renderer.material;
+            return mat.HasProperty(BaseColor) ? mat.GetColor(BaseColor)
+                : mat.HasProperty(Color1) ? mat.GetColor(Color1)
+                : Color.white;
         }
 
         private void FindReferences()
@@ -76,10 +70,14 @@ namespace _Scripts.Enemies.Squirrel
 
         private void Update()
         {
-            var playerInRange = Vector3.Distance(_player.position, transform.position) <= detectionRange;
+            if (!_player)
+                return;
+
+            var withinRange =
+                Vector3.Distance(_player.position, transform.position) <= detectionRange;
             var canShoot = Time.time - _lastShotTime >= fireRate;
-            
-            if (_player || !playerInRange || !canShoot)
+
+            if (!withinRange || !canShoot)
                 return;
 
             RotateToPlayer();
@@ -91,14 +89,13 @@ namespace _Scripts.Enemies.Squirrel
         {
             var direction = _player.position - transform.position;
             direction.y = 0;
-
             if (direction.sqrMagnitude > 0.001f)
                 transform.rotation = Quaternion.LookRotation(direction);
         }
 
         private void Shoot()
         {
-            if (!acornPool || !firePoint || !_player)
+            if (!acornPool || !_player || !firePoint)
                 return;
 
             var targetPosition = _player.TryGetComponent(out Collider playerCollider)
@@ -110,9 +107,10 @@ namespace _Scripts.Enemies.Squirrel
 
         private void LaunchProjectile(Vector3 targetPosition)
         {
-            var distance = Vector3.Distance(targetPosition, transform.position);
             var verticalLaunch =
-                distance < detectionRange * 0.5f ? minVerticalLaunch : maxVerticalLaunch;
+                Vector3.Distance(targetPosition, transform.position) < detectionRange * 0.5f
+                    ? minVerticalLaunch
+                    : maxVerticalLaunch;
 
             var projectile = acornPool.GetProjectile(firePoint);
             if (!projectile)
@@ -139,15 +137,15 @@ namespace _Scripts.Enemies.Squirrel
 
         public void FlashRed()
         {
-            foreach (var rendererComponent in _renderers)
-                SetRendererColor(rendererComponent, flashColor);
+            foreach (var objectRenderer in _renderers)
+                SetRendererColor(objectRenderer, flashColor);
 
             Invoke(nameof(RestoreOriginalColors), flashDuration);
         }
 
-        private static void SetRendererColor(Renderer renderComponent, Color color)
+        private static void SetRendererColor(Renderer objectRenderer, Color color)
         {
-            var mat = renderComponent.material;
+            var mat = objectRenderer.material;
             if (mat.HasProperty(BaseColor))
                 mat.SetColor(BaseColor, color);
             else if (mat.HasProperty(Color1))
