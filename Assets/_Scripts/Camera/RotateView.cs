@@ -1,69 +1,90 @@
+using _Scripts.Menus;
+using _Scripts.Player;
 using UnityEngine;
 
-public class RotateView : MonoBehaviour
+namespace _Scripts.Camera
 {
-    [SerializeField]
-    private Vector2 sensibility = new Vector2(3f, 3f);
-
-    [SerializeField]
-    private Transform player;
-
-    [SerializeField]
-    private PlayerController playerController;
-
-    [SerializeField]
-    private float maxTiltAngle = 5f;
-
-    [SerializeField]
-    private float tiltSpeed = 5f;
-
-    private float verticalRotation = 0f;
-    private float targetTilt = 0f;
-    private float currentTilt = 0f;
-
-    private void Start()
+    public class RotateView : MonoBehaviour
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
+        [SerializeField]
+        private Vector2 sensibility = new(3f, 3f);
 
-    private void Update()
-    {
-        HandleMouseLook();
-        HandleCameraTilt();
-    }
+        [SerializeField]
+        private Transform player;
 
-    private void HandleMouseLook()
-    {
-        float mouseX = Input.GetAxis("Mouse X") * sensibility.x;
-        float mouseY = Input.GetAxis("Mouse Y") * sensibility.y;
+        [SerializeField]
+        private PlayerController playerController;
 
-        player.Rotate(Vector3.up * mouseX);
+        [SerializeField]
+        private float maxTiltAngle = 5f;
 
-        verticalRotation += mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+        [SerializeField]
+        private float tiltSpeed = 5f;
 
-        transform.rotation = Quaternion.Euler(verticalRotation, player.eulerAngles.y, currentTilt);
-    }
+        private float verticalRotation;
+        private float targetTilt;
+        private float currentTilt;
 
-    private void HandleCameraTilt()
-    {
-        targetTilt = CalculateTargetTilt();
-        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
-    }
+        private void Start()
+        {
+            LockCursor();
+        }
 
-    private float CalculateTargetTilt()
-    {
-        if (!playerController.IsSliding)
-            return 0f;
+        private void Update()
+        {
+            if (PauseMenu.IsPaused)
+            {
+                return;
+            }
+            
+            HandleMouseLook();
+            HandleCameraTilt();
+        }
+        
+        public static void LockCursor()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        
+        public static void UnlockCursor()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
 
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float threshold = 0.1f;
+        private void HandleMouseLook()
+        {
+            var mouseX = Input.GetAxis("Mouse X") * sensibility.x;
+            var mouseY = Input.GetAxis("Mouse Y") * sensibility.y;
 
-        if (Mathf.Abs(horizontalInput) <= threshold)
-            return 0f;
+            player.Rotate(Vector3.up * mouseX);
 
-        float direction = Mathf.Sign(horizontalInput);
-        return -direction * maxTiltAngle;
+            verticalRotation += mouseY;
+            verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+
+            transform.rotation = Quaternion.Euler(verticalRotation, player.eulerAngles.y, currentTilt);
+        }
+
+        private void HandleCameraTilt()
+        {
+            targetTilt = CalculateTargetTilt();
+            currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
+        }
+
+        private float CalculateTargetTilt()
+        {
+            if (!playerController.IsSliding)
+                return 0f;
+
+            var horizontalInput = Input.GetAxis("Horizontal");
+            const float threshold = 0.1f;
+
+            if (Mathf.Abs(horizontalInput) <= threshold)
+                return 0f;
+
+            var direction = Mathf.Sign(horizontalInput);
+            return -direction * maxTiltAngle;
+        }
     }
 }

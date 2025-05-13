@@ -232,19 +232,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponMuzzle: {fileID: 4388319504019638812}
+  sway: {fileID: 1723160146677635942}
   hittableLayers:
     serializedVersion: 2
     m_Bits: 1
-  bulletHolePrefab: {fileID: 2624056915955964118, guid: 7e06c15b54d0a944ea74a69d7e1c0397,
-    type: 3}
   fireRange: 200
   fireRate: 0.2
+  shotDamage: 1
   maxAmmo: 8
   reloadTime: 1.5
-  sway: {fileID: 1723160146677635942}
   flashEffect: {fileID: 6036478338356816341, guid: 9385bb2dfb85a9e46a718df9e22f38f4,
     type: 3}
   tracerEffectPrefab: {fileID: 4250047711496173504, guid: 7d67354dc786cab49b44038d39a18e2e,
+    type: 3}
+  bulletHolePrefab: {fileID: 2624056915955964118, guid: 7e06c15b54d0a944ea74a69d7e1c0397,
     type: 3}
   rayEffectTime: 0.5
 --- !u!114 &1723160146677635942

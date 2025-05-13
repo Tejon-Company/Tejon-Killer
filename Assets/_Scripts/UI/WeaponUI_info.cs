@@ -1,3 +1,4 @@
+using _Scripts.Managers;
 using TMPro;
 using UnityEngine;
 
@@ -8,12 +9,12 @@ public class WeaponUI_info : MonoBehaviour
 
     void OnEnable()
     {
-        EventManager.current.updateBulletsEvent.AddListener(UpdateBullets);
+        EventManager.Current.updateBulletsEvent.AddListener(UpdateBullets);
     }
 
     void OnDisable()
     {
-        EventManager.current.updateBulletsEvent.RemoveListener(UpdateBullets);
+        EventManager.Current.updateBulletsEvent.RemoveListener(UpdateBullets);
     }
 
     public void UpdateBullets(int newCurrentBullets, int newTotalBullets)
