@@ -21,7 +21,7 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth -= amount;
 
-        GetComponent<Squirrel>()?.FlashRed(); 
+        GetComponent<Squirrel>()?.FlashRed();
 
         if (damageEffect != null && currentHealth != 0)
         {

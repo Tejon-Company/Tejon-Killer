@@ -34,6 +34,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField]
     private float reloadTime = 1.5f;
     private bool isReloading;
+
     [Header("Rabia")]
     private bool isRaging = false;
     private float rageEndTime = 0f;
@@ -171,7 +172,6 @@ public class WeaponController : MonoBehaviour
 
     private void ShowTracerEffect(Vector3 start, Vector3 end)
     {
-    
         if (!tracerEffectPrefab)
             return;
 
@@ -224,7 +224,12 @@ public class WeaponController : MonoBehaviour
         Destroy(lr.gameObject);
     }
 
-    public void ApplyRage(float playerBaseSpeedMultiplier, float playerJumpForceMultiplier, float weaponFireRateMultiplier, float duration)
+    public void ApplyRage(
+        float playerBaseSpeedMultiplier,
+        float playerJumpForceMultiplier,
+        float weaponFireRateMultiplier,
+        float duration
+    )
     {
         fireRate = defaultFireRate * weaponFireRateMultiplier;
         rageEndTime = Time.time + duration;

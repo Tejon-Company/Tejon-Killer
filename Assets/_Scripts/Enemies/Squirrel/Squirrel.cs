@@ -82,7 +82,8 @@ public class Squirrel : MonoBehaviour
 
     private void Update()
     {
-        if (player == null) return;
+        if (player == null)
+            return;
 
         float distance = Vector3.Distance(player.position, transform.position);
 
@@ -129,7 +130,7 @@ public class Squirrel : MonoBehaviour
     {
         distanceToPlayer = Vector3.Distance(targetPosition, transform.position);
 
-        launchLimit = detectionRange * 0.5f; 
+        launchLimit = detectionRange * 0.5f;
         verticalLaunch = (distanceToPlayer < launchLimit) ? minVerticalLaunch : maxVerticalLaunch;
 
         GameObject projectile = acornPool.GetProjectile(firePoint);

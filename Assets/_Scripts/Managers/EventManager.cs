@@ -6,7 +6,6 @@ using UnityEngine.Rendering;
 [Serializable]
 public class Int2Event : UnityEvent<int, int> { }
 
-
 [Serializable]
 public class RageEvent : UnityEvent<float, float, float, float> { }
 
@@ -30,5 +29,5 @@ public class EventManager : MonoBehaviour
     public UnityEvent NewGunEvent = new UnityEvent();
     public UnityEvent healthChangedEvent = new UnityEvent();
     public RageEvent rageBerryEvent = new RageEvent();
-
+    public UnityEvent<bool> damageCooldownEvent;
 }

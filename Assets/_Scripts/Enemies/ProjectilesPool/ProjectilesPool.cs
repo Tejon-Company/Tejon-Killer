@@ -5,10 +5,9 @@ public class ProjectilesPool : MonoBehaviour
 {
     [SerializeField]
     private GameObject projectilePrefab;
+
     [SerializeField]
-    private int poolSize = 10;
-    [SerializeField]
-    private float projectileSpeed = 10f;
+    private int poolSize = 2;
 
     private List<GameObject> pool;
 
@@ -54,9 +53,9 @@ public class ProjectilesPool : MonoBehaviour
         if (projectile == null)
             return;
 
-        if (projectile.TryGetComponent(out Rigidbody rb))
+        if (projectile.TryGetComponent(out Acorn acorn))
         {
-            rb.linearVelocity = direction.normalized * projectileSpeed;
+            acorn.Launch(direction);
         }
     }
 
