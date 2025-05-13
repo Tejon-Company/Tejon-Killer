@@ -34,6 +34,7 @@ public class HeartsHUD : MonoBehaviour
         {
             EventManager.Current.healthChangedEvent.AddListener(UpdateHearts);
             EventManager.Current.damageCooldownEvent.AddListener(SetFlickerState);
+            EventManager.Current.healthChangedEvent.AddListener(UpdateHearts);
             UpdateHearts();
         }
     }
@@ -43,6 +44,7 @@ public class HeartsHUD : MonoBehaviour
         if (EventManager.Current != null)
         {
             EventManager.Current.damageCooldownEvent.RemoveListener(SetFlickerState);
+            EventManager.Current.healthChangedEvent.RemoveListener(UpdateHearts);
             EventManager.Current.healthChangedEvent.RemoveListener(UpdateHearts);
         }
     }

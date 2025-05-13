@@ -1,7 +1,17 @@
+using _Scripts.Managers;
 using System.Collections;
 using _Scripts.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+namespace _Scripts.Player
+{
+    public class PlayerHealth : MonoBehaviour
+    {
+        [FormerlySerializedAs("_maxHealth")]
+        [SerializeField]
+        private int maxHealth = 5;
+        public int MaxHealth => maxHealth;
 namespace _Scripts.Player
 {
     public class PlayerHealth : MonoBehaviour
@@ -13,6 +23,7 @@ namespace _Scripts.Player
         [SerializeField]
         private float damageCooldown = 1.5f;
 
+        public int CurrentHealth { get; private set; }
         public int CurrentHealth { get; private set; }
 
         private bool _isInvulnerable;
@@ -35,6 +46,11 @@ namespace _Scripts.Player
 
         public void TakeDamage(int amount)
         {
+            CurrentHealth = Mathf.Max(CurrentHealth - amount, 0);
+            NotifyHealthChanged();
+        }
+        public void TakeDamage(int amount)
+        {
             if (_isInvulnerable)
                 return;
 
@@ -44,6 +60,7 @@ namespace _Scripts.Player
             StartCoroutine(DamageCooldownCoroutine());
         }
 
+        private static void NotifyHealthChanged()
         private IEnumerator DamageCooldownCoroutine()
         {
             _isInvulnerable = true;
