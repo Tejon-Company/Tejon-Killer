@@ -1,59 +1,38 @@
-using _Scripts.Player;
 using UnityEngine;
 
-namespace _Scripts.Enemies.Squirrel
+namespace _Scripts.Enemies
 {
-    public class Acorn : MonoBehaviour
+    public class EnemyHealth : MonoBehaviour
     {
-        [Header("Variables de disparo")]
         [SerializeField]
-        private float speed = 12f;
-
-        [SerializeField]
-        private float lifetimeAfterHit = 0.3f;
+        private int maxHealth = 20;
 
         [SerializeField]
-        private int damage = 1;
+        private GameObject deathEffect;
 
         [SerializeField]
-        private float gravityMultiplier = 2f;
+        private GameObject damageEffect;
 
-        private Rigidbody _rigidbody;
+        private int _currentHealth;
 
-        private void Awake()
+        private void Start() => _currentHealth = maxHealth;
+
+        public void TakeDamage(int amount)
         {
-            _rigidbody = GetComponent<Rigidbody>();
-        }
+            _currentHealth -= amount;
 
-        private void FixedUpdate()
-        {
-            _rigidbody.AddForce(
-                Vector3.down * (Physics.gravity.magnitude * (gravityMultiplier - 1)),
-                ForceMode.Acceleration
-            );
-        }
+            GetComponent<Squirrel.Squirrel>()?.FlashRed();
 
-        public void Launch(Vector3 direction)
-        {
-            _rigidbody.linearVelocity = direction.normalized * speed;
-        }
+            if (damageEffect && _currentHealth > 0)
+                Instantiate(damageEffect, transform.position, Quaternion.identity);
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (!collision.gameObject.CompareTag("Player"))
-            {
-                Invoke(nameof(Deactivate), lifetimeAfterHit);
+            if (_currentHealth > 0)
                 return;
-            }
 
-            Invoke(nameof(Deactivate), 0);
-            var player = collision.collider.GetComponentInParent<PlayerHealth>();
-            player?.TakeDamage(damage);
-        }
+            if (deathEffect)
+                Instantiate(deathEffect, transform.position, Quaternion.identity);
 
-        private void Deactivate()
-        {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }

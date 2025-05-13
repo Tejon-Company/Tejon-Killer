@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4aed43ae5a12d4ebc207017b67c7b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 1767918667445883447, guid: a96b838e4003e24428a82e9a6fe12b73,
+  projectilePrefab: {fileID: 7526049033921414929, guid: 251826d603c2a0c4aab8fd8b2fd7feea,
     type: 3}
   poolSize: 10
-  projectileSpeed: 12

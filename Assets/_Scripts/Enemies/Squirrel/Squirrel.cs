@@ -9,9 +9,6 @@ namespace _Scripts.Enemies.Squirrel
 
         [Header("References")]
         [SerializeField]
-        private ProjectilesPool.ProjectilesPool acornPool;
-
-        [SerializeField]
         private Transform firePoint;
 
         [Header("Shooting Variables")]
@@ -33,16 +30,19 @@ namespace _Scripts.Enemies.Squirrel
 
         [SerializeField]
         private Color flashColor = new(0.6f, 0.1f, 0.1f, 1f);
-
         private float _lastShotTime = Mathf.NegativeInfinity;
+        private ProjectilesPool.ProjectilesPool acornPool;
         private Renderer[] _renderers;
         private Color[] _originalColors;
         private Transform _player;
+        private Animator animator;
+        private static readonly int ShootTrigger = Animator.StringToHash("ShootTrigger");
 
         private void Awake()
         {
             InitRenderers();
             FindReferences();
+            animator = GetComponent<Animator>();
         }
 
         private void InitRenderers()
@@ -102,6 +102,7 @@ namespace _Scripts.Enemies.Squirrel
                 ? playerCollider.bounds.center
                 : _player.position + Vector3.up;
 
+            animator.SetTrigger(ShootTrigger);
             LaunchProjectile(targetPosition);
         }
 
