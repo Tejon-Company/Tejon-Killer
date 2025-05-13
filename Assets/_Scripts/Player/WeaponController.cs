@@ -1,5 +1,9 @@
 using System.Collections;
 using _Scripts.Enemies;
+using _Scripts.Managers;
+using _Scripts.Managers;
+using _Scripts.Managers.Audio;
+using _Scripts.Menus;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -35,6 +39,11 @@ public class WeaponController : MonoBehaviour
     private float reloadTime = 0.85f;
     private bool isReloading;
 
+    [Header("Rabia")]
+    private bool isRaging = false;
+    private float rageEndTime = 0f;
+    private float defaultFireRate;
+
     [Header("Efectos visuales")]
     [SerializeField]
     private GameObject flashEffect;
@@ -55,6 +64,7 @@ public class WeaponController : MonoBehaviour
     private void Awake()
     {
         CurrentAmmo = maxAmmo;
+        defaultFireRate = fireRate;
         UpdateAmmoUI();
     }
 
@@ -63,10 +73,27 @@ public class WeaponController : MonoBehaviour
         cameraTransform = GameObject.FindGameObjectWithTag("MainCamera")?.transform;
     }
 
+    private void OnEnable()
+    {
+        if (EventManager.Current != null)
+            EventManager.Current.rageBerryEvent.AddListener(ApplyRage);
+    }
+
+    private void OnDisable()
+    {
+        if (EventManager.Current != null)
+            EventManager.Current.rageBerryEvent.RemoveListener(ApplyRage);
+    }
+
     private void Update()
     {
+        if (PauseMenu.IsPaused)
+        {
+            return;
+        }
         HandleFireInput();
         HandleReloadInput();
+        HandleRageState();
     }
 
     private void HandleFireInput()
@@ -95,8 +122,18 @@ public class WeaponController : MonoBehaviour
             StartCoroutine(Reload());
     }
 
+    private void HandleRageState()
+    {
+        if (isRaging && Time.time >= rageEndTime)
+        {
+            fireRate = defaultFireRate;
+            isRaging = false;
+        }
+    }
+
     private void Shoot()
     {
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Shoot);
         ShowFlashEffect();
 
         Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
@@ -169,6 +206,7 @@ public class WeaponController : MonoBehaviour
 
         yield return new WaitForSeconds(reloadTime);
 
+        SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
         CurrentAmmo = MaxAmmo;
         UpdateAmmoUI();
         isReloading = false;
@@ -176,7 +214,7 @@ public class WeaponController : MonoBehaviour
 
     private void UpdateAmmoUI()
     {
-        EventManager.current.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
+        EventManager.Current.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
     }
 
     private IEnumerator FadeRay(LineRenderer lr, float duration)
@@ -195,5 +233,19 @@ public class WeaponController : MonoBehaviour
         }
 
         Destroy(lr.gameObject);
+    }
+
+    public void ApplyRage(
+        float playerBaseSpeedMultiplier,
+        float playerJumpForceMultiplier,
+        float weaponFireRateMultiplier,
+        float duration
+    )
+    {
+        fireRate = defaultFireRate * weaponFireRateMultiplier;
+        rageEndTime = Time.time + duration;
+        CurrentAmmo = MaxAmmo;
+        UpdateAmmoUI();
+        isRaging = true;
     }
 }

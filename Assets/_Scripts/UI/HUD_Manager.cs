@@ -1,3 +1,5 @@
+using _Scripts.Managers;
+using _Scripts.Player;
 using UnityEngine;
 
 public class HUD_Manager : MonoBehaviour
@@ -9,7 +11,7 @@ public class HUD_Manager : MonoBehaviour
 
     void Start()
     {
-        EventManager.current.NewGunEvent.AddListener(CreateWeaponInfo);
+        EventManager.Current.newGunEvent.AddListener(CreateWeaponInfo);
     }
 
     public void CreateWeaponInfo()

@@ -1,18 +1,20 @@
+using _Scripts.Menus;
+using _Scripts.Player;
 using UnityEngine;
 
 public class CameraEffects : MonoBehaviour
 {
     [SerializeField]
-    private Vector2 sensibility = new Vector2(3f, 3f);
+    private Vector2 sensibility = new(3f, 3f);
 
-    [SerializeField]
-    private Transform player;
+        [SerializeField]
+        private Transform player;
 
-    [SerializeField]
-    private PlayerController playerController;
+        [SerializeField]
+        private PlayerController playerController;
 
-    [SerializeField]
-    private float maxTiltAngle = 5f;
+        [SerializeField]
+        private float maxTiltAngle = 5f;
 
     [SerializeField]
     private float tiltSpeed = 5f;
@@ -33,9 +35,9 @@ public class CameraEffects : MonoBehaviour
     [SerializeField]
     private float fovLerpSpeed = 5f;
 
-    private float verticalRotation = 0f;
-    private float targetTilt = 0f;
-    private float currentTilt = 0f;
+        private float verticalRotation;
+        private float targetTilt;
+        private float currentTilt;
 
     private void Start()
     {
@@ -48,45 +50,75 @@ public class CameraEffects : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        HandleMouseLook();
-        HandleCameraTilt();
-        UpdateFOV();
+        private void Update()
+        {
+            if (PauseMenu.IsPaused)
+            {
+                return;
+            }
+            
+            HandleMouseLook();
+            HandleCameraTilt();
+            UpdateFOV();
+        }
+
+
+        private void HandleMouseLook()
+        {
+            var mouseX = Input.GetAxis("Mouse X") * sensibility.x;
+            var mouseY = Input.GetAxis("Mouse Y") * sensibility.y;
+
+            player.Rotate(Vector3.up * mouseX);
+
+            verticalRotation += mouseY;
+            verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+
+            transform.rotation = Quaternion.Euler(verticalRotation, player.eulerAngles.y, currentTilt);
+        }
+
+        private void HandleCameraTilt()
+        {
+            targetTilt = CalculateTargetTilt();
+            currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
+        }
+
+        private float CalculateTargetTilt()
+        {
+            if (!playerController.IsSliding)
+                return 0f;
+
+            var horizontalInput = Input.GetAxis("Horizontal");
+            const float threshold = 0.1f;
+
+            if (Mathf.Abs(horizontalInput) <= threshold)
+                return 0f;
+
+            var direction = Mathf.Sign(horizontalInput);
+            return -direction * maxTiltAngle;
+        }
     }
 
-    private void HandleMouseLook()
+    private void UpdateFOV()
     {
-        float mouseX = Input.GetAxis("Mouse X") * sensibility.x;
-        float mouseY = Input.GetAxis("Mouse Y") * sensibility.y;
+        if (playerCamera == null)
+            return;
 
-        player.Rotate(Vector3.up * mouseX);
+        float targetFOV = baseFOV;
 
-        verticalRotation += mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+        if (playerController.IsDashing)
+        {
+            targetFOV = dashFOV;
+        }
+        else if (playerController.IsSliding)
+        {
+            targetFOV = slideFOV;
+        }
 
-        transform.rotation = Quaternion.Euler(verticalRotation, player.eulerAngles.y, currentTilt);
-    }
-
-    private void HandleCameraTilt()
-    {
-        targetTilt = CalculateTargetTilt();
-        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
-    }
-
-    private float CalculateTargetTilt()
-    {
-        if (!playerController.IsSliding)
-            return 0f;
-
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float threshold = 0.1f;
-
-        if (Mathf.Abs(horizontalInput) <= threshold)
-            return 0f;
-
-        float direction = Mathf.Sign(horizontalInput);
-        return -direction * maxTiltAngle;
+        playerCamera.fieldOfView = Mathf.Lerp(
+            playerCamera.fieldOfView,
+            targetFOV,
+            Time.deltaTime * fovLerpSpeed
+        );
     }
 
     private void UpdateFOV()
