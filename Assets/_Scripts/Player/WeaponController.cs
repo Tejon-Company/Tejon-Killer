@@ -1,4 +1,5 @@
 using System.Collections;
+using _Scripts.Enemies;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -49,6 +50,7 @@ public class WeaponController : MonoBehaviour
 
     private Transform cameraTransform;
     private float lastShotTime;
+    private EnemyHealth enemyHealth;
 
     private void Awake()
     {
@@ -102,12 +104,12 @@ public class WeaponController : MonoBehaviour
         {
             ShowBulletHole(hit);
             ShowTracerEffect(weaponMuzzle.position, hit.point);
-            /*
-                        EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
-                        if (enemy != null)
-                        {
-                            enemy.TakeDamage(shotDamage);
-                        }*/
+
+            enemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(shotDamage);
+            }
         }
 
         sway?.ApplyRecoil();

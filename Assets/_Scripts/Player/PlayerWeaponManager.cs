@@ -46,7 +46,7 @@ public class PlayerWeaponManager : MonoBehaviour
 
             var weaponInstance = Instantiate(weaponPrefab, weaponParentSocket);
             weaponInstance.gameObject.SetActive(false);
-            SetupSway(weaponInstance);
+            SetupWeaponGunAnimations(weaponInstance);
             weaponSlots[i] = weaponInstance;
             return;
         }
@@ -84,18 +84,18 @@ public class PlayerWeaponManager : MonoBehaviour
     private void ActivateWeapon(WeaponController weapon, int index)
     {
         weapon.gameObject.SetActive(true);
-        SetupSway(weapon);
+        SetupWeaponGunAnimations(weapon);
         ActiveWeaponIndex = index;
         EventManager.current.NewGunEvent.Invoke();
     }
 
-    private void SetupSway(WeaponController weapon)
+    private void SetupWeaponGunAnimations(WeaponController weapon)
     {
-        var sway = weapon.GetComponent<GunAnimations>();
-        if (sway != null)
+        var gunAnimations = weapon.GetComponent<GunAnimations>();
+        if (gunAnimations != null)
         {
-            sway.SetPlayerController(playerController);
-            playerController.SetWeaponSway(sway);
+            gunAnimations.SetPlayerController(playerController);
+            playerController.SetWeaponGunAnimations(gunAnimations);
         }
     }
 

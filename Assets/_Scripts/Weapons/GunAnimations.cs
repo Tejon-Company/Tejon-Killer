@@ -215,52 +215,42 @@ public class GunAnimations : MonoBehaviour
 
     private IEnumerator ReloadAnimation(float duration)
     {
-        float elapsed = 0f;
         float quarter = duration / 4f;
         Vector3 downOffset = new Vector3(0f, -0.1f, 0f);
 
-        while (elapsed < quarter)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / quarter);
-            float angle = Mathf.Lerp(0f, 45f, t);
-            reloadRotation = Quaternion.Euler(0f, 0f, angle);
-            reloadPositionOffset = Vector3.zero;
-            yield return null;
-        }
-
-        elapsed = 0f;
-        while (elapsed < quarter)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / quarter);
-            reloadRotation = Quaternion.Euler(0f, 0f, 45f);
-            reloadPositionOffset = Vector3.Lerp(Vector3.zero, downOffset, t);
-            yield return null;
-        }
-
-        elapsed = 0f;
-        while (elapsed < quarter)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / quarter);
-            reloadRotation = Quaternion.Euler(0f, 0f, 45f);
-            reloadPositionOffset = Vector3.Lerp(downOffset, Vector3.zero, t);
-            yield return null;
-        }
-
-        elapsed = 0f;
-        while (elapsed < quarter)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / quarter);
-            float angle = Mathf.Lerp(45f, 0f, t);
-            reloadRotation = Quaternion.Euler(0f, 0f, angle);
-            reloadPositionOffset = Vector3.zero;
-            yield return null;
-        }
+        yield return RotateToAngle(0f, 45f, quarter);
+        yield return MoveToOffset(Vector3.zero, downOffset, 45f, quarter);
+        yield return MoveToOffset(downOffset, Vector3.zero, 45f, quarter);
+        yield return RotateToAngle(45f, 0f, quarter);
 
         reloadRotation = Quaternion.identity;
         reloadPositionOffset = Vector3.zero;
+    }
+
+    private IEnumerator RotateToAngle(float startAngle, float endAngle, float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            float angle = Mathf.Lerp(startAngle, endAngle, t);
+            reloadRotation = Quaternion.Euler(0f, 0f, angle);
+            reloadPositionOffset = Vector3.zero;
+            yield return null;
+        }
+    }
+
+    private IEnumerator MoveToOffset(Vector3 start, Vector3 end, float fixedAngle, float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            reloadRotation = Quaternion.Euler(0f, 0f, fixedAngle);
+            reloadPositionOffset = Vector3.Lerp(start, end, t);
+            yield return null;
+        }
     }
 }

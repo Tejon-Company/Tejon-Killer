@@ -268,7 +268,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetWeaponSway(GunAnimations gunAnimation)
+    public void SetWeaponGunAnimations(GunAnimations gunAnimation)
     {
         gunAnimations = gunAnimation;
     }
