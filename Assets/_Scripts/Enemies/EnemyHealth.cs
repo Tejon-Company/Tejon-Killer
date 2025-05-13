@@ -1,39 +1,36 @@
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+namespace _Scripts.Enemies
 {
-    [SerializeField]
-    private int maxHealth = 20;
-    private int currentHealth;
-
-    [SerializeField]
-    private GameObject deathEffect;
-
-    [SerializeField]
-    private GameObject damageEffect;
-
-    private void Start()
+    public class EnemyHealth : MonoBehaviour
     {
-        currentHealth = maxHealth;
-    }
+        [SerializeField]
+        private int maxHealth = 20;
 
-    public void TakeDamage(int amount)
-    {
-        currentHealth -= amount;
+        [SerializeField]
+        private GameObject deathEffect;
 
-        GetComponent<Squirrel>()?.FlashRed();
+        [SerializeField]
+        private GameObject damageEffect;
 
-        if (damageEffect != null && currentHealth != 0)
+        private int _currentHealth;
+
+        private void Start() => _currentHealth = maxHealth;
+
+        public void TakeDamage(int amount)
         {
-            Instantiate(damageEffect, transform.position, Quaternion.identity);
-        }
+            _currentHealth -= amount;
 
-        if (currentHealth <= 0)
-        {
-            if (deathEffect != null)
-            {
+            GetComponent<Squirrel.Squirrel>()?.FlashRed();
+
+            if (damageEffect && _currentHealth > 0)
+                Instantiate(damageEffect, transform.position, Quaternion.identity);
+
+            if (_currentHealth > 0)
+                return;
+
+            if (deathEffect)
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
-            }
 
             Destroy(gameObject);
         }

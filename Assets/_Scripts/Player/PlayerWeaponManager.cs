@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Scripts.Managers;
 using UnityEngine;
 
 namespace _Scripts.Player
@@ -88,7 +89,7 @@ namespace _Scripts.Player
             weapon.gameObject.SetActive(true);
             SetupSway(weapon);
             ActiveWeaponIndex = index;
-            EventManager.current.NewGunEvent.Invoke();
+            EventManager.Current.newGunEvent.Invoke();
         }
 
         private void SetupSway(WeaponController weapon)

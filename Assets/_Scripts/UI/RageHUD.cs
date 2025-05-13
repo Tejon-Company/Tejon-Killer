@@ -1,3 +1,4 @@
+using _Scripts.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,10 +38,10 @@ public class RageHUD : MonoBehaviour
 
     private void RegisterEventListener()
     {
-        if (listenerRegistered || EventManager.current == null)
+        if (listenerRegistered || EventManager.Current == null)
             return;
 
-        EventManager.current.rageBerryEvent.AddListener(OnRageActivated);
+        EventManager.Current.rageBerryEvent.AddListener(OnRageActivated);
         listenerRegistered = true;
     }
 

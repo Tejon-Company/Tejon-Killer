@@ -1,3 +1,4 @@
+using _Scripts.Managers;
 using UnityEngine;
 
 public class RageBerry : MonoBehaviour
@@ -11,7 +12,7 @@ public class RageBerry : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            EventManager.current.rageBerryEvent.Invoke(playerBaseSpeedMultiplier, playerJumpForceMultiplier, weaponFireRateMultiplier, rageDuration);
+            EventManager.Current.rageBerryEvent.Invoke(playerBaseSpeedMultiplier, playerJumpForceMultiplier, weaponFireRateMultiplier, rageDuration);
             Destroy(gameObject);
         }
     }

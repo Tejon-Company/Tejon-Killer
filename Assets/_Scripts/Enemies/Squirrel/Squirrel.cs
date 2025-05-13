@@ -1,186 +1,163 @@
-using System.Collections;
 using UnityEngine;
 
-public class Squirrel : MonoBehaviour
+namespace _Scripts.Enemies.Squirrel
 {
-    [Header("Referencias")]
-    [SerializeField]
-    private ProjectilesPool acornPool;
-
-    [SerializeField]
-    private Transform firePoint;
-
-    [Header("Variables de disparo")]
-    [SerializeField]
-    private float fireRate = 2f;
-
-    [SerializeField]
-    private float detectionRange = 20f;
-
-    [SerializeField]
-    private float minVerticalLaunch = 0.1f;
-
-    [SerializeField]
-    private float maxVerticalLaunch = 1.0f;
-
-    [Header("Efectos")]
-    [SerializeField]
-    private float flashDuration = 0.3f;
-
-    [SerializeField]
-    private Color flashColor = new Color(0.6f, 0.1f, 0.1f, 1f);
-
-    private float lastShotTime = Mathf.NegativeInfinity;
-    private float distanceToPlayer;
-    private float verticalLaunch;
-    private float launchLimit;
-    private Renderer[] scratRenderers;
-    private Color[] originalColors;
-    private Transform player;
-
-    private void Awake()
+    public class Squirrel : MonoBehaviour
     {
-        InitRenderers();
-        FindReferences();
-    }
+        private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+        private static readonly int Color1 = Shader.PropertyToID("_Color");
 
-    private void InitRenderers()
-    {
-        scratRenderers = GetComponentsInChildren<Renderer>();
-        originalColors = new Color[scratRenderers.Length];
+        [Header("References")]
+        [SerializeField]
+        private ProjectilesPool.ProjectilesPool acornPool;
 
-        for (int i = 0; i < scratRenderers.Length; i++)
+        [SerializeField]
+        private Transform firePoint;
+
+        [Header("Shooting Variables")]
+        [SerializeField]
+        private float fireRate = 2f;
+
+        [SerializeField]
+        private float detectionRange = 20f;
+
+        [SerializeField]
+        private float minVerticalLaunch = 0.1f;
+
+        [SerializeField]
+        private float maxVerticalLaunch = 1.0f;
+
+        [Header("Effects")]
+        [SerializeField]
+        private float flashDuration = 0.3f;
+
+        [SerializeField]
+        private Color flashColor = new Color(0.6f, 0.1f, 0.1f, 1f);
+
+        private float _lastShotTime = Mathf.NegativeInfinity;
+        private Renderer[] _renderers;
+        private Color[] _originalColors;
+        private Transform _player;
+
+        private void Awake()
         {
-            originalColors[i] = GetRendererColor(scratRenderers[i]);
+            InitRenderers();
+            FindReferences();
         }
-    }
 
-    private Color GetRendererColor(Renderer renderer)
-    {
-        Material mat = renderer.material;
-        if (mat.HasProperty("_BaseColor"))
-            return mat.GetColor("_BaseColor");
-        else if (mat.HasProperty("_Color"))
-            return mat.GetColor("_Color");
-        else
+        private void InitRenderers()
+        {
+            _renderers = GetComponentsInChildren<Renderer>();
+            _originalColors = new Color[_renderers.Length];
+
+            for (var i = 0; i < _renderers.Length; i++)
+                _originalColors[i] = GetRendererColor(_renderers[i]);
+        }
+
+        private static Color GetRendererColor(Renderer renderer)
+        {
+            var material = renderer.material;
+            if (material.HasProperty(BaseColor))
+            {
+                return material.GetColor(BaseColor);
+            }
+            if (material.HasProperty(Color1))
+            {
+                return material.GetColor(Color1);
+            }
             return Color.white;
-    }
-
-    private void FindReferences()
-    {
-        if (acornPool == null)
-        {
-            acornPool = FindFirstObjectByType<ProjectilesPool>();
         }
 
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
+        private void FindReferences()
         {
-            player = playerObj.transform;
+            acornPool ??= FindFirstObjectByType<ProjectilesPool.ProjectilesPool>();
+            _player = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
-    }
 
-    private void Update()
-    {
-        if (player == null)
-            return;
-
-        float distance = Vector3.Distance(player.position, transform.position);
-
-        if (distance <= detectionRange && Time.time - lastShotTime >= fireRate)
+        private void Update()
         {
+            var playerInRange = Vector3.Distance(_player.position, transform.position) <= detectionRange;
+            var canShoot = Time.time - _lastShotTime >= fireRate;
+            
+            if (_player || !playerInRange || !canShoot)
+                return;
+
             RotateToPlayer();
             Shoot();
-            lastShotTime = Time.time;
-        }
-    }
-
-    private void RotateToPlayer()
-    {
-        Vector3 direction = player.position - transform.position;
-        direction.y = 0;
-        if (direction.sqrMagnitude > 0.001f)
-        {
-            transform.rotation = Quaternion.LookRotation(direction);
-        }
-    }
-
-    private void Shoot()
-    {
-        if (acornPool == null || player == null || firePoint == null)
-            return;
-
-        Vector3 targetPosition = GetTargetPosition();
-        LaunchAt(targetPosition);
-    }
-
-    private Vector3 GetTargetPosition()
-    {
-        if (player.TryGetComponent(out Collider playerCollider))
-        {
-            return playerCollider.bounds.center;
-        }
-        else
-        {
-            return player.position + Vector3.up * 1.0f;
-        }
-    }
-
-    private void LaunchAt(Vector3 targetPosition)
-    {
-        distanceToPlayer = Vector3.Distance(targetPosition, transform.position);
-
-        launchLimit = detectionRange * 0.5f;
-        verticalLaunch = (distanceToPlayer < launchLimit) ? minVerticalLaunch : maxVerticalLaunch;
-
-        GameObject projectile = acornPool.GetProjectile(firePoint);
-        if (projectile == null)
-            return;
-
-        Vector3 toTarget = targetPosition - firePoint.position;
-        Vector3 direction = new Vector3(toTarget.x, verticalLaunch, toTarget.z).normalized;
-
-        acornPool.LaunchProjectile(projectile, direction);
-
-        IgnoreSelfCollisions(projectile);
-    }
-
-    private void IgnoreSelfCollisions(GameObject other)
-    {
-        if (!other.TryGetComponent(out Collider otherCol))
-            return;
-
-        Collider[] ownColliders = GetComponentsInChildren<Collider>();
-        foreach (var col in ownColliders)
-        {
-            Physics.IgnoreCollision(otherCol, col);
-        }
-    }
-
-    public void FlashRed()
-    {
-        foreach (var renderer in scratRenderers)
-        {
-            SetRendererColor(renderer, flashColor);
+            _lastShotTime = Time.time;
         }
 
-        Invoke(nameof(RestoreOriginalColor), flashDuration);
-    }
-
-    private void SetRendererColor(Renderer renderer, Color color)
-    {
-        Material mat = renderer.material;
-        if (mat.HasProperty("_BaseColor"))
-            mat.SetColor("_BaseColor", color);
-        else if (mat.HasProperty("_Color"))
-            mat.SetColor("_Color", color);
-    }
-
-    private void RestoreOriginalColor()
-    {
-        for (int i = 0; i < scratRenderers.Length; i++)
+        private void RotateToPlayer()
         {
-            SetRendererColor(scratRenderers[i], originalColors[i]);
+            var direction = _player.position - transform.position;
+            direction.y = 0;
+
+            if (direction.sqrMagnitude > 0.001f)
+                transform.rotation = Quaternion.LookRotation(direction);
+        }
+
+        private void Shoot()
+        {
+            if (!acornPool || !firePoint || !_player)
+                return;
+
+            var targetPosition = _player.TryGetComponent(out Collider playerCollider)
+                ? playerCollider.bounds.center
+                : _player.position + Vector3.up;
+
+            LaunchProjectile(targetPosition);
+        }
+
+        private void LaunchProjectile(Vector3 targetPosition)
+        {
+            var distance = Vector3.Distance(targetPosition, transform.position);
+            var verticalLaunch =
+                distance < detectionRange * 0.5f ? minVerticalLaunch : maxVerticalLaunch;
+
+            var projectile = acornPool.GetProjectile(firePoint);
+            if (!projectile)
+                return;
+
+            var direction = new Vector3(
+                targetPosition.x - firePoint.position.x,
+                verticalLaunch,
+                targetPosition.z - firePoint.position.z
+            ).normalized;
+            ProjectilesPool.ProjectilesPool.LaunchProjectile(projectile, direction);
+
+            IgnoreSelfCollisions(projectile);
+        }
+
+        private void IgnoreSelfCollisions(GameObject projectile)
+        {
+            if (!projectile.TryGetComponent(out Collider projectileCollider))
+                return;
+
+            foreach (var col in GetComponentsInChildren<Collider>())
+                Physics.IgnoreCollision(projectileCollider, col);
+        }
+
+        public void FlashRed()
+        {
+            foreach (var rendererComponent in _renderers)
+                SetRendererColor(rendererComponent, flashColor);
+
+            Invoke(nameof(RestoreOriginalColors), flashDuration);
+        }
+
+        private static void SetRendererColor(Renderer renderComponent, Color color)
+        {
+            var mat = renderComponent.material;
+            if (mat.HasProperty(BaseColor))
+                mat.SetColor(BaseColor, color);
+            else if (mat.HasProperty(Color1))
+                mat.SetColor(Color1, color);
+        }
+
+        private void RestoreOriginalColors()
+        {
+            for (var i = 0; i < _renderers.Length; i++)
+                SetRendererColor(_renderers[i], _originalColors[i]);
         }
     }
 }

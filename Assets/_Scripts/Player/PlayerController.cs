@@ -1,3 +1,4 @@
+using _Scripts.Managers;
 using _Scripts.Managers.Audio;
 using UnityEngine;
 
@@ -125,14 +126,14 @@ public class PlayerController : MonoBehaviour, RageInterface
 
     private void OnEnable()
     {
-        if (EventManager.current != null)
-            EventManager.current.rageBerryEvent.AddListener(ApplyRage);
+        if (EventManager.Current != null)
+            EventManager.Current.rageBerryEvent.AddListener(ApplyRage);
     }
 
     private void OnDisable()
     {
-        if (EventManager.current != null)
-            EventManager.current.rageBerryEvent.RemoveListener(ApplyRage);
+        if (EventManager.Current != null)
+            EventManager.Current.rageBerryEvent.RemoveListener(ApplyRage);
     }
 
     private void Update()

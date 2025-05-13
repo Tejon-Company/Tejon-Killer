@@ -1,68 +1,59 @@
+using _Scripts.Player;
 using UnityEngine;
 
-public class Acorn : MonoBehaviour
+namespace _Scripts.Enemies.Squirrel
 {
-    [Header("Variables de disparo")]
-    [SerializeField]
-    private float speed = 12f;
-
-    [SerializeField]
-    private float lifetimeAfterHit = 0.3f;
-
-    [SerializeField]
-    private int damage = 1;
-
-    [SerializeField]
-    private float gravityMultiplier = 2f;
-
-    private Rigidbody rb;
-    private ProjectilesPool pool;
-
-    private void Awake()
+    public class Acorn : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody>();
-    }
+        [Header("Variables de disparo")]
+        [SerializeField]
+        private float speed = 12f;
 
-    public void Init(ProjectilesPool poolRef)
-    {
-        pool = poolRef;
-    }
+        [SerializeField]
+        private float lifetimeAfterHit = 0.3f;
 
-    public void Launch(Vector3 direction)
-    {
-        rb.linearVelocity = direction.normalized * speed;
-    }
+        [SerializeField]
+        private int damage = 1;
 
-    private void FixedUpdate()
-    {
-        rb.AddForce(
-            Vector3.down * Physics.gravity.magnitude * (gravityMultiplier - 1),
-            ForceMode.Acceleration
-        );
-    }
+        [SerializeField]
+        private float gravityMultiplier = 2f;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
+        private Rigidbody _rigidbody;
+
+        private void Awake()
         {
-            Invoke(nameof(Deactivate), 0);
-            PlayerHealth player = collision.collider.GetComponentInParent<PlayerHealth>();
-            if (player != null)
+            _rigidbody = GetComponent<Rigidbody>();
+        }
+
+        private void FixedUpdate()
+        {
+            _rigidbody.AddForce(
+                Vector3.down * (Physics.gravity.magnitude * (gravityMultiplier - 1)),
+                ForceMode.Acceleration
+            );
+        }
+
+        public void Launch(Vector3 direction)
+        {
+            _rigidbody.linearVelocity = direction.normalized * speed;
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (!collision.gameObject.CompareTag("Player"))
             {
-                player.TakeDamage(damage);
+                Invoke(nameof(Deactivate), lifetimeAfterHit);
+                return;
             }
-        }
-        else
-        {
-            Invoke(nameof(Deactivate), lifetimeAfterHit);
-        }
-    }
 
-    private void Deactivate()
-    {
-        if (pool != null)
-            pool.ReturnProjectile(gameObject);
-        else
+            Invoke(nameof(Deactivate), 0);
+            var player = collision.collider.GetComponentInParent<PlayerHealth>();
+            player?.TakeDamage(damage);
+        }
+
+        private void Deactivate()
+        {
             gameObject.SetActive(false);
+        }
     }
 }

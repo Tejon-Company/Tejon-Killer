@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Managers;
+using _Scripts.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,20 +30,20 @@ public class HeartsHUD : MonoBehaviour
 
     private void OnEnable()
     {
-        if (EventManager.current != null)
+        if (EventManager.Current != null)
         {
-            EventManager.current.healthChangedEvent.AddListener(UpdateHearts);
-            EventManager.current.damageCooldownEvent.AddListener(SetFlickerState);
+            EventManager.Current.healthChangedEvent.AddListener(UpdateHearts);
+            EventManager.Current.damageCooldownEvent.AddListener(SetFlickerState);
             UpdateHearts();
         }
     }
 
     private void OnDisable()
     {
-        if (EventManager.current != null)
+        if (EventManager.Current != null)
         {
-            EventManager.current.damageCooldownEvent.RemoveListener(SetFlickerState);
-            EventManager.current.healthChangedEvent.RemoveListener(UpdateHearts);
+            EventManager.Current.damageCooldownEvent.RemoveListener(SetFlickerState);
+            EventManager.Current.healthChangedEvent.RemoveListener(UpdateHearts);
         }
     }
 

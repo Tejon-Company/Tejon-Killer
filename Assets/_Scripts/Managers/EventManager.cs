@@ -1,33 +1,31 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering;
 
-[Serializable]
-public class Int2Event : UnityEvent<int, int> { }
-
-[Serializable]
-public class RageEvent : UnityEvent<float, float, float, float> { }
-
-public class EventManager : MonoBehaviour
+namespace _Scripts.Managers
 {
-    public static EventManager current;
+    [Serializable]
+    public class Int2Event : UnityEvent<int, int> { }
 
-    void Awake()
+    [Serializable]
+    public class RageEvent : UnityEvent<float, float, float, float> { }
+
+    public class EventManager : MonoBehaviour
     {
-        if (current == null)
-        {
-            current = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
-    }
+        public static EventManager Current;
 
-    public Int2Event updateBulletsEvent = new Int2Event();
-    public UnityEvent NewGunEvent = new UnityEvent();
-    public UnityEvent healthChangedEvent = new UnityEvent();
-    public RageEvent rageBerryEvent = new RageEvent();
-    public UnityEvent<bool> damageCooldownEvent;
+        private void Awake()
+        {
+            if (!Current)
+                Current = this;
+            else
+                Destroy(this);
+        }
+
+        public Int2Event updateBulletsEvent = new();
+        public UnityEvent newGunEvent = new();
+        public UnityEvent healthChangedEvent = new();
+        public RageEvent rageBerryEvent = new();
+        public UnityEvent<bool> damageCooldownEvent;
+    }
 }
