@@ -32,7 +32,7 @@ namespace _Scripts.Menus
 
         public void StartFirstLevel()
         {
-            SceneManager.LoadScene("Level 1");
+            SceneManager.LoadScene("Movement_test");
         }
 
         public void QuitGame()
