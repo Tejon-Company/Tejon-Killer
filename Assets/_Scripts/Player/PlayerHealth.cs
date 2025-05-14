@@ -1,47 +1,63 @@
+using _Scripts.Managers;
+using System.Collections;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+namespace _Scripts.Player
 {
-    [SerializeField]
-    private int _maxHealth = 5;
-    public int MaxHealth
+    public class PlayerHealth : MonoBehaviour
     {
-        get => _maxHealth;
-    }
+        [SerializeField]
+        private int maxHealth = 5;
+        public int MaxHealth => maxHealth;
 
-    private int _currentHealth;
-    public int CurrentHealth
-    {
-        get => _currentHealth;
-    }
+        [SerializeField]
+        private float damageCooldown = 1.5f;
 
-    private void Awake()
-    {
-        _currentHealth = _maxHealth;
-    }
+        public int CurrentHealth { get; private set; }
 
-    private void Start()
-    {
-        NotifyHealthChanged();
-    }
+        private bool _isInvulnerable;
 
-    public void Heal(int amount)
-    {
-        _currentHealth = Mathf.Min(_currentHealth + amount, _maxHealth);
-        NotifyHealthChanged();
-    }
-
-    public void TakeDamage(int amount)
-    {
-        _currentHealth = Mathf.Max(_currentHealth - amount, 0);
-        NotifyHealthChanged();
-    }
-
-    private void NotifyHealthChanged()
-    {
-        if (EventManager.current != null)
+        private void Awake()
         {
-            EventManager.current.healthChangedEvent.Invoke();
+            CurrentHealth = maxHealth;
+        }
+
+        private void Start()
+        {
+            NotifyHealthChanged();
+        }
+
+        public void Heal(int amount)
+        {
+            CurrentHealth = Mathf.Min(CurrentHealth + amount, maxHealth);
+            NotifyHealthChanged();
+        }
+        
+        public void TakeDamage(int amount)
+        {
+            if (_isInvulnerable)
+                return;
+
+            CurrentHealth = Mathf.Max(CurrentHealth - amount, 0);
+            NotifyHealthChanged();
+
+            StartCoroutine(DamageCooldownCoroutine());
+        }
+
+        private IEnumerator DamageCooldownCoroutine()
+        {
+            _isInvulnerable = true;
+            EventManager.Current?.damageCooldownEvent.Invoke(true);
+
+            yield return new WaitForSeconds(damageCooldown);
+
+            _isInvulnerable = false;
+            EventManager.Current?.damageCooldownEvent.Invoke(false);
+        }
+
+        private static void NotifyHealthChanged()
+        {
+            EventManager.Current?.healthChangedEvent.Invoke();
         }
     }
 }
