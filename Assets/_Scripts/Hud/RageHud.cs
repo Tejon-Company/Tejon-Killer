@@ -34,17 +34,19 @@ namespace _Scripts.Hud
 
         private void Update()
         {
-            RegisterEventListener();
             UpdateRageBar();
         }
 
-        private void RegisterEventListener()
+        private void OnEnable()
         {
-            if (_listenerRegistered || !EventManager.Current)
-                return;
+            if (EventManager.Current)
+                EventManager.Current.rageBerryEvent.AddListener(OnRageActivated);
+        }
 
-            EventManager.Current.rageBerryEvent.AddListener(OnRageActivated);
-            _listenerRegistered = true;
+        private void OnDisable()
+        {
+            if (EventManager.Current)
+                EventManager.Current.rageBerryEvent.RemoveListener(OnRageActivated);
         }
 
         private void UpdateRageBar()

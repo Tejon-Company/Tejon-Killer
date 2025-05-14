@@ -6,7 +6,8 @@ namespace _Scripts.Hud
 {
     public class HudManager : MonoBehaviour
     {
-        public GameObject weaponInfoPrefab;
+        [SerializeField]
+        private GameObject weaponInfoPrefab;
 
         [SerializeField]
         private PlayerWeaponManager playerWeaponManager;
