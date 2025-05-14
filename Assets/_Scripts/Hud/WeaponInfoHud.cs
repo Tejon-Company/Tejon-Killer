@@ -1,5 +1,7 @@
+using System.Collections;
 using _Scripts.Managers;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Scripts.Hud
@@ -11,6 +13,12 @@ namespace _Scripts.Hud
 
         private void OnEnable()
         {
+            StartCoroutine(SubscribeToBulletUpdate());
+        }
+
+        private IEnumerator SubscribeToBulletUpdate()
+        {
+            yield return null;
             EventManager.Current.updateBulletsEvent.AddListener(UpdateBullets);
         }
 
@@ -25,7 +33,7 @@ namespace _Scripts.Hud
             {
                 <= 0 => new Color(0.75f, 0, 0),
                 <= 3 => new Color(255f, 165f, 0),
-                _ => Color.white,
+                _ => Color.white
             };
             _currentBullets.text = newCurrentBullets.ToString();
             _totalBullets.text = newTotalBullets.ToString();
