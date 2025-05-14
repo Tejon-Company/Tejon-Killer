@@ -23,9 +23,6 @@ namespace _Scripts.Hud
         private readonly List<GameObject> _hearts = new();
         private int _currentLives;
         private int _totalHearts;
-        private GameObject _heart;
-        private Image _heartImage;
-        private RectTransform _rt;
         private Coroutine _flickerCoroutine;
         private float _flickerTime = Mathf.PI / 2f;
         private float _alpha;
@@ -36,8 +33,8 @@ namespace _Scripts.Hud
             if (!EventManager.Current)
                 return;
 
-            EventManager.Current.damageCooldownEvent.AddListener(SetFlickerState);
             EventManager.Current.healthChangedEvent.AddListener(UpdateHearts);
+            EventManager.Current.damageCooldownEvent.AddListener(SetFlickerState);
             UpdateHearts();
         }
 
@@ -56,8 +53,8 @@ namespace _Scripts.Hud
 
             for (var i = 0; i < _totalHearts; i++)
             {
-                _heart = CreateHeart();
-                _hearts.Add(_heart);
+                var heart = CreateHeart();
+                _hearts.Add(heart);
             }
 
             UpdateHearts();
@@ -65,22 +62,22 @@ namespace _Scripts.Hud
 
         private GameObject CreateHeart()
         {
-            _heart = new GameObject(
+            var heart = new GameObject(
                 "Heart",
                 typeof(RectTransform),
                 typeof(CanvasRenderer),
                 typeof(Image)
             );
-            _heart.transform.SetParent(transform, false);
-            _heart.SetActive(true);
+            heart.transform.SetParent(transform, false);
+            heart.SetActive(true);
 
-            _heartImage = _heart.GetComponent<Image>();
-            _heartImage.sprite = heartSprite;
+            var heartImage = heart.GetComponent<Image>();
+            heartImage.sprite = heartSprite;
 
-            _rt = _heart.GetComponent<RectTransform>();
-            _rt.sizeDelta = new Vector2(heartPixelSize, heartPixelSize);
+            var rt = heart.GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(heartPixelSize, heartPixelSize);
 
-            return _heart;
+            return heart;
         }
 
         private void UpdateHearts()
@@ -88,9 +85,7 @@ namespace _Scripts.Hud
             _currentLives = Mathf.Clamp(playerHealth.CurrentHealth, 0, playerHealth.MaxHealth);
 
             for (var i = 0; i < _hearts.Count; i++)
-            {
                 _hearts[i].SetActive(i < _currentLives);
-            }
         }
 
         private void SetFlickerState(bool shouldFlicker)
@@ -100,7 +95,7 @@ namespace _Scripts.Hud
                 _flickerCoroutine ??= StartCoroutine(FlickerHearts());
                 return;
             }
-            
+
             if (_flickerCoroutine == null)
                 return;
 
