@@ -2,131 +2,130 @@ using _Scripts.Menus;
 using _Scripts.Player;
 using UnityEngine;
 
-public class CameraEffects : MonoBehaviour
+namespace _Scripts.Camera
 {
-    [SerializeField]
-    private Vector2 sensibility = new(3f, 3f);
-
-    [SerializeField]
-    private Transform player;
-
-    [SerializeField]
-    private PlayerController playerController;
-
-    [SerializeField]
-    private float maxTiltAngle = 5f;
-
-    [SerializeField]
-    private float tiltSpeed = 5f;
-
-    [Header("Camera FOV Settings")]
-    [SerializeField]
-    private Camera playerCamera;
-
-    [SerializeField]
-    private float baseFOV = 60f;
-
-    [SerializeField]
-    private float slideFOV = 80f;
-
-    [SerializeField]
-    private float dashFOV = 95f;
-
-    [SerializeField]
-    private float fovLerpSpeed = 5f;
-
-    private float verticalRotation;
-    private float targetTilt;
-    private float currentTilt;
-
-    private void Start()
+    public class CameraEffects : MonoBehaviour
     {
-        LockCursor();
+        [SerializeField]
+        private Vector2 sensibility = new(3f, 3f);
 
-        if (playerCamera != null)
+        [SerializeField]
+        private Transform player;
+
+        [SerializeField]
+        private PlayerController playerController;
+
+        [SerializeField]
+        private float maxTiltAngle = 5f;
+
+        [SerializeField]
+        private float tiltSpeed = 5f;
+
+        [Header("Camera FOV Settings")]
+        [SerializeField]
+        private UnityEngine.Camera playerCamera;
+
+        [SerializeField]
+        private float baseFOV = 60f;
+
+        [SerializeField]
+        private float slideFOV = 80f;
+
+        [SerializeField]
+        private float dashFOV = 95f;
+
+        [SerializeField]
+        private float fovLerpSpeed = 5f;
+
+        private float _verticalRotation;
+        private float _targetTilt;
+        private float _currentTilt;
+
+        private void Start()
         {
-            playerCamera.fieldOfView = baseFOV;
-        }
-    }
+            LockCursor();
 
-    public static void LockCursor()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
-    public static void UnlockCursor()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
-
-    private void Update()
-    {
-        if (PauseMenu.IsPaused)
-        {
-            return;
+            if (playerCamera)
+                playerCamera.fieldOfView = baseFOV;
         }
 
-        HandleMouseLook();
-        HandleCameraTilt();
-        UpdateFOV();
-    }
-
-    private void HandleMouseLook()
-    {
-        var mouseX = Input.GetAxis("Mouse X") * sensibility.x;
-        var mouseY = Input.GetAxis("Mouse Y") * sensibility.y;
-
-        player.Rotate(Vector3.up * mouseX);
-
-        verticalRotation += mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
-
-        transform.rotation = Quaternion.Euler(verticalRotation, player.eulerAngles.y, currentTilt);
-    }
-
-    private void HandleCameraTilt()
-    {
-        targetTilt = CalculateTargetTilt();
-        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
-    }
-
-    private float CalculateTargetTilt()
-    {
-        if (!playerController.IsSliding)
-            return 0f;
-
-        var horizontalInput = Input.GetAxis("Horizontal");
-        const float threshold = 0.1f;
-
-        if (Mathf.Abs(horizontalInput) <= threshold)
-            return 0f;
-
-        var direction = Mathf.Sign(horizontalInput);
-        return -direction * maxTiltAngle;
-    }
-
-    private void UpdateFOV()
-    {
-        if (playerCamera == null)
-            return;
-
-        float targetFOV = baseFOV;
-
-        if (playerController.IsDashing)
+        public static void LockCursor()
         {
-            targetFOV = dashFOV;
-        }
-        else if (playerController.IsSliding)
-        {
-            targetFOV = slideFOV;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
-        playerCamera.fieldOfView = Mathf.Lerp(
-            playerCamera.fieldOfView,
-            targetFOV,
-            Time.deltaTime * fovLerpSpeed
-        );
+        public static void UnlockCursor()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        private void Update()
+        {
+            if (PauseMenu.IsPaused)
+                return;
+
+            HandleMouseLook();
+            HandleCameraTilt();
+            UpdateFOV();
+        }
+
+        private void HandleMouseLook()
+        {
+            var mouseX = Input.GetAxis("Mouse X") * sensibility.x;
+            var mouseY = Input.GetAxis("Mouse Y") * sensibility.y;
+
+            player.Rotate(Vector3.up * mouseX);
+
+            _verticalRotation += mouseY;
+            _verticalRotation = Mathf.Clamp(_verticalRotation, -90f, 90f);
+
+            transform.rotation = Quaternion.Euler(
+                _verticalRotation,
+                player.eulerAngles.y,
+                _currentTilt
+            );
+        }
+
+        private void HandleCameraTilt()
+        {
+            _targetTilt = CalculateTargetTilt();
+            _currentTilt = Mathf.Lerp(_currentTilt, _targetTilt, Time.deltaTime * tiltSpeed);
+        }
+
+        private float CalculateTargetTilt()
+        {
+            if (!playerController.IsSliding)
+                return 0f;
+
+            var horizontalInput = Input.GetAxis("Horizontal");
+            const float threshold = 0.1f;
+
+            if (Mathf.Abs(horizontalInput) <= threshold)
+                return 0f;
+
+            var direction = Mathf.Sign(horizontalInput);
+            return -direction * maxTiltAngle;
+        }
+
+        private void UpdateFOV()
+        {
+            if (!playerCamera)
+                return;
+
+            var targetFOV = baseFOV;
+
+            if (playerController.IsDashing)
+                targetFOV = dashFOV;
+            else if (playerController.IsSliding)
+                targetFOV = slideFOV;
+
+            playerCamera.fieldOfView = Mathf.Lerp(
+                playerCamera.fieldOfView,
+                targetFOV,
+                Time.deltaTime * fovLerpSpeed
+            );
+        }
     }
 }

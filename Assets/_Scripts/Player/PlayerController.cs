@@ -1,6 +1,7 @@
 using _Scripts.Managers;
 using _Scripts.Managers.Audio;
 using _Scripts.Menus;
+using _Scripts.Weapons;
 using UnityEngine;
 
 namespace _Scripts.Player
@@ -89,9 +90,10 @@ namespace _Scripts.Player
 
         private float _jumpBufferCounter;
 
-        private bool jumpInput;
+        
+        private bool _jumpInput;
         private Vector3 slideDirection;
-        private GunAnimations gunAnimations;
+        private GunAnimations _gunAnimations;
         private bool _canDash = true;
 
         private bool _dashInput,
@@ -215,11 +217,11 @@ namespace _Scripts.Player
 
         private void HandleInput()
         {
-            jumpInput = Input.GetButtonDown("Jump") && _jumpsRemaining > 0;
-            if (jumpInput)
+            _jumpInput = Input.GetButtonDown("Jump") && _jumpsRemaining > 0;
+            if (_jumpInput)
             {
                 _jumpBufferCounter = jumpBufferTime;
-                gunAnimations?.TriggerJumpEffect();
+                _gunAnimations?.TriggerJumpEffect();
             }
 
             _dashInput = Input.GetButtonDown("Sprint");
@@ -320,7 +322,7 @@ namespace _Scripts.Player
 
         public void SetPlayerGunAnimation(GunAnimations gunAnimation)
         {
-            gunAnimations = gunAnimation;
+            _gunAnimations = gunAnimation;
         }
 
         private void StartDash(Vector3 direction)
@@ -472,13 +474,10 @@ namespace _Scripts.Player
 
         private void StartStomp()
         {
-            gunAnimations?.TriggerStompEffect();
+            _gunAnimations?.TriggerStompEffect();
             _isStomping = true;
             _fallVelocity = -stompForce;
-            if (stompParticles != null)
-            {
-                stompParticles.Play();
-            }
+            stompParticles?.Play();
         }
 
         public Vector3 GetSlideDirection()
