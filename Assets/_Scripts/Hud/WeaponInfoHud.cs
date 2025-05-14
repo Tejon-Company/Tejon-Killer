@@ -1,15 +1,17 @@
 using System.Collections;
 using _Scripts.Managers;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Scripts.Hud
 {
     public class WeaponInfoHud : MonoBehaviour
     {
-        private TMP_Text _currentBullets;
-        private TMP_Text _totalBullets;
+        [SerializeField]
+        private TMP_Text currentBullets;
+
+        [SerializeField]
+        private TMP_Text totalBullets;
 
         private void OnEnable()
         {
@@ -29,14 +31,14 @@ namespace _Scripts.Hud
 
         public void UpdateBullets(int newCurrentBullets, int newTotalBullets)
         {
-            _currentBullets.color = newCurrentBullets switch
+            currentBullets.color = newCurrentBullets switch
             {
                 <= 0 => new Color(0.75f, 0, 0),
                 <= 3 => new Color(255f, 165f, 0),
-                _ => Color.white
+                _ => Color.white,
             };
-            _currentBullets.text = newCurrentBullets.ToString();
-            _totalBullets.text = newTotalBullets.ToString();
+            currentBullets.text = newCurrentBullets.ToString();
+            totalBullets.text = newTotalBullets.ToString();
         }
     }
 }
