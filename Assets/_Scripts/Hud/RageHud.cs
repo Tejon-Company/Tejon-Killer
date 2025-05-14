@@ -1,3 +1,4 @@
+using System;
 using _Scripts.Managers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,10 +35,23 @@ namespace _Scripts.Hud
 
         private void Update()
         {
-            RegisterEventListener();
             UpdateRageBar();
         }
 
+        private void OnEnable()
+        {
+            RegisterEventListener();
+        }
+
+        private void OnDisable()
+        {
+            if (!EventManager.Current)
+                return;
+
+            EventManager.Current.rageBerryEvent.RemoveListener(OnRageActivated);
+            _listenerRegistered = false;
+        }
+        
         private void RegisterEventListener()
         {
             if (_listenerRegistered || !EventManager.Current)

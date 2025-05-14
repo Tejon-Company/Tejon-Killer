@@ -34,7 +34,7 @@ namespace _Scripts.Hud
             currentBullets.color = newCurrentBullets switch
             {
                 <= 0 => new Color(0.75f, 0, 0),
-                <= 3 => new Color(255f, 165f, 0),
+                <= 3 => new Color(1f, 0.647f, 0),
                 _ => Color.white,
             };
             currentBullets.text = newCurrentBullets.ToString();
