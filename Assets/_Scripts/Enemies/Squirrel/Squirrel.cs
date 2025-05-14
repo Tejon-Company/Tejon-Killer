@@ -8,7 +8,6 @@ namespace _Scripts.Enemies.Squirrel
         private static readonly int Color1 = Shader.PropertyToID("_Color");
 
         [Header("References")]
-        [SerializeField]
         private ProjectilesPool.ProjectilesPool acornPool;
 
         [SerializeField]
@@ -43,6 +42,7 @@ namespace _Scripts.Enemies.Squirrel
         {
             InitRenderers();
             FindReferences();
+            
         }
 
         private void InitRenderers()
