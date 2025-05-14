@@ -6,8 +6,8 @@ namespace _Scripts.Hud
 {
     public class WeaponInfoHud : MonoBehaviour
     {
-        private TMP_Text currentBullets;
-        private TMP_Text totalBullets;
+        private TMP_Text _currentBullets;
+        private TMP_Text _totalBullets;
 
         private void OnEnable()
         {
@@ -21,14 +21,14 @@ namespace _Scripts.Hud
 
         public void UpdateBullets(int newCurrentBullets, int newTotalBullets)
         {
-            currentBullets.color = newCurrentBullets switch
+            _currentBullets.color = newCurrentBullets switch
             {
                 <= 0 => new Color(0.75f, 0, 0),
                 <= 3 => new Color(255f, 165f, 0),
                 _ => Color.white,
             };
-            currentBullets.text = newCurrentBullets.ToString();
-            totalBullets.text = newTotalBullets.ToString();
+            _currentBullets.text = newCurrentBullets.ToString();
+            _totalBullets.text = newTotalBullets.ToString();
         }
     }
 }
