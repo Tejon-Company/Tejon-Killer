@@ -140,8 +140,7 @@ namespace _Scripts.Player
                 ShowTracerEffect(weaponMuzzle.position, hit.point);
 
                 _enemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
-                if (!_enemyHealth)
-                    _enemyHealth.TakeDamage(shotDamage);
+                _enemyHealth?.TakeDamage(shotDamage);
             }
 
             gunAnimations?.ApplyRecoil();
@@ -198,9 +197,9 @@ namespace _Scripts.Player
 
             gunAnimations?.PlayReloadAnimation(reloadTime);
 
+            SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
             yield return new WaitForSeconds(reloadTime);
 
-            SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
             CurrentAmmo = MaxAmmo;
             UpdateAmmoUI();
             _isReloading = false;
