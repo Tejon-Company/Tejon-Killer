@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponMuzzle: {fileID: 4388319504019638812}
-  sway: {fileID: 1723160146677635942}
+  gunAnimations: {fileID: 1723160146677635942}
   hittableLayers:
     serializedVersion: 2
     m_Bits: 1
