@@ -13,20 +13,21 @@ namespace _Scripts.Enemies
         [SerializeField]
         private GameObject damageEffect;
 
-        private int _currentHealth;
+        private int currentHealth;
 
-        private void Start() => _currentHealth = maxHealth;
+        private void Start() => currentHealth = maxHealth;
 
         public void TakeDamage(int amount)
         {
-            _currentHealth -= amount;
+            currentHealth -= amount;
+            Debug.Log($"{gameObject.name} ha recibido {amount} de daño. Vida restante: {currentHealth}");
 
-            GetComponent<Squirrel.Squirrel>()?.FlashRed();
+            GetComponent<Enemy>()?.FlashRed();
 
-            if (damageEffect && _currentHealth > 0)
+            if (damageEffect && currentHealth > 0)
                 Instantiate(damageEffect, transform.position, Quaternion.identity);
 
-            if (_currentHealth > 0)
+            if (currentHealth > 0)
                 return;
 
             if (deathEffect)

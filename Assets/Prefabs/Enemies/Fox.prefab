@@ -1294,7 +1294,7 @@ GameObject:
   - component: {fileID: 3498065742594600533}
   - component: {fileID: 7476422008052267406}
   - component: {fileID: 3547160746880133459}
-  - component: {fileID: 4459889152768080373}
+  - component: {fileID: 4184960934228908843}
   m_Layer: 0
   m_Name: Fox
   m_TagString: Untagged
@@ -1423,21 +1423,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b380a98d0dc73634db4d17a7c0652403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionRange: 20
+  flashDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
   patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  player: {fileID: 0}
   chaseRange: 10
   attackRange: 2
-  damageToPlayer: 1
   attackCooldown: 1.5
   animator: {fileID: 8261173270883422017}
   agent: {fileID: 3739692543329873861}
-  scratRenderers: []
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
-  flashDuration: 0.1
---- !u!114 &4459889152768080373
+--- !u!114 &4184960934228908843
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1446,12 +1444,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8263516501434857692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40ab4d3d6948f1d47b379948cd103d62, type: 3}
+  m_Script: {fileID: 11500000, guid: 8249b72f08eff134391517b297959fb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
-  deathEffect: {fileID: 0}
-  damageEffect: {fileID: 0}
+  maxHealth: 3
+  deathEffect: {fileID: 6507373157393611270, guid: dd7cc688307b6b64b95d02bc1df1bae8,
+    type: 3}
+  damageEffect: {fileID: 5580431672248492859, guid: af59b9a260d6f8740bb10cf5219aa15b,
+    type: 3}
 --- !u!1 &8284225931644774351
 GameObject:
   m_ObjectHideFlags: 0

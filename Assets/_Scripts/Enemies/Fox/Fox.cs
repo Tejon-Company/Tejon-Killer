@@ -1,136 +1,98 @@
+using _Scripts.Player;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Fox : MonoBehaviour, IDamageableVisual
+namespace _Scripts.Enemies.Fox
 {
-    [Header("Comportamiento")]
-    public Transform[] patrolPoints;
-    public Transform player;
-    public float chaseRange = 20f;
-    public float attackRange = 2f;
-    public int damageToPlayer = 5;
-    public float attackCooldown = 1.5f;
-
-    [Header("Componentes")]
-    public Animator animator;
-    public NavMeshAgent agent;
-
-    [Header("Flash Rojo")]
-    public SkinnedMeshRenderer[] scratRenderers;
-    public Color flashColor = Color.red;
-    public float flashDuration = 0.1f;
-
-    private MaterialPropertyBlock propBlock;
-    private Color[] originalColors;
-
-    private int patrolIndex = 0;
-    private bool isDead = false;
-    private float lastAttackTime = 0f;
-
-    private void Start()
+    public class Fox : Enemy
     {
-        if (patrolPoints.Length == 0)
+        private static readonly int AttackTrigger = Animator.StringToHash("Attack");
+        private static readonly int RunTrigger = Animator.StringToHash("Run");
+        private static readonly int WalkTrigger = Animator.StringToHash("Walk");
+
+        [Header("BEHAVIOUR")]
+        [SerializeField]
+        private Transform[] patrolPoints;
+        [SerializeField]
+        private float chaseRange = 20f;
+        [SerializeField]
+        private float attackRange = 2f;
+        [SerializeField]
+        private float attackCooldown = 1.5f;
+
+        [Header("Componentes")]
+        public Animator animator;
+        public NavMeshAgent agent;
+
+        private int patrolIndex;
+        private float lastAttackTime;
+
+        private void Start()
         {
-            enabled = false;
-            return;
+            if (patrolPoints.Length == 0)
+            {
+                enabled = false;
+                return;
+            }
+
+            agent.SetDestination(patrolPoints[patrolIndex].position);
+        }
+    
+        private protected override void FindReferences()
+        {
+            Player = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
 
-        agent.SetDestination(patrolPoints[patrolIndex].position);
-
-        propBlock = new MaterialPropertyBlock();
-        SaveOriginalColors();
-    }
-
-    private void Update()
-    {
-        if (isDead) return;
-
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        if (distance <= attackRange)
+        private void Update()
         {
-            AttackPlayer();
+            var distance = Vector3.Distance(transform.position, Player.position);
+
+            if (distance <= attackRange)
+            {
+                Attack();
+            }
+            else if (distance <= chaseRange)
+            {
+                ChasePlayer();
+            }
+            else
+            {
+                Patrol();
+            }
         }
-        else if (distance <= chaseRange)
-        {
-            ChasePlayer();
-        }
-        else
-        {
-            Patrol();
-        }
-    }
 
-    private void Patrol()
-    {
-        animator.SetTrigger("Walk");
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        private void Patrol()
         {
+            animator.SetTrigger(WalkTrigger);
+            if (agent.pathPending || !(agent.remainingDistance < 0.5f)) 
+                return;
+        
             patrolIndex = (patrolIndex + 1) % patrolPoints.Length;
             agent.SetDestination(patrolPoints[patrolIndex].position);
         }
-    }
 
-    private void ChasePlayer()
-    {
-        animator.SetTrigger("Run");
-        agent.SetDestination(player.position);
-    }
-
-    private void AttackPlayer()
-    {
-        animator.SetTrigger("Attack");
-        agent.ResetPath();
-
-        if (Time.time - lastAttackTime >= attackCooldown)
+        private void ChasePlayer()
         {
+            animator.SetTrigger(RunTrigger);
+            agent.SetDestination(Player.position);
+        }
+
+        private protected override void Attack()
+        {
+            animator.SetTrigger(AttackTrigger);
+            agent.ResetPath();
+
+            if (Time.time - lastAttackTime < attackCooldown)
+                return;
+        
             lastAttackTime = Time.time;
 
-            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
+            var playerHealth = Player.GetComponent<PlayerHealth>();
+            if (playerHealth)
             {
-                playerHealth.TakeDamage(damageToPlayer);
+                playerHealth.TakeDamage(1);
             }
+        
         }
-    }
-
-    public void FlashRed()
-    {
-        for (int i = 0; i < scratRenderers.Length; i++)
-        {
-            scratRenderers[i].GetPropertyBlock(propBlock);
-            propBlock.SetColor("_BaseColor", flashColor);
-            scratRenderers[i].SetPropertyBlock(propBlock);
-        }
-
-        Invoke(nameof(RestoreOriginalColor), flashDuration);
-    }
-
-    private void RestoreOriginalColor()
-    {
-        for (int i = 0; i < scratRenderers.Length; i++)
-        {
-            scratRenderers[i].GetPropertyBlock(propBlock);
-            propBlock.SetColor("_BaseColor", originalColors[i]);
-            scratRenderers[i].SetPropertyBlock(propBlock);
-        }
-    }
-
-    private void SaveOriginalColors()
-    {
-        originalColors = new Color[scratRenderers.Length];
-        for (int i = 0; i < scratRenderers.Length; i++)
-        {
-            originalColors[i] = scratRenderers[i].sharedMaterial.GetColor("_BaseColor");
-        }
-    }
-
-    public void Die()
-    {
-        if (isDead) return;
-        isDead = true;
-
-        agent.enabled = false;
-        Destroy(gameObject);
     }
 }
