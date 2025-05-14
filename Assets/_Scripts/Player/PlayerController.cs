@@ -1,21 +1,22 @@
 using _Scripts.Managers;
 using _Scripts.Managers.Audio;
 using _Scripts.Menus;
+using _Scripts.Weapons;
 using UnityEngine;
 
 namespace _Scripts.Player
 {
     public class PlayerController : MonoBehaviour
     {
-        private CharacterController player;
+        private CharacterController _player;
 
         public bool IsDashing { get; private set; }
 
-        private bool isWalking;
+        private bool _isWalking;
 
         public bool IsSliding { get; private set; }
 
-        private bool isStomping;
+        private bool _isStomping;
 
         [SerializeField, Range(0, 40)]
         private float baseSpeed = 10f;
@@ -48,9 +49,9 @@ namespace _Scripts.Player
 
         [SerializeField]
         private float slideJumpInertiaMultiplier = 2f;
-        private bool slideJumpInertiaActive;
-        private bool canSlideJump;
-        private bool skipGravityNextFrame;
+        private bool _slideJumpInertiaActive;
+        private bool _canSlideJump;
+        private bool _skipGravityNextFrame;
 
         [Header("JUMP")]
         [SerializeField]
@@ -63,7 +64,7 @@ namespace _Scripts.Player
         [SerializeField]
         private int maxJumps = 2;
 
-        private int jumpsRemaining;
+        private int _jumpsRemaining;
 
         [Header("GRAVITY IN FREE FALL")]
         [SerializeField]
@@ -78,7 +79,7 @@ namespace _Scripts.Player
 
         [SerializeField]
         private float stompJumpForceMultiplier = 1.5f;
-        private float stompTimeCounter;
+        private float _stompTimeCounter;
 
         [SerializeField]
         private ParticleSystem stompParticles;
@@ -87,46 +88,49 @@ namespace _Scripts.Player
         [SerializeField]
         private float jumpBufferTime = 0.15f;
 
-        private float jumpBufferCounter;
+        private float _jumpBufferCounter;
 
-        private bool canDash = true;
+        
+        private bool _jumpInput;
+        private Vector3 slideDirection;
+        private GunAnimations _gunAnimations;
+        private bool _canDash = true;
 
-        private bool jumpInput,
-            dashInput,
-            slideInputHeld;
+        private bool _dashInput,
+            _slideInputHeld;
 
-        private float fallVelocity;
+        private float _fallVelocity;
 
-        private Vector3 axis,
-            movePlayer,
-            dashDirection,
-            slideDirection;
+        private Vector3 _axis,
+            _movePlayer,
+            _dashDirection,
+            _slideDirection;
 
-        private float originalHeight;
+        private float _originalHeight;
 
         private const float CrouchHeight = 1f;
 
-        private float originalCenterY;
+        private float _originalCenterY;
 
         private const float CrouchCenterY = 0.5f;
-        private Sway weaponSway;
-        private bool wasGrounded;
+        private GunAnimations _gunAnimation;
+        private bool _wasGrounded;
 
         [Header("Rage Parameters")]
-        private bool isRaging;
-        private float rageEndTime;
-        private float originalBaseSpeed;
-        private float originalJumpForce;
+        private bool _isRaging;
+        private float _rageEndTime;
+        private float _originalBaseSpeed;
+        private float _originalJumpForce;
 
         private void Awake()
         {
             speedParticles.Stop();
             dashParticles.Stop();
             stompParticles.Stop();
-            player = GetComponent<CharacterController>();
-            originalHeight = player.height;
-            originalCenterY = player.center.y;
-            wasGrounded = player.isGrounded;
+            _player = GetComponent<CharacterController>();
+            _originalHeight = _player.height;
+            _originalCenterY = _player.center.y;
+            _wasGrounded = _player.isGrounded;
         }
 
         private void OnEnable()
@@ -143,15 +147,15 @@ namespace _Scripts.Player
         {
             if (PauseMenu.IsPaused)
             {
-                LoopSfxManager.Instance.StopLoopSfx();
+                FootstepSfxManager.Instance.StopFootstepSfx();
                 return;
             }
 
             HandleRageState();
             UpdateTimers();
 
-            var groundedNow = player.isGrounded;
-            var justLanded = !wasGrounded && groundedNow;
+            var groundedNow = _player.isGrounded;
+            var justLanded = !_wasGrounded && groundedNow;
 
             HandleInput();
             HandleMovement();
@@ -159,77 +163,69 @@ namespace _Scripts.Player
             if (justLanded)
                 OnLand();
 
-            if (!skipGravityNextFrame)
+            if (!_skipGravityNextFrame)
                 HandleGravity();
 
-            skipGravityNextFrame = false;
+            _skipGravityNextFrame = false;
 
             HandleSlideEnd();
 
-            player.Move(movePlayer * Time.deltaTime);
+            _player.Move(_movePlayer * Time.deltaTime);
 
-            isWalking =
-                axis.magnitude > 0.1f
-                && player.isGrounded
+            _isWalking =
+                _axis.magnitude > 0.1f
+                && _player.isGrounded
                 && !IsDashing
                 && !IsSliding
-                && !isStomping;
+                && !_isStomping;
 
-            if (IsSliding)
-            {
-                LoopSfxManager.Instance.PlayLoopSfx(LoopSfxManager.Instance.SlideSound);
-            }
-            else if (isWalking)
-            {
-                LoopSfxManager.Instance.PlayLoopSfx(LoopSfxManager.Instance.GrassSteps);
-            }
+            if (_isWalking)
+                FootstepSfxManager.Instance.PlayFootstepSfx(FootstepSfxManager.Instance.GrassSteps);
             else
-            {
-                LoopSfxManager.Instance.StopLoopSfx();
-            }
+                FootstepSfxManager.Instance.StopFootstepSfx();
 
-            wasGrounded = groundedNow;
+            _wasGrounded = groundedNow;
         }
 
         private void HandleRageState()
         {
-            if (isRaging && Time.time >= rageEndTime)
+            if (_isRaging && Time.time >= _rageEndTime)
             {
-                baseSpeed = originalBaseSpeed;
-                jumpForce = originalJumpForce;
-                isRaging = false;
+                baseSpeed = _originalBaseSpeed;
+                jumpForce = _originalJumpForce;
+                _isRaging = false;
             }
         }
 
         private void UpdateTimers()
         {
-            if (stompTimeCounter > 0f)
-                stompTimeCounter -= Time.deltaTime;
+            if (_stompTimeCounter > 0f)
+                _stompTimeCounter -= Time.deltaTime;
 
-            if (jumpBufferCounter > 0f)
-                jumpBufferCounter -= Time.deltaTime;
+            if (_jumpBufferCounter > 0f)
+                _jumpBufferCounter -= Time.deltaTime;
         }
 
         private void OnLand()
         {
-            jumpsRemaining = maxJumps;
-            slideJumpInertiaActive = false;
-            stompTimeCounter = 0f;
+            _jumpsRemaining = maxJumps;
+            _slideJumpInertiaActive = false;
+            _stompTimeCounter = 0f;
 
             stompParticles?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
 
         private void HandleInput()
         {
-            jumpInput = Input.GetButtonDown("Jump") && jumpsRemaining > 0;
-            if (jumpInput)
+            _jumpInput = Input.GetButtonDown("Jump") && _jumpsRemaining > 0;
+            if (_jumpInput)
             {
-                jumpBufferCounter = jumpBufferTime;
-                weaponSway?.TriggerJumpEffect();
+                _jumpBufferCounter = jumpBufferTime;
+                _gunAnimations?.TriggerJumpEffect();
             }
 
-            dashInput = Input.GetButtonDown("Sprint");
-            slideInputHeld = Input.GetButton("Crouch");
+            _dashInput = Input.GetButtonDown("Sprint");
+            _slideInputHeld = Input.GetButton("Crouch");
 
             var stompInput = Input.GetButtonDown("Crouch");
             if (ShouldStomp(stompInput))
@@ -238,7 +234,7 @@ namespace _Scripts.Player
 
         private bool ShouldStomp(bool stompInput)
         {
-            return stompInput && !player.isGrounded && !isStomping && !IsSliding;
+            return stompInput && !_player.isGrounded && !_isStomping && !IsSliding;
         }
 
         private void HandleMovement()
@@ -248,7 +244,7 @@ namespace _Scripts.Player
             if (IsDashing)
             {
                 ProcessDash();
-                movePlayer.y = fallVelocity;
+                _movePlayer.y = _fallVelocity;
                 return;
             }
 
@@ -261,72 +257,72 @@ namespace _Scripts.Player
                 }
 
                 ProcessSlide();
-                movePlayer.y = fallVelocity;
+                _movePlayer.y = _fallVelocity;
                 return;
             }
 
-            ProcessNormalMovement(transform.TransformDirection(axis));
-            movePlayer.y = fallVelocity;
+            ProcessNormalMovement(transform.TransformDirection(_axis));
+            _movePlayer.y = _fallVelocity;
         }
 
         private void UpdateMovementInput()
         {
-            axis = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            if (axis.magnitude > 1f)
-                axis.Normalize();
+            _axis = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            if (_axis.magnitude > 1f)
+                _axis.Normalize();
         }
 
         private bool CanPerformSlideJump()
         {
-            return canSlideJump && jumpBufferCounter > 0f && jumpsRemaining > 0;
+            return _canSlideJump && _jumpBufferCounter > 0f && _jumpsRemaining > 0;
         }
 
         private void PerformSlideJump()
         {
             EndSlide();
-            slideDirection.y = 0f;
-            jumpsRemaining--;
+            _slideDirection.y = 0f;
+            _jumpsRemaining--;
 
-            var jumpImpulse = slideDirection * slideJumpInertiaMultiplier;
-            movePlayer = jumpImpulse;
-            fallVelocity = slideJumpForce;
-            movePlayer.y = fallVelocity;
+            var jumpImpulse = _slideDirection * slideJumpInertiaMultiplier;
+            _movePlayer = jumpImpulse;
+            _fallVelocity = slideJumpForce;
+            _movePlayer.y = _fallVelocity;
 
-            slideJumpInertiaActive = true;
-            canSlideJump = false;
-            skipGravityNextFrame = true;
+            _slideJumpInertiaActive = true;
+            _canSlideJump = false;
+            _skipGravityNextFrame = true;
 
-            jumpBufferCounter = 0f;
+            _jumpBufferCounter = 0f;
         }
 
         private void ProcessNormalMovement(Vector3 rawMovement)
         {
             var currentSpeed = baseSpeed;
 
-            if (slideJumpInertiaActive && !player.isGrounded)
+            if (_slideJumpInertiaActive && !_player.isGrounded)
             {
                 currentSpeed *= slideJumpInertiaMultiplier;
             }
 
-            movePlayer.x = rawMovement.x * currentSpeed;
-            movePlayer.z = rawMovement.z * currentSpeed;
+            _movePlayer.x = rawMovement.x * currentSpeed;
+            _movePlayer.z = rawMovement.z * currentSpeed;
 
             transform.Rotate(0, Input.GetAxis("Mouse X"), 0);
 
-            if (dashInput && canDash && axis.magnitude > 0.1f)
+            if (_dashInput && _canDash && _axis.magnitude > 0.1f)
             {
                 StartDash(rawMovement);
             }
 
-            if (player.isGrounded && slideInputHeld && axis.magnitude > 0.1f && !IsSliding)
+            if (_player.isGrounded && _slideInputHeld && _axis.magnitude > 0.1f && !IsSliding)
             {
                 StartSlide(rawMovement);
             }
         }
 
-        public void SetWeaponSway(Sway newSway)
+        public void SetPlayerGunAnimation(GunAnimations gunAnimation)
         {
-            weaponSway = newSway;
+            _gunAnimations = gunAnimation;
         }
 
         private void StartDash(Vector3 direction)
@@ -334,8 +330,8 @@ namespace _Scripts.Player
             SfxManager.Instance.PlaySfx(SfxManager.Instance.Dash);
 
             IsDashing = true;
-            canDash = false;
-            dashDirection = direction.normalized * (baseSpeed * dashMultiplier);
+            _canDash = false;
+            _dashDirection = direction.normalized * (baseSpeed * dashMultiplier);
             Invoke(nameof(EndDash), dashDuration);
             Invoke(nameof(ResetDash), dashCooldown);
             dashParticles?.Play();
@@ -343,7 +339,7 @@ namespace _Scripts.Player
 
         private void ProcessDash()
         {
-            movePlayer = dashDirection;
+            _movePlayer = _dashDirection;
         }
 
         private void EndDash()
@@ -354,29 +350,31 @@ namespace _Scripts.Player
 
         private void ResetDash()
         {
-            canDash = true;
+            _canDash = true;
         }
 
         private void StartSlide(Vector3 direction)
         {
+            SfxManager.Instance.PlaySfx(SfxManager.Instance.Slide);
+
             IsSliding = true;
-            canSlideJump = true;
-            slideDirection = direction.normalized * (baseSpeed * slideSpeedMultiplier);
-            player.height = CrouchHeight;
-            player.center = new Vector3(player.center.x, CrouchCenterY, player.center.z);
+            _canSlideJump = true;
+            _slideDirection = direction.normalized * (baseSpeed * slideSpeedMultiplier);
+            _player.height = CrouchHeight;
+            _player.center = new Vector3(_player.center.x, CrouchCenterY, _player.center.z);
 
             speedParticles?.Play();
         }
 
         private void ProcessSlide()
         {
-            movePlayer.x = slideDirection.x;
-            movePlayer.z = slideDirection.z;
+            _movePlayer.x = _slideDirection.x;
+            _movePlayer.z = _slideDirection.z;
         }
 
         private void HandleSlideEnd()
         {
-            if (!slideInputHeld && IsSliding)
+            if (!_slideInputHeld && IsSliding)
             {
                 EndSlide();
             }
@@ -385,14 +383,14 @@ namespace _Scripts.Player
         private void EndSlide()
         {
             IsSliding = false;
-            player.height = originalHeight;
-            player.center = new Vector3(player.center.x, originalCenterY, player.center.z);
+            _player.height = _originalHeight;
+            _player.center = new Vector3(_player.center.x, _originalCenterY, _player.center.z);
             speedParticles?.Stop();
         }
 
         private void HandleGravity()
         {
-            if (player.isGrounded)
+            if (_player.isGrounded)
             {
                 HandleGroundedGravity();
             }
@@ -401,87 +399,90 @@ namespace _Scripts.Player
                 HandleAirborneGravity();
             }
 
-            movePlayer.y = fallVelocity;
+            _movePlayer.y = _fallVelocity;
         }
 
         private void HandleGroundedGravity()
         {
-            slideJumpInertiaActive = false;
-            jumpsRemaining = maxJumps;
+            _slideJumpInertiaActive = false;
+            _jumpsRemaining = maxJumps;
 
-            if (isStomping)
+            if (_isStomping)
             {
                 CancelStomp();
                 return;
             }
 
-            if (jumpBufferCounter <= 0)
+            if (_jumpBufferCounter <= 0)
             {
-                if (fallVelocity <= 0f)
-                    fallVelocity = groundedGravity;
+                if (_fallVelocity <= 0f)
+                    _fallVelocity = groundedGravity;
                 return;
             }
 
-            if (stompTimeCounter > 0f)
+            if (_stompTimeCounter > 0f)
             {
                 EndSlide();
-                fallVelocity = jumpForce * stompJumpForceMultiplier;
-                jumpsRemaining = maxJumps - 1;
-                stompTimeCounter = 0f;
+                _fallVelocity = jumpForce * stompJumpForceMultiplier;
+                _jumpsRemaining = maxJumps - 1;
+                _stompTimeCounter = 0f;
             }
             else
             {
-                fallVelocity = jumpForce;
-                jumpsRemaining--;
+                _fallVelocity = jumpForce;
+                _jumpsRemaining--;
                 SfxManager.Instance.PlaySfx(SfxManager.Instance.Jump);
             }
 
-            jumpBufferCounter = 0f;
+            _jumpBufferCounter = 0f;
         }
 
         private void HandleAirborneGravity()
         {
-            var canJump = jumpBufferCounter > 0 && jumpsRemaining > 0 && !isStomping;
+            var canJump = _jumpBufferCounter > 0 && _jumpsRemaining > 0 && !_isStomping;
             var isPlayerJumping =
-                player.collisionFlags == CollisionFlags.Above && fallVelocity > 0;
+                _player.collisionFlags == CollisionFlags.Above && _fallVelocity > 0;
             if (canJump)
             {
-                fallVelocity = jumpForce;
-                jumpsRemaining--;
-                jumpBufferCounter = 0f;
+                _fallVelocity = jumpForce;
+                _jumpsRemaining--;
+                _jumpBufferCounter = 0f;
                 SfxManager.Instance.PlaySfx(SfxManager.Instance.DoubleJump);
             }
 
             if (isPlayerJumping)
             {
-                fallVelocity = -1f;
+                _fallVelocity = -1f;
             }
 
-            if (!isStomping)
+            if (!_isStomping)
             {
-                fallVelocity -= (IsSliding ? slideGravity : gravity) * Time.deltaTime;
+                _fallVelocity -= (IsSliding ? slideGravity : gravity) * Time.deltaTime;
             }
 
-            if (stompTimeCounter > 0)
+            if (_stompTimeCounter > 0)
             {
-                stompTimeCounter -= Time.deltaTime;
+                _stompTimeCounter -= Time.deltaTime;
             }
         }
 
         private void CancelStomp()
         {
-            stompTimeCounter = stompTimeLimit;
-            isStomping = false;
+            _stompTimeCounter = stompTimeLimit;
+            _isStomping = false;
         }
 
         private void StartStomp()
         {
-            SfxManager.Instance.PlaySfx(SfxManager.Instance.Stomp);
-
-            weaponSway?.TriggerStompEffect();
-            isStomping = true;
-            fallVelocity = -stompForce;
+            _gunAnimations?.TriggerStompEffect();
+            _isStomping = true;
+            _fallVelocity = -stompForce;
             stompParticles?.Play();
+        }
+
+        public Vector3 GetSlideDirection()
+        {
+            return slideDirection;
         }
 
         private void ApplyRage(
@@ -491,17 +492,17 @@ namespace _Scripts.Player
             float duration
         )
         {
-            if (!isRaging)
+            if (!_isRaging)
             {
-                originalBaseSpeed = baseSpeed;
-                originalJumpForce = jumpForce;
+                _originalBaseSpeed = baseSpeed;
+                _originalJumpForce = jumpForce;
             }
 
-            baseSpeed = originalBaseSpeed * playerBaseSpeedMultiplier;
-            jumpForce = originalJumpForce * playerJumpForceMultiplier;
+            baseSpeed = _originalBaseSpeed * playerBaseSpeedMultiplier;
+            jumpForce = _originalJumpForce * playerJumpForceMultiplier;
 
-            rageEndTime = Time.time + duration;
-            isRaging = true;
+            _rageEndTime = Time.time + duration;
+            _isRaging = true;
         }
     }
 }

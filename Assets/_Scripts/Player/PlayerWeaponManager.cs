@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Scripts.Managers;
+using _Scripts.Weapons;
 using UnityEngine;
 
 namespace _Scripts.Player
@@ -49,7 +50,7 @@ namespace _Scripts.Player
 
                 var weaponInstance = Instantiate(weaponPrefab, weaponParentSocket);
                 weaponInstance.gameObject.SetActive(false);
-                SetupSway(weaponInstance);
+                SetupWeaponGunAnimation(weaponInstance);
                 _weaponSlots[i] = weaponInstance;
                 return;
             }
@@ -86,18 +87,19 @@ namespace _Scripts.Player
         private void ActivateWeapon(WeaponController weapon, int index)
         {
             weapon.gameObject.SetActive(true);
-            SetupSway(weapon);
+            SetupWeaponGunAnimation(weapon);
             ActiveWeaponIndex = index;
             EventManager.Current.newGunEvent.Invoke();
         }
 
-        private void SetupSway(WeaponController weapon)
+        private void SetupWeaponGunAnimation(WeaponController weapon)
         {
-            var sway = weapon.GetComponent<Sway>();
-            if (sway is null)
-                return;
-            sway.SetPlayerController(playerController);
-            playerController.SetWeaponSway(sway);
+            var gunAnimations = weapon.GetComponent<GunAnimations>();
+            if (gunAnimations != null)
+            {
+                gunAnimations.SetPlayerController(playerController);
+                playerController.SetPlayerGunAnimation(gunAnimations);
+            }
         }
 
         private bool IsValidSlot(int index)
