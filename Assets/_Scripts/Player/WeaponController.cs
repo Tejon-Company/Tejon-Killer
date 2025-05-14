@@ -1,7 +1,6 @@
 using System.Collections;
 using _Scripts.Enemies;
 using _Scripts.Managers;
-using _Scripts.Managers;
 using _Scripts.Managers.Audio;
 using _Scripts.Menus;
 using UnityEngine;
@@ -13,7 +12,7 @@ public class WeaponController : MonoBehaviour
     private Transform weaponMuzzle;
 
     [SerializeField]
-    private GunAnimations sway;
+    private GunAnimations gunAnimations;
 
     [Header("Parámetros de disparo")]
     [SerializeField]
@@ -149,7 +148,7 @@ public class WeaponController : MonoBehaviour
             }
         }
 
-        sway?.ApplyRecoil();
+        gunAnimations?.ApplyRecoil();
     }
 
     private void ShowFlashEffect()
@@ -201,8 +200,8 @@ public class WeaponController : MonoBehaviour
 
         isReloading = true;
 
-        if (sway != null)
-            sway.PlayReloadAnimation(reloadTime);
+        if (gunAnimations != null)
+            gunAnimations.PlayReloadAnimation(reloadTime);
 
         yield return new WaitForSeconds(reloadTime);
 

@@ -47,12 +47,12 @@ namespace _Scripts.Player
                 if (_weaponSlots[i] is not null)
                     continue;
 
-            var weaponInstance = Instantiate(weaponPrefab, weaponParentSocket);
-            weaponInstance.gameObject.SetActive(false);
-            SetupWeaponGunAnimations(weaponInstance);
-            _weaponSlots[i] = weaponInstance;
-            return;
-        }
+                var weaponInstance = Instantiate(weaponPrefab, weaponParentSocket);
+                weaponInstance.gameObject.SetActive(false);
+                SetupWeaponGunAnimation(weaponInstance);
+                _weaponSlots[i] = weaponInstance;
+                return;
+            }
 
             Debug.LogWarning("No hay espacio para más armas.");
         }
@@ -83,23 +83,23 @@ namespace _Scripts.Player
             currentWeapon?.gameObject.SetActive(false);
         }
 
-    private void ActivateWeapon(WeaponController weapon, int index)
-    {
-        weapon.gameObject.SetActive(true);
-        SetupWeaponGunAnimations(weapon);
-        ActiveWeaponIndex = index;
-        EventManager.current.NewGunEvent.Invoke();
-    }
-
-    private void SetupWeaponGunAnimations(WeaponController weapon)
-    {
-        var gunAnimations = weapon.GetComponent<GunAnimations>();
-        if (gunAnimations != null)
+        private void ActivateWeapon(WeaponController weapon, int index)
         {
-            gunAnimations.SetPlayerController(playerController);
-            playerController.SetWeaponGunAnimations(gunAnimations);
+            weapon.gameObject.SetActive(true);
+            SetupWeaponGunAnimation(weapon);
+            ActiveWeaponIndex = index;
+            EventManager.Current.newGunEvent.Invoke();
         }
-    }
+
+        private void SetupWeaponGunAnimation(WeaponController weapon)
+        {
+            var gunAnimations = weapon.GetComponent<GunAnimations>();
+            if (gunAnimations != null)
+            {
+                gunAnimations.SetPlayerController(playerController);
+                playerController.SetPlayerGunAnimation(gunAnimations);
+            }
+        }
 
         private bool IsValidSlot(int index)
         {

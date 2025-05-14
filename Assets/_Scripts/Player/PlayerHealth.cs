@@ -1,5 +1,5 @@
-using _Scripts.Managers;
 using System.Collections;
+using _Scripts.Managers;
 using UnityEngine;
 
 namespace _Scripts.Player
@@ -32,7 +32,7 @@ namespace _Scripts.Player
             CurrentHealth = Mathf.Min(CurrentHealth + amount, maxHealth);
             NotifyHealthChanged();
         }
-        
+
         public void TakeDamage(int amount)
         {
             if (_isInvulnerable)

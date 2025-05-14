@@ -89,27 +89,12 @@ namespace _Scripts.Player
 
         private float _jumpBufferCounter;
 
-    private bool canDash = true;
-    private bool jumpInput,
-        dashInput,
-        slideInputHeld;
-    private float fallVelocity;
-    private Vector3 axis,
-        movePlayer,
-        dashDirection,
-        slideDirection;
-    private float originalHeight,
-        crouchHeight = 1f;
-    private float originalCenterY,
-        crouchCenterY = 0.5f;
-    private GunAnimations gunAnimations;
-    private bool wasGrounded;
-    private bool cond1;
-    private bool cond2;
+        private bool jumpInput;
+        private Vector3 slideDirection;
+        private GunAnimations gunAnimations;
         private bool _canDash = true;
 
-        private bool _jumpInput,
-            _dashInput,
+        private bool _dashInput,
             _slideInputHeld;
 
         private float _fallVelocity;
@@ -126,7 +111,7 @@ namespace _Scripts.Player
         private float _originalCenterY;
 
         private const float CrouchCenterY = 0.5f;
-        private Sway _weaponSway;
+        private GunAnimations _gunAnimation;
         private bool _wasGrounded;
 
         [Header("Rage Parameters")]
@@ -228,14 +213,14 @@ namespace _Scripts.Player
             stompParticles?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
 
-    private void HandleInput()
-    {
-        jumpInput = Input.GetButtonDown("Jump") && jumpsRemaining > 0;
-        if (jumpInput)
+        private void HandleInput()
         {
-            jumpBufferCounter = jumpBufferTime;
-            gunAnimations?.TriggerJumpEffect();
-        }
+            jumpInput = Input.GetButtonDown("Jump") && _jumpsRemaining > 0;
+            if (jumpInput)
+            {
+                _jumpBufferCounter = jumpBufferTime;
+                gunAnimations?.TriggerJumpEffect();
+            }
 
             _dashInput = Input.GetButtonDown("Sprint");
             _slideInputHeld = Input.GetButton("Crouch");
@@ -333,10 +318,10 @@ namespace _Scripts.Player
             }
         }
 
-    public void SetWeaponSway(Sway newSway)
-    {
-        gunAnimations = newSway;
-    }
+        public void SetPlayerGunAnimation(GunAnimations gunAnimation)
+        {
+            gunAnimations = gunAnimation;
+        }
 
         private void StartDash(Vector3 direction)
         {
@@ -485,19 +470,40 @@ namespace _Scripts.Player
             _isStomping = false;
         }
 
-    private void StartStomp()
-    {
-        gunAnimations?.TriggerStompEffect();
-        _stomping = true;
-        fallVelocity = -stompForce;
-        if (stompParticles != null)
+        private void StartStomp()
         {
-            stompParticles.Play();
+            gunAnimations?.TriggerStompEffect();
+            _isStomping = true;
+            _fallVelocity = -stompForce;
+            if (stompParticles != null)
+            {
+                stompParticles.Play();
+            }
         }
-    }
 
-    public Vector3 GetSlideDirection()
-    {
-        return slideDirection;
+        public Vector3 GetSlideDirection()
+        {
+            return slideDirection;
+        }
+
+        private void ApplyRage(
+            float playerBaseSpeedMultiplier,
+            float playerJumpForceMultiplier,
+            float weaponFireRateMultiplier,
+            float duration
+        )
+        {
+            if (!_isRaging)
+            {
+                _originalBaseSpeed = baseSpeed;
+                _originalJumpForce = jumpForce;
+            }
+
+            baseSpeed = _originalBaseSpeed * playerBaseSpeedMultiplier;
+            jumpForce = _originalJumpForce * playerJumpForceMultiplier;
+
+            _rageEndTime = Time.time + duration;
+            _isRaging = true;
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using _Scripts.Camera;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,7 +33,7 @@ namespace _Scripts.Menus
 
         private void ShowPauseMenu()
         {
-            RotateView.UnlockCursor();
+            CameraEffects.UnlockCursor();
             IsPaused = true;
             canvas.SetActive(true);
             Time.timeScale = 0f;
@@ -42,7 +41,7 @@ namespace _Scripts.Menus
 
         public void ResumeGame()
         {
-            RotateView.LockCursor();
+            CameraEffects.LockCursor();
             IsPaused = false;
             canvas.SetActive(false);
             Time.timeScale = 1f;
