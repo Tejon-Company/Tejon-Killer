@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace _Scripts.Hud
 {
-    public class HeartsHUD : MonoBehaviour
+    public class HeartsHud : MonoBehaviour
     {
         [SerializeField]
         private Sprite heartSprite;
@@ -36,7 +36,6 @@ namespace _Scripts.Hud
             if (!EventManager.Current)
                 return;
 
-            EventManager.Current.healthChangedEvent.AddListener(UpdateHearts);
             EventManager.Current.damageCooldownEvent.AddListener(SetFlickerState);
             EventManager.Current.healthChangedEvent.AddListener(UpdateHearts);
             UpdateHearts();
@@ -48,7 +47,6 @@ namespace _Scripts.Hud
                 return;
 
             EventManager.Current.damageCooldownEvent.RemoveListener(SetFlickerState);
-            EventManager.Current.healthChangedEvent.RemoveListener(UpdateHearts);
             EventManager.Current.healthChangedEvent.RemoveListener(UpdateHearts);
         }
 
