@@ -32,7 +32,8 @@ namespace _Scripts.Menus
 
         public void StartFirstLevel()
         {
-            SceneManager.LoadScene("Movement_test");
+            MusicManager.Instance.PlayMusic(MusicManager.Instance.Level1Music);
+            SceneManager.LoadScene("Level 1");
         }
 
         public void QuitGame()

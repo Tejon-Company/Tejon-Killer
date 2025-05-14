@@ -42869,6 +42869,11 @@ PrefabInstance:
       propertyPath: nextLevelName
       value: Level 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7341682692303062322, guid: 10682dc91440b1e4ba3534ca003e75a6,
+        type: 3}
+      propertyPath: nextLevelMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: d696613774996fb4e98a8ef702d4c38e, type: 3}
     - target: {fileID: 8179402898731632286, guid: 10682dc91440b1e4ba3534ca003e75a6,
         type: 3}
       propertyPath: m_Mesh
