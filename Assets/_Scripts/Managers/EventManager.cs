@@ -22,6 +22,7 @@ namespace _Scripts.Managers
                 Destroy(this);
         }
 
+        public UnityEvent enemyDiedEvent = new();
         public Int2Event updateBulletsEvent = new();
         public UnityEvent newGunEvent = new();
         public UnityEvent healthChangedEvent = new();

@@ -51,7 +51,7 @@ namespace _Scripts.Hud
             EventManager.Current.rageBerryEvent.RemoveListener(OnRageActivated);
             _listenerRegistered = false;
         }
-        
+
         private void RegisterEventListener()
         {
             if (_listenerRegistered || !EventManager.Current)

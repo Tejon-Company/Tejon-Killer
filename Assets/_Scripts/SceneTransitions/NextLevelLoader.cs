@@ -8,6 +8,7 @@ namespace _Scripts.SceneTransitions
     {
         [SerializeField]
         private string nextLevelName;
+
         [SerializeField]
         private AudioClip nextLevelMusic;
 

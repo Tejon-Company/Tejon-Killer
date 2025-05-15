@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 850522276252107268}
   m_Layer: 0
   m_Name: Squirrel
-  m_TagString: Untagged
+  m_TagString: Enemies
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -363,14 +363,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa574db7f2fc8449a2ba976876ce35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionRange: 20
+  flashDuration: 0.3
+  flashColor: {r: 0.6, g: 0.1, b: 0.1, a: 1}
   acornPool: {fileID: 0}
   firePoint: {fileID: 7068726677019969806}
   fireRate: 2
-  detectionRange: 20
   minVerticalLaunch: 0.2
   maxVerticalLaunch: 14
-  flashDuration: 0.3
-  flashColor: {r: 0.6, g: 0.1, b: 0.1, a: 1}
 --- !u!114 &850522276252107268
 MonoBehaviour:
   m_ObjectHideFlags: 0

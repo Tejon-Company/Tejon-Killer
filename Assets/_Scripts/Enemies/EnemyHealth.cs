@@ -1,3 +1,4 @@
+using _Scripts.Managers;
 using UnityEngine;
 
 namespace _Scripts.Enemies
@@ -31,8 +32,10 @@ namespace _Scripts.Enemies
 
             if (deathEffect)
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
-
             Destroy(gameObject);
+
+            if (EventManager.Current != null && EventManager.Current.enemyDiedEvent != null)
+                EventManager.Current.enemyDiedEvent.Invoke();
         }
     }
 }

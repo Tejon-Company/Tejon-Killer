@@ -4,20 +4,15 @@ namespace _Scripts.SceneTransitions
 {
     public class UnlockNextLevelLoader : MonoBehaviour
     {
-        [SerializeField] private GameObject door;
-        private GameObject[] enemies;
+        [SerializeField]
+        private GameObject door;
 
-        private void Update()
+        public void UnlockDoor()
         {
-            enemies = GameObject.FindGameObjectsWithTag("Enemies");
-            if (enemies.Length != 0)
+            if (door != null)
             {
-                Debug.Log("Número de enemigos restantes: " + enemies.Length);
-                return;
+                door.SetActive(false);
             }
-            
-            Destroy(door);
-            enabled = false;
         }
     }
 }

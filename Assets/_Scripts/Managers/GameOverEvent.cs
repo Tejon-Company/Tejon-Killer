@@ -8,7 +8,7 @@ namespace _Scripts.Managers
     public class GameOverEvent : MonoBehaviour
     {
         private PlayerHealth _playerHealth;
-        
+
         private void Awake()
         {
             StartCoroutine(Foo());
@@ -17,7 +17,7 @@ namespace _Scripts.Managers
         private IEnumerator Foo()
         {
             yield return null;
-            
+
             var playerObject = GameObject.FindGameObjectWithTag("Player");
             if (!playerObject)
             {
@@ -25,10 +25,10 @@ namespace _Scripts.Managers
                 yield break;
             }
             _playerHealth = playerObject.GetComponent<PlayerHealth>();
-            
+
             EventManager.Current.healthChangedEvent.AddListener(OnHealthChanged);
         }
-        
+
         private void OnDisable()
         {
             EventManager.Current.healthChangedEvent.RemoveListener(OnHealthChanged);
