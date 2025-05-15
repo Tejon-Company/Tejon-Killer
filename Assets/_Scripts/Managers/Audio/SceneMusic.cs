@@ -3,9 +3,11 @@ using UnityEngine;
 
 namespace _Scripts.Managers.Audio
 {
-    public class LevelMusic : MonoBehaviour
+    public class SceneMusic : MonoBehaviour
     {
-        [SerializeField] private AudioClip music;
+        [SerializeField]
+        private AudioClip music;
+
         private void Start()
         {
             MusicManager.Instance.PlayMusic(music);
