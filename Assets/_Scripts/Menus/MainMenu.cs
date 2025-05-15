@@ -30,9 +30,9 @@ namespace _Scripts.Menus
             settingsUI.SetActive(true);
         }
 
-        public void StartFirstLevel()
+        public void StartFirstLevel(string fistLevelName)
         {
-            SceneManager.LoadScene("Movement_test");
+            SceneManager.LoadScene(fistLevelName);
         }
 
         public void QuitGame()
