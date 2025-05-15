@@ -218,7 +218,9 @@ namespace _Scripts.Player
             jumpsRemaining = maxJumps;
             slideJumpInertiaActive = false;
             stompTimeCounter = 0f;
-
+            if (isStomping)
+                SfxManager.Instance.PlaySfx(SfxManager.Instance.Stomp);
+            
             stompParticles?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
 
@@ -479,16 +481,10 @@ namespace _Scripts.Player
 
         private void StartStomp()
         {
-            SfxManager.Instance.PlaySfx(SfxManager.Instance.Stomp);
             gunAnimations?.TriggerStompEffect();
             isStomping = true;
             fallVelocity = -stompForce;
             stompParticles?.Play();
-        }
-
-        public Vector3 GetSlideDirection()
-        {
-            return slideDirection;
         }
 
         private void ApplyRage(
