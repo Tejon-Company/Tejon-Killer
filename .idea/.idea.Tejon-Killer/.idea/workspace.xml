@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd356341-a8b4-483b-8150-1e95d94d9215" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tejon-Killer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tejon-Killer/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="bd356341-a8b4-483b-8150-1e95d94d9215" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -172,7 +170,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747318041152</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Arreglar prefab zorro">
+      <option name="closed" value="true" />
+      <created>1747318599418</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1747318599418</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Cambiar script comportamiento zorro">
+      <option name="closed" value="true" />
+      <created>1747318659788</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1747318659788</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,6 +201,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Arreglar prefab zorro" />
+    <MESSAGE value="Cambiar script comportamiento zorro" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cambiar script comportamiento zorro" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
