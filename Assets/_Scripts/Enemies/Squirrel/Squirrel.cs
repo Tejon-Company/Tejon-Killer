@@ -22,7 +22,13 @@ namespace _Scripts.Enemies.Squirrel
         private float maxVerticalLaunch = 1.0f;
         
         private float lastShotTime = Mathf.NegativeInfinity;
-
+        private Animator animator;
+        private static readonly int ShootTrigger = Animator.StringToHash("ShootTrigger");
+        
+        private void Start()
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
         private protected override void FindReferences()
         {
             acornPool ??= FindFirstObjectByType<ProjectilesPool.ProjectilesPool>();
@@ -37,7 +43,8 @@ namespace _Scripts.Enemies.Squirrel
             var targetPosition = Player.TryGetComponent(out Collider playerCollider)
                 ? playerCollider.bounds.center
                 : Player.position + Vector3.up;
-
+            
+            animator.SetTrigger(ShootTrigger);
             LaunchProjectile(targetPosition);
         }
 
@@ -57,9 +64,7 @@ namespace _Scripts.Enemies.Squirrel
             Attack();
             lastShotTime = Time.time;
         }
-
         
-
         private void LaunchProjectile(Vector3 targetPosition)
         {
             var verticalLaunch =

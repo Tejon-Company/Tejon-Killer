@@ -27,7 +27,7 @@ namespace _Scripts.Enemies
             FindReferences();
         }
         
-        private void InitRenderers()
+        private protected void InitRenderers()
         {
             renderers = GetComponentsInChildren<Renderer>();
             originalColors = new Color[renderers.Length];
