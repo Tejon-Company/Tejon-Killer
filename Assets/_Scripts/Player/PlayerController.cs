@@ -479,6 +479,7 @@ namespace _Scripts.Player
 
         private void StartStomp()
         {
+            SfxManager.Instance.PlaySfx(SfxManager.Instance.Stomp);
             gunAnimations?.TriggerStompEffect();
             isStomping = true;
             fallVelocity = -stompForce;
