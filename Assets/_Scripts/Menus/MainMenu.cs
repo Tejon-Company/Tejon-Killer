@@ -14,7 +14,6 @@ namespace _Scripts.Menus
 
         private void Start()
         {
-            MusicManager.Instance.PlayMusic(MusicManager.Instance.MenuBackgroundMusic);
             ShowMenuUI();
         }
 
@@ -30,9 +29,9 @@ namespace _Scripts.Menus
             settingsUI.SetActive(true);
         }
 
-        public void StartFirstLevel(string fistLevelName)
+        public void StartFirstLevel(string levelName)
         {
-            SceneManager.LoadScene(fistLevelName);
+            SceneManager.LoadScene(levelName);
         }
 
         public void QuitGame()

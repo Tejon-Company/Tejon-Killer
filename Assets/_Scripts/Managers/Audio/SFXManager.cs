@@ -28,10 +28,6 @@ namespace _Scripts.Managers.Audio
         public AudioClip DoubleJump => doubleJump;
 
         [SerializeField]
-        private AudioClip slide;
-        public AudioClip Slide => slide;
-
-        [SerializeField]
         private AudioClip stomp;
         public AudioClip Stomp => stomp;
 
