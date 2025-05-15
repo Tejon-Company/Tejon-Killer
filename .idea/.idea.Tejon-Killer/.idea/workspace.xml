@@ -4,33 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd356341-a8b4-483b-8150-1e95d94d9215" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Scene Music.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Scene Music.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sounds/Music/level_1.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sounds/Music/level_1.mp3.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sounds/Music/level_2.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sounds/Music/level_2.mp3.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sounds/Music/level_3.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sounds/Music/level_3.mp3.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Managers/Audio/SceneMusic.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/_Scripts/Managers/Audio/SceneMusic.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Audio Manager.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Audio Manager.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Levels/Level 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Levels/Level 1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Levels/Level 2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Levels/Level 2.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menus/Main Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menus/Main Menu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sounds/AudioMixer.mixer" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sounds/AudioMixer.mixer" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sounds/SoundEffects/slide.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sounds/SoundEffects/slide.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sounds/SoundEffects/slide.mp3.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sounds/SoundEffects/slide.mp3.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Managers/Audio/FootstepSfxManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Managers/Audio/LoopSfxManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Managers/Audio/FootstepSfxManager.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Managers/Audio/LoopSfxManager.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Managers/Audio/MusicManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Managers/Audio/MusicManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Managers/Audio/SFXManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Managers/Audio/SFXManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Menus/MainMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Menus/MainMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Player/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/SceneTransitions/NextLevelLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/SceneTransitions/NextLevelLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
-    </list>
+    <list default="true" id="bd356341-a8b4-483b-8150-1e95d94d9215" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,11 +44,22 @@
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/Scenes/Menus/Main Menu.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/Scenes/Menus/Main Menu.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/Scenes/Menus/Main Menu.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/Scenes/Movement_test.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/Scenes/Movement_test.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/Scenes/Movement_test.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/Scenes/Movement_test.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/Scenes/Movement_test.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/_Scripts/Enemies/Enemy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/_Scripts/Enemies/Squirrel/Squirrel.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/_Scripts/Enemies/Squirrel/Squirrel.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/_Scripts/Enemies/Squirrel/Squirrel.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/_Scripts/Enemies/Squirrel/Squirrel.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/_Scripts/Enemies/Squirrel/Squirrel.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/_Scripts/Menus/MainMenu.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/_Scripts/Menus/MainMenu.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/carol/Desktop/clase/Q8/CIIE/practicas/Tejon-Killer/Assets/_Scripts/Menus/MainMenu.cs" root0="SKIP_HIGHLIGHTING" />
@@ -102,20 +87,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Merging feature/TK-25&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "feature/TK-4.1",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.44f1\Editor\Unity.exe" />
@@ -177,6 +162,31 @@
       <updated>1747302148831</updated>
       <workItem from="1747302150901" duration="349000" />
     </task>
+    <task id="LOCAL-00001" summary="Merge branch 'develop' into feature/TK-4.1&#10;&#10;# Conflicts:&#10;#&#9;Assets/Scenes/Movement_test.unity&#10;#&#9;Assets/_Scripts/Enemies/Squirrel/Squirrel.cs">
+      <option name="closed" value="true" />
+      <created>1747318041152</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1747318041152</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Arreglar prefab zorro">
+      <option name="closed" value="true" />
+      <created>1747318599418</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1747318599418</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Cambiar script comportamiento zorro">
+      <option name="closed" value="true" />
+      <created>1747318659788</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1747318659788</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,6 +201,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Arreglar prefab zorro" />
+    <MESSAGE value="Cambiar script comportamiento zorro" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cambiar script comportamiento zorro" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
