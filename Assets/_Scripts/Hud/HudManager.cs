@@ -13,7 +13,7 @@ namespace _Scripts.Hud
 
         private void Start()
         {
-            EventManager.Current.newGunEvent.AddListener(CreateWeaponInfo);
+            EventManager.Instance.newGunEvent.AddListener(CreateWeaponInfo);
         }
 
         private void CreateWeaponInfo()

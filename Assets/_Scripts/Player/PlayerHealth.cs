@@ -47,17 +47,17 @@ namespace _Scripts.Player
         private IEnumerator DamageCooldownCoroutine()
         {
             _isInvulnerable = true;
-            EventManager.Current?.damageCooldownEvent.Invoke(true);
+            EventManager.Instance?.damageCooldownEvent.Invoke(true);
 
             yield return new WaitForSeconds(damageCooldown);
 
             _isInvulnerable = false;
-            EventManager.Current?.damageCooldownEvent.Invoke(false);
+            EventManager.Instance?.damageCooldownEvent.Invoke(false);
         }
 
         private static void NotifyHealthChanged()
         {
-            EventManager.Current?.healthChangedEvent.Invoke();
+            EventManager.Instance?.healthChangedEvent.Invoke();
         }
     }
 }

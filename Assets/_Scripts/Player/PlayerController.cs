@@ -90,7 +90,6 @@ namespace _Scripts.Player
 
         private float jumpBufferCounter;
 
-        
         private bool jumpInput;
         private GunAnimations gunAnimations;
         private bool canDash = true;
@@ -134,12 +133,12 @@ namespace _Scripts.Player
 
         private void OnEnable()
         {
-            EventManager.Current?.rageBerryEvent.AddListener(ApplyRage);
+            EventManager.Instance?.rageBerryEvent.AddListener(ApplyRage);
         }
 
         private void OnDisable()
         {
-            EventManager.Current?.rageBerryEvent.RemoveListener(ApplyRage);
+            EventManager.Instance?.rageBerryEvent.RemoveListener(ApplyRage);
         }
 
         private void Update()
@@ -220,7 +219,7 @@ namespace _Scripts.Player
             stompTimeCounter = 0f;
             if (isStomping)
                 SfxManager.Instance.PlaySfx(SfxManager.Instance.Stomp);
-            
+
             stompParticles?.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
 
@@ -447,8 +446,7 @@ namespace _Scripts.Player
         private void HandleAirborneGravity()
         {
             var canJump = jumpBufferCounter > 0 && jumpsRemaining > 0 && !isStomping;
-            var isPlayerJumping =
-                player.collisionFlags == CollisionFlags.Above && fallVelocity > 0;
+            var isPlayerJumping = player.collisionFlags == CollisionFlags.Above && fallVelocity > 0;
             if (canJump)
             {
                 fallVelocity = jumpForce;

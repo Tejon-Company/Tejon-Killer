@@ -45,19 +45,19 @@ namespace _Scripts.Hud
 
         private void OnDisable()
         {
-            if (!EventManager.Current)
+            if (!EventManager.Instance)
                 return;
 
-            EventManager.Current.rageBerryEvent.RemoveListener(OnRageActivated);
+            EventManager.Instance.rageBerryEvent.RemoveListener(OnRageActivated);
             _listenerRegistered = false;
         }
-        
+
         private void RegisterEventListener()
         {
-            if (_listenerRegistered || !EventManager.Current)
+            if (_listenerRegistered || !EventManager.Instance)
                 return;
 
-            EventManager.Current.rageBerryEvent.AddListener(OnRageActivated);
+            EventManager.Instance.rageBerryEvent.AddListener(OnRageActivated);
             _listenerRegistered = true;
         }
 

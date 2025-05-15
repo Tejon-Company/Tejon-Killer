@@ -1,5 +1,6 @@
 using System;
 using _Scripts.Camera;
+using _Scripts.Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,14 +16,17 @@ namespace _Scripts.Menus
             victoryMenu.SetActive(false);
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            var enemies = GameObject.FindGameObjectsWithTag("Enemies");
-            if (enemies.Length == 0)
-                ShowVictoryMenu();
+            EventManager.Instance?.allEnemiesDefeated.AddListener(OnAllEnemiesDefeated);
         }
 
-        private void ShowVictoryMenu()
+        private void OnDisable()
+        {
+            EventManager.Instance?.allEnemiesDefeated.RemoveListener(OnAllEnemiesDefeated);
+        }
+
+        private void OnAllEnemiesDefeated()
         {
             CameraEffects.UnlockCursor();
             PauseMenu.IsPaused = true;

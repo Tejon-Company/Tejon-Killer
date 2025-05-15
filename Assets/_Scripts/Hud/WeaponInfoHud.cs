@@ -21,12 +21,12 @@ namespace _Scripts.Hud
         private IEnumerator SubscribeToBulletUpdate()
         {
             yield return null;
-            EventManager.Current.updateBulletsEvent.AddListener(UpdateBullets);
+            EventManager.Instance.updateBulletsEvent.AddListener(UpdateBullets);
         }
 
         private void OnDisable()
         {
-            EventManager.Current.updateBulletsEvent.RemoveListener(UpdateBullets);
+            EventManager.Instance.updateBulletsEvent.RemoveListener(UpdateBullets);
         }
 
         public void UpdateBullets(int newCurrentBullets, int newTotalBullets)

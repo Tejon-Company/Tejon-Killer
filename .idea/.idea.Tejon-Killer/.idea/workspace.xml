@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd356341-a8b4-483b-8150-1e95d94d9215" name="Changes" comment="" />
+    <list default="true" id="bd356341-a8b4-483b-8150-1e95d94d9215" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tejon-Killer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tejon-Killer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Black.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Black.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Levels/Level 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Levels/Level 1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Enemies/EnemyHealth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Enemies/EnemyHealth.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Hud/HeartsHUD.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Hud/HeartsHUD.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Hud/RageHud.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Hud/RageHud.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Managers/EventManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Managers/EventManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Managers/GameOverEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Managers/GameOverEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Player/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Player/PlayerWeaponManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Player/PlayerWeaponManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/SceneTransitions/NextLevelLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/SceneTransitions/NextLevelLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/SceneTransitions/UnlockNextLevelLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/SceneTransitions/UnlockNextLevelLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,7 +107,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/TK-4.1",
+    "git-widget-placeholder": "feature/TK-29",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -161,6 +176,7 @@
       <option name="presentableId" value="Default" />
       <updated>1747302148831</updated>
       <workItem from="1747302150901" duration="349000" />
+      <workItem from="1747330785758" duration="1475000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'develop' into feature/TK-4.1&#10;&#10;# Conflicts:&#10;#&#9;Assets/Scenes/Movement_test.unity&#10;#&#9;Assets/_Scripts/Enemies/Squirrel/Squirrel.cs">
       <option name="closed" value="true" />

@@ -77,12 +77,12 @@ namespace _Scripts.Player
 
         private void OnEnable()
         {
-            EventManager.Current?.rageBerryEvent.AddListener(ApplyRage);
+            EventManager.Instance?.rageBerryEvent.AddListener(ApplyRage);
         }
 
         private void OnDisable()
         {
-            EventManager.Current?.rageBerryEvent.RemoveListener(ApplyRage);
+            EventManager.Instance?.rageBerryEvent.RemoveListener(ApplyRage);
         }
 
         private void Update()
@@ -106,8 +106,9 @@ namespace _Scripts.Player
                 return;
             }
 
-            if (!(Time.time >= lastShotTime + fireRate)) return;
-            
+            if (!(Time.time >= lastShotTime + fireRate))
+                return;
+
             Shoot();
             CurrentAmmo--;
             UpdateAmmoUI();
@@ -122,8 +123,9 @@ namespace _Scripts.Player
 
         private void HandleRageState()
         {
-            if (!isRaging || !(Time.time >= rageEndTime)) return;
-            
+            if (!isRaging || !(Time.time >= rageEndTime))
+                return;
+
             fireRate = defaultFireRate;
             isRaging = false;
         }
@@ -180,9 +182,9 @@ namespace _Scripts.Player
 
             var tracer = Instantiate(tracerEffectPrefab);
             var lr = tracer.GetComponent<LineRenderer>();
-            if (!lr) return;
-            
-            
+            if (!lr)
+                return;
+
             lr.SetPosition(0, start);
             lr.SetPosition(1, end);
             StartCoroutine(FadeRay(lr, rayEffectTime));
@@ -207,7 +209,7 @@ namespace _Scripts.Player
 
         private void UpdateAmmoUI()
         {
-            EventManager.Current.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
+            EventManager.Instance.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
         }
 
         private static IEnumerator FadeRay(LineRenderer lr, float duration)

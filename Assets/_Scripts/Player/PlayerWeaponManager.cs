@@ -89,7 +89,11 @@ namespace _Scripts.Player
             weapon.gameObject.SetActive(true);
             SetupWeaponGunAnimation(weapon);
             ActiveWeaponIndex = index;
-            EventManager.Current.newGunEvent.Invoke();
+            if (EventManager.Instance.newGunEvent == null)
+            {
+                Debug.Log("newgunevent null");
+            }
+            EventManager.Instance.newGunEvent.Invoke();
         }
 
         private void SetupWeaponGunAnimation(WeaponController weapon)

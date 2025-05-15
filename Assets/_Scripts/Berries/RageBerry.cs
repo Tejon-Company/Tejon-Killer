@@ -19,7 +19,7 @@ public class RageBerry : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            EventManager.Current.rageBerryEvent.Invoke(
+            EventManager.Instance.rageBerryEvent.Invoke(
                 playerBaseSpeedMultiplier,
                 playerJumpForceMultiplier,
                 weaponFireRateMultiplier,
