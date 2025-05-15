@@ -1111,6 +1111,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1275200373}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1276211465 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1828710534094851665, guid: 717827f5970cc4a408c25643c4863a31,
+    type: 3}
+  m_PrefabInstance: {fileID: 6592535694114031837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1313908898
 GameObject:
   m_ObjectHideFlags: 0
@@ -2522,6 +2528,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Audio Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 2520753482097677929, guid: 717827f5970cc4a408c25643c4863a31,
+        type: 3}
+      propertyPath: m_Name
+      value: LoopSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 6217635178457108961, guid: 717827f5970cc4a408c25643c4863a31,
+        type: 3}
+      propertyPath: loopSource
+      value: 
+      objectReference: {fileID: 1276211465}
+    - target: {fileID: 6217635178457108961, guid: 717827f5970cc4a408c25643c4863a31,
+        type: 3}
+      propertyPath: slideSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 2cab32c051526c64991676b0d773b5b5, type: 3}
     - target: {fileID: 8167352051230456701, guid: 717827f5970cc4a408c25643c4863a31,
         type: 3}
       propertyPath: m_LocalPosition.x
