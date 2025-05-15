@@ -2,13 +2,13 @@
 
 namespace _Scripts.Managers.Audio
 {
-    public class FootstepSfxManager : MonoBehaviour
+    public class LoopSfxManager : MonoBehaviour
     {
-        public static FootstepSfxManager Instance { get; private set; }
+        public static LoopSfxManager Instance { get; private set; }
 
         [Header("AUDIO SOURCE")]
         [SerializeField]
-        private AudioSource footstepSource;
+        private AudioSource loopSource;
 
         [Header("AUDIO CLIP")]
         [SerializeField]
@@ -18,6 +18,10 @@ namespace _Scripts.Managers.Audio
         [SerializeField]
         private AudioClip stoneSteps;
         public AudioClip StoneSteps => stoneSteps;
+        
+        [SerializeField]
+        private AudioClip slideSound;
+        public AudioClip SlideSound => slideSound;
 
         private void Awake()
         {
@@ -31,20 +35,20 @@ namespace _Scripts.Managers.Audio
                 Destroy(gameObject);
             }
         }
-
-        public void PlayFootstepSfx(AudioClip clip)
+        
+        public void PlayLoopSfx(AudioClip clip)
         {
-            if (footstepSource.isPlaying && footstepSource.clip == clip)
+            if (loopSource.isPlaying && loopSource.clip == clip)
                 return;
 
-            footstepSource.Stop();
-            footstepSource.clip = clip;
-            footstepSource.Play();
+            loopSource.Stop();
+            loopSource.clip = clip;
+            loopSource.Play();
         }
-
-        public void StopFootstepSfx()
+        
+        public void StopLoopSfx()
         {
-            footstepSource.Stop();
+            loopSource.Stop();
         }
     }
 }
