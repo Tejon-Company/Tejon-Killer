@@ -214,9 +214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loopSource: {fileID: 1828710534094851665}
-  grassSteps: {fileID: 8300000, guid: d2ca4f09705130846aa15fc9578a141b, type: 3}
-  stoneSteps: {fileID: 8300000, guid: b803821c247630a438522bb49eac3c01, type: 3}
-  slideSound: {fileID: 0}
+  steps: {fileID: 8300000, guid: d2ca4f09705130846aa15fc9578a141b, type: 3}
+  slideSound: {fileID: 8300000, guid: 2cab32c051526c64991676b0d773b5b5, type: 3}
 --- !u!114 &7481193966615115668
 MonoBehaviour:
   m_ObjectHideFlags: 0

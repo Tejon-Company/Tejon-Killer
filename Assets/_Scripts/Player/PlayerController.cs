@@ -183,7 +183,7 @@ namespace _Scripts.Player
             }
             else if (isWalking)
             {
-                LoopSfxManager.Instance.PlayLoopSfx(LoopSfxManager.Instance.GrassSteps);
+                LoopSfxManager.Instance.PlayLoopSfx(LoopSfxManager.Instance.Steps);
             }
             else
             {

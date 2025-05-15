@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Scripts.Managers.Audio
 {
@@ -10,22 +11,19 @@ namespace _Scripts.Managers.Audio
         [SerializeField]
         private AudioSource loopSource;
 
+        [FormerlySerializedAs("grassSteps")]
         [Header("AUDIO CLIP")]
         [SerializeField]
-        private AudioClip grassSteps;
-        public AudioClip GrassSteps => grassSteps;
+        private AudioClip steps;
+        public AudioClip Steps => steps;
 
-        [SerializeField]
-        private AudioClip stoneSteps;
-        public AudioClip StoneSteps => stoneSteps;
-        
         [SerializeField]
         private AudioClip slideSound;
         public AudioClip SlideSound => slideSound;
 
         private void Awake()
         {
-            if (Instance is null)
+            if (!Instance)
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
