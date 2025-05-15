@@ -7,7 +7,7 @@ namespace _Scripts.Menus
 {
     public class PauseMenu : MonoBehaviour
     {
-        public static bool IsPaused { get; private set; }
+        public static bool IsPaused { get; set; }
 
         [SerializeField]
         private GameObject canvas;

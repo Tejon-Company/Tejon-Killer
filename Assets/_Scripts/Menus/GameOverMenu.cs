@@ -9,7 +9,6 @@ namespace _Scripts.Menus
     {
         private void Start()
         {
-            MusicManager.Instance.PlayMusic(MusicManager.Instance.MenuBackgroundMusic);
             CameraEffects.UnlockCursor();
         }
 
