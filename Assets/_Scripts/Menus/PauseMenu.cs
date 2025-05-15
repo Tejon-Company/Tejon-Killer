@@ -7,7 +7,7 @@ namespace _Scripts.Menus
 {
     public class PauseMenu : MonoBehaviour
     {
-        public static bool IsPaused { get; private set; }
+        public static bool IsPaused { get; set; }
 
         [SerializeField]
         private GameObject canvas;
@@ -34,7 +34,7 @@ namespace _Scripts.Menus
 
         private void ShowPauseMenu()
         {
-            RotateView.UnlockCursor();
+            CameraEffects.UnlockCursor();
             IsPaused = true;
             canvas.SetActive(true);
             Time.timeScale = 0f;
@@ -42,7 +42,7 @@ namespace _Scripts.Menus
 
         public void ResumeGame()
         {
-            RotateView.LockCursor();
+            CameraEffects.LockCursor();
             IsPaused = false;
             canvas.SetActive(false);
             Time.timeScale = 1f;

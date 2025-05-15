@@ -1,25 +1,32 @@
+using _Scripts.Managers.Audio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NextLevelLoader : MonoBehaviour
+namespace _Scripts.SceneTransitions
 {
-    [Tooltip("Next scene name")]
-    public string nextLevelName;
-
-    private void OnTriggerEnter(Collider other)
+    public class NextLevelLoader : MonoBehaviour
     {
-        if (!other.CompareTag("Player"))
-        {
-            return;
-        }
+        [SerializeField]
+        private string nextLevelName;
+        [SerializeField]
+        private AudioClip nextLevelMusic;
 
-        if (!string.IsNullOrEmpty(nextLevelName))
+        private void OnTriggerEnter(Collider other)
         {
-            SceneManager.LoadScene(nextLevelName);
-        }
-        else
-        {
-            Debug.LogWarning("Next scene name is not set in the inspector");
+            if (!other.CompareTag("Player"))
+            {
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(nextLevelName))
+            {
+                MusicManager.Instance.PlayMusic(nextLevelMusic);
+                SceneManager.LoadScene(nextLevelName);
+            }
+            else
+            {
+                Debug.LogWarning("Next scene name is not set in the inspector");
+            }
         }
     }
 }
