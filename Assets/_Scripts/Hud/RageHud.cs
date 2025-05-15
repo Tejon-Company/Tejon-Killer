@@ -1,0 +1,111 @@
+using System;
+using _Scripts.Managers;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace _Scripts.Hud
+{
+    public class RageHud : MonoBehaviour
+    {
+        [SerializeField]
+        private GameObject frameRoot;
+
+        [SerializeField]
+        private Image rageBarFill;
+
+        private float _maxDuration;
+        private float _endTime;
+        private bool _isActive;
+        private bool _listenerRegistered;
+        private float _remainingTime;
+
+        [Header("PULSE EFFECT")]
+        [SerializeField]
+        private float pulseSpeed = 0.2f;
+
+        [SerializeField]
+        private float pulseForce = 0.05f;
+        private Vector3 _originalScale;
+
+        private void Start()
+        {
+            _originalScale = frameRoot.transform.localScale;
+            frameRoot.SetActive(false);
+        }
+
+        private void Update()
+        {
+            UpdateRageBar();
+        }
+
+        private void OnEnable()
+        {
+            RegisterEventListener();
+        }
+
+        private void OnDisable()
+        {
+            if (!EventManager.Current)
+                return;
+
+            EventManager.Current.rageBerryEvent.RemoveListener(OnRageActivated);
+            _listenerRegistered = false;
+        }
+        
+        private void RegisterEventListener()
+        {
+            if (_listenerRegistered || !EventManager.Current)
+                return;
+
+            EventManager.Current.rageBerryEvent.AddListener(OnRageActivated);
+            _listenerRegistered = true;
+        }
+
+        private void UpdateRageBar()
+        {
+            if (!_isActive)
+                return;
+
+            _remainingTime = _endTime - Time.time;
+
+            if (EndRage())
+                return;
+
+            rageBarFill.fillAmount = _remainingTime / _maxDuration;
+
+            var pulse = Mathf.PingPong(Time.time * pulseSpeed, pulseForce);
+            frameRoot.transform.localScale = _originalScale + new Vector3(pulse, pulse, pulse);
+        }
+
+        private bool EndRage()
+        {
+            if (_remainingTime > 0f)
+                return false;
+
+            rageBarFill.fillAmount = 0f;
+            _isActive = false;
+            frameRoot.SetActive(false);
+            frameRoot.transform.localScale = _originalScale;
+            return true;
+        }
+
+        private void OnRageActivated(
+            float baseSpeed,
+            float jumpForce,
+            float fireRate,
+            float duration
+        )
+        {
+            frameRoot.SetActive(true);
+            InitializeRageBar(duration);
+        }
+
+        private void InitializeRageBar(float duration)
+        {
+            _maxDuration = duration;
+            _endTime = Time.time + duration;
+            rageBarFill.fillAmount = 1f;
+            _isActive = true;
+        }
+    }
+}

@@ -8,13 +8,12 @@ namespace _Scripts.Managers.Audio
         [SerializeField]
         private AudioSource musicSource;
 
-        [Header("AUDIO CLIP")]
+        [Header("AUDIO CLIPS")]
         [SerializeField]
         private AudioClip menuBackgroundMusic;
 
         public static MusicManager Instance { get; private set; }
         public AudioClip MenuBackgroundMusic => menuBackgroundMusic;
-
         private void Awake()
         {
             if (Instance is null)
