@@ -133,12 +133,12 @@ namespace _Scripts.Player
 
         private void OnEnable()
         {
-            EventManager.Current?.rageBerryEvent.AddListener(ApplyRage);
+            EventManager.Instance?.rageBerryEvent.AddListener(ApplyRage);
         }
 
         private void OnDisable()
         {
-            EventManager.Current?.rageBerryEvent.RemoveListener(ApplyRage);
+            EventManager.Instance?.rageBerryEvent.RemoveListener(ApplyRage);
         }
 
         private void Update()

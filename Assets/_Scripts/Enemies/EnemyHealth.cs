@@ -34,8 +34,8 @@ namespace _Scripts.Enemies
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
 
-            if (EventManager.Current != null && EventManager.Current.enemyDiedEvent != null)
-                EventManager.Current.enemyDiedEvent.Invoke();
+            if (EventManager.Instance != null && EventManager.Instance.enemyDiedEvent != null)
+                EventManager.Instance.enemyDiedEvent.Invoke();
         }
     }
 }

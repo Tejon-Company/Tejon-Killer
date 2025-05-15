@@ -3,15 +3,12 @@ using _Scripts.Managers;
 using _Scripts.SceneTransitions;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace _Scripts.Hud
 {
     public class EnemiesLeftHUD : MonoBehaviour
     {
         private int _enemiesLeft;
-        public int EnemiesLeft => _enemiesLeft;
-        private UnlockNextLevelLoader unlockNextLevelLoader;
 
         [SerializeField]
         private TMP_Text enemiesLeftText;
@@ -25,27 +22,27 @@ namespace _Scripts.Hud
         {
             yield return null;
             _enemiesLeft = GameObject.FindGameObjectsWithTag("Enemies").Length;
-            unlockNextLevelLoader = GameObject.FindFirstObjectByType<UnlockNextLevelLoader>();
-            Debug.Log("contador global:" + _enemiesLeft);
             UpdateHUD();
 
-            if (EventManager.Current != null)
-                EventManager.Current.enemyDiedEvent.AddListener(OnEnemyDied);
+            EventManager.Instance?.enemyDiedEvent.AddListener(OnEnemyDied);
         }
 
         private void OnDestroy()
         {
-            if (EventManager.Current != null)
-                EventManager.Current.enemyDiedEvent.RemoveListener(OnEnemyDied);
+            EventManager.Instance?.enemyDiedEvent.RemoveListener(OnEnemyDied);
         }
 
         private void OnEnemyDied()
         {
             _enemiesLeft--;
+            Debug.Log("contador global:" + _enemiesLeft);
             if (_enemiesLeft == 0)
             {
-                unlockNextLevelLoader.UnlockDoor();
+                Debug.Log("CERO ENEMIGOS");
+                EventManager.Instance.allEnemiesDefeated.Invoke();
             }
+                
+            
             UpdateHUD();
         }
 

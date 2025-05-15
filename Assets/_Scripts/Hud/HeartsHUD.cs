@@ -30,21 +30,21 @@ namespace _Scripts.Hud
 
         private void OnEnable()
         {
-            if (!EventManager.Current)
+            if (!EventManager.Instance)
                 return;
 
-            EventManager.Current.healthChangedEvent.AddListener(UpdateHearts);
-            EventManager.Current.damageCooldownEvent.AddListener(SetFlickerState);
+            EventManager.Instance.healthChangedEvent.AddListener(UpdateHearts);
+            EventManager.Instance.damageCooldownEvent.AddListener(SetFlickerState);
             UpdateHearts();
         }
 
         private void OnDisable()
         {
-            if (!EventManager.Current)
+            if (!EventManager.Instance)
                 return;
 
-            EventManager.Current.damageCooldownEvent.RemoveListener(SetFlickerState);
-            EventManager.Current.healthChangedEvent.RemoveListener(UpdateHearts);
+            EventManager.Instance.damageCooldownEvent.RemoveListener(SetFlickerState);
+            EventManager.Instance.healthChangedEvent.RemoveListener(UpdateHearts);
         }
 
         private void Start()

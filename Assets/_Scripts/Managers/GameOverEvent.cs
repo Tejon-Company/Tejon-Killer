@@ -26,12 +26,12 @@ namespace _Scripts.Managers
             }
             _playerHealth = playerObject.GetComponent<PlayerHealth>();
 
-            EventManager.Current.healthChangedEvent.AddListener(OnHealthChanged);
+            EventManager.Instance.healthChangedEvent.AddListener(OnHealthChanged);
         }
 
         private void OnDisable()
         {
-            EventManager.Current.healthChangedEvent.RemoveListener(OnHealthChanged);
+            EventManager.Instance.healthChangedEvent.RemoveListener(OnHealthChanged);
         }
 
         private void OnHealthChanged()

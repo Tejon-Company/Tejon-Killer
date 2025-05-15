@@ -1,18 +1,24 @@
-﻿using UnityEngine;
+﻿using _Scripts.Managers;
+using UnityEngine;
 
 namespace _Scripts.SceneTransitions
 {
     public class UnlockNextLevelLoader : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject door;
-
-        public void UnlockDoor()
+        private void OnEnable()
         {
-            if (door != null)
-            {
-                door.SetActive(false);
-            }
+            EventManager.Instance?.allEnemiesDefeated.AddListener(OnAllEnemiesDefeated);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Instance?.allEnemiesDefeated.RemoveListener(OnAllEnemiesDefeated);
+        }
+
+        private void OnAllEnemiesDefeated()
+        {
+            Debug.Log("on all enemies defeated called in unlock next level loader");
+            gameObject.SetActive(false);
         }
     }
 }

@@ -12,14 +12,18 @@ namespace _Scripts.Managers
 
     public class EventManager : MonoBehaviour
     {
-        public static EventManager Current;
+        public static EventManager Instance;
 
         private void Awake()
         {
-            if (!Current)
-                Current = this;
-            else
-                Destroy(this);
+            if (Instance is not null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         public UnityEvent enemyDiedEvent = new();
@@ -28,5 +32,6 @@ namespace _Scripts.Managers
         public UnityEvent healthChangedEvent = new();
         public RageEvent rageBerryEvent = new();
         public UnityEvent<bool> damageCooldownEvent;
+        public UnityEvent allEnemiesDefeated = new();
     }
 }
