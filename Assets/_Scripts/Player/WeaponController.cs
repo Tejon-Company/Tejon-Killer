@@ -1,248 +1,246 @@
 using System.Collections;
 using _Scripts.Enemies;
 using _Scripts.Managers;
-using _Scripts.Managers;
 using _Scripts.Managers.Audio;
 using _Scripts.Menus;
+using _Scripts.Weapons;
 using UnityEngine;
 
-public class WeaponController : MonoBehaviour
+namespace _Scripts.Player
 {
-    [Header("Referencias")]
-    [SerializeField]
-    private Transform weaponMuzzle;
-
-    [SerializeField]
-    private Sway sway;
-
-    [Header("Parámetros de disparo")]
-    [SerializeField]
-    private LayerMask hittableLayers;
-
-    [SerializeField]
-    private float fireRange = 200f;
-
-    [SerializeField]
-    private float fireRate = 0.2f;
-
-    [SerializeField]
-    private int shotDamage = 10;
-
-    [Header("Munición")]
-    [SerializeField]
-    private int maxAmmo = 8;
-    public int CurrentAmmo { get; private set; }
-    public int MaxAmmo => maxAmmo;
-
-    [Header("Recarga")]
-    [SerializeField]
-    private float reloadTime = 1.5f;
-    private bool isReloading;
-
-    [Header("Rabia")]
-    private bool isRaging = false;
-    private float rageEndTime = 0f;
-    private float defaultFireRate;
-
-    [Header("Efectos visuales")]
-    [SerializeField]
-    private GameObject flashEffect;
-
-    [SerializeField]
-    private GameObject tracerEffectPrefab;
-
-    [SerializeField]
-    private GameObject bulletHolePrefab;
-
-    [SerializeField]
-    private float rayEffectTime = 0.2f;
-
-    private Transform cameraTransform;
-    private float lastShotTime;
-
-    private void Awake()
+    public class WeaponController : MonoBehaviour
     {
-        CurrentAmmo = maxAmmo;
-        defaultFireRate = fireRate;
-        UpdateAmmoUI();
-    }
+        [Header("Referencias")]
+        [SerializeField]
+        private Transform weaponMuzzle;
 
-    private void Start()
-    {
-        cameraTransform = GameObject.FindGameObjectWithTag("MainCamera")?.transform;
-    }
+        [SerializeField]
+        private GunAnimations gunAnimations;
 
-    private void OnEnable()
-    {
-        if (EventManager.Current != null)
-            EventManager.Current.rageBerryEvent.AddListener(ApplyRage);
-    }
+        [Header("Parámetros de disparo")]
+        [SerializeField]
+        private LayerMask hittableLayers;
 
-    private void OnDisable()
-    {
-        if (EventManager.Current != null)
-            EventManager.Current.rageBerryEvent.RemoveListener(ApplyRage);
-    }
+        [SerializeField]
+        private float fireRange = 200f;
 
-    private void Update()
-    {
-        if (PauseMenu.IsPaused)
+        [SerializeField]
+        private float fireRate = 0.2f;
+
+        [SerializeField]
+        private int shotDamage = 10;
+
+        [Header("Munición")]
+        [SerializeField]
+        private int maxAmmo = 8;
+        public int CurrentAmmo { get; private set; }
+        public int MaxAmmo => maxAmmo;
+
+        [Header("Recarga")]
+        [SerializeField]
+        private float reloadTime = 0.85f;
+        private bool _isReloading;
+
+        [Header("Rabia")]
+        private bool _isRaging;
+        private float _rageEndTime;
+        private float _defaultFireRate;
+
+        [Header("Efectos visuales")]
+        [SerializeField]
+        private GameObject flashEffect;
+
+        [SerializeField]
+        private GameObject tracerEffectPrefab;
+
+        [SerializeField]
+        private GameObject bulletHolePrefab;
+
+        [SerializeField]
+        private float rayEffectTime = 0.2f;
+
+        private Transform _cameraTransform;
+        private float _lastShotTime;
+        private EnemyHealth _enemyHealth;
+
+        private void Awake()
         {
-            return;
-        }
-        HandleFireInput();
-        HandleReloadInput();
-        HandleRageState();
-    }
-
-    private void HandleFireInput()
-    {
-        if (!Input.GetButtonDown("Fire") || isReloading)
-            return;
-
-        if (CurrentAmmo <= 0)
-        {
-            StartCoroutine(Reload());
-            return;
+            CurrentAmmo = maxAmmo;
+            _defaultFireRate = fireRate;
+            UpdateAmmoUI();
         }
 
-        if (Time.time >= lastShotTime + fireRate)
+        private void Start()
         {
+            _cameraTransform = GameObject.FindGameObjectWithTag("MainCamera")?.transform;
+        }
+
+        private void OnEnable()
+        {
+            EventManager.Current?.rageBerryEvent.AddListener(ApplyRage);
+        }
+
+        private void OnDisable()
+        {
+            EventManager.Current?.rageBerryEvent.RemoveListener(ApplyRage);
+        }
+
+        private void Update()
+        {
+            if (PauseMenu.IsPaused)
+                return;
+
+            HandleFireInput();
+            HandleReloadInput();
+            HandleRageState();
+        }
+
+        private void HandleFireInput()
+        {
+            if (!Input.GetButtonDown("Fire") || _isReloading)
+                return;
+
+            if (CurrentAmmo <= 0)
+            {
+                StartCoroutine(Reload());
+                return;
+            }
+
+            if (!(Time.time >= _lastShotTime + fireRate)) return;
+            
             Shoot();
             CurrentAmmo--;
             UpdateAmmoUI();
-            lastShotTime = Time.time;
+            _lastShotTime = Time.time;
         }
-    }
 
-    private void HandleReloadInput()
-    {
-        if (Input.GetButtonDown("Reload") && CurrentAmmo < MaxAmmo && !isReloading)
-            StartCoroutine(Reload());
-    }
-
-    private void HandleRageState()
-    {
-        if (isRaging && Time.time >= rageEndTime)
+        private void HandleReloadInput()
         {
-            fireRate = defaultFireRate;
-            isRaging = false;
+            if (Input.GetButtonDown("Reload") && CurrentAmmo < MaxAmmo && !_isReloading)
+                StartCoroutine(Reload());
         }
-    }
 
-    private void Shoot()
-    {
-        SfxManager.Instance.PlaySfx(SfxManager.Instance.Shoot);
-        ShowFlashEffect();
-
-        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, fireRange, hittableLayers))
+        private void HandleRageState()
         {
-            ShowBulletHole(hit);
-            ShowTracerEffect(weaponMuzzle.position, hit.point);
+            if (!_isRaging || !(Time.time >= _rageEndTime)) return;
+            
+            fireRate = _defaultFireRate;
+            _isRaging = false;
+        }
 
-            EnemyHealth enemy = hit.collider.GetComponentInParent<EnemyHealth>();
-            if (enemy != null)
+        private void Shoot()
+        {
+            SfxManager.Instance.PlaySfx(SfxManager.Instance.Shoot);
+            ShowFlashEffect();
+
+            var ray = new Ray(_cameraTransform.position, _cameraTransform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, fireRange, hittableLayers))
             {
-                enemy.TakeDamage(shotDamage);
+                ShowBulletHole(hit);
+                ShowTracerEffect(weaponMuzzle.position, hit.point);
+
+                _enemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
+                if (!_enemyHealth)
+                    _enemyHealth.TakeDamage(shotDamage);
             }
+
+            gunAnimations?.ApplyRecoil();
         }
 
-        sway?.ApplyRecoil();
-    }
-
-    private void ShowFlashEffect()
-    {
-        if (!flashEffect)
-            return;
-
-        GameObject flash = Instantiate(
-            flashEffect,
-            weaponMuzzle.position,
-            Quaternion.LookRotation(weaponMuzzle.forward),
-            transform
-        );
-        Destroy(flash, 1f);
-    }
-
-    private void ShowBulletHole(RaycastHit hit)
-    {
-        if (!bulletHolePrefab)
-            return;
-
-        GameObject hole = Instantiate(
-            bulletHolePrefab,
-            hit.point - hit.normal * 0.01f,
-            Quaternion.LookRotation(hit.normal)
-        );
-        Destroy(hole, 4f);
-    }
-
-    private void ShowTracerEffect(Vector3 start, Vector3 end)
-    {
-        if (!tracerEffectPrefab)
-            return;
-
-        GameObject tracer = Instantiate(tracerEffectPrefab);
-        LineRenderer lr = tracer.GetComponent<LineRenderer>();
-        if (lr)
+        private void ShowFlashEffect()
         {
+            if (!flashEffect)
+                return;
+
+            var flash = Instantiate(
+                flashEffect,
+                weaponMuzzle.position,
+                Quaternion.LookRotation(weaponMuzzle.forward),
+                transform
+            );
+            Destroy(flash, 1f);
+        }
+
+        private void ShowBulletHole(RaycastHit hit)
+        {
+            if (!bulletHolePrefab)
+                return;
+
+            var hole = Instantiate(
+                bulletHolePrefab,
+                hit.point - hit.normal * 0.01f,
+                Quaternion.LookRotation(hit.normal)
+            );
+            Destroy(hole, 4f);
+        }
+
+        private void ShowTracerEffect(Vector3 start, Vector3 end)
+        {
+            if (!tracerEffectPrefab)
+                return;
+
+            var tracer = Instantiate(tracerEffectPrefab);
+            var lr = tracer.GetComponent<LineRenderer>();
+            if (!lr) return;
+            
+            
             lr.SetPosition(0, start);
             lr.SetPosition(1, end);
             StartCoroutine(FadeRay(lr, rayEffectTime));
         }
-    }
 
-    private IEnumerator Reload()
-    {
-        if (isReloading)
-            yield break;
-
-        isReloading = true;
-        Debug.Log("Recargando...");
-        yield return new WaitForSeconds(reloadTime);
-
-        SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
-        CurrentAmmo = MaxAmmo;
-        UpdateAmmoUI();
-        isReloading = false;
-        Debug.Log("¡Recargada!");
-    }
-
-    private void UpdateAmmoUI()
-    {
-        EventManager.Current.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
-    }
-
-    private IEnumerator FadeRay(LineRenderer lr, float duration)
-    {
-        float time = 0f;
-        float startWidth = lr.startWidth;
-
-        while (time < duration)
+        private IEnumerator Reload()
         {
-            float t = time / duration;
-            float width = Mathf.Lerp(startWidth, 0f, t);
-            lr.startWidth = width;
-            lr.endWidth = width;
-            time += Time.deltaTime;
-            yield return null;
+            if (_isReloading)
+                yield break;
+
+            _isReloading = true;
+
+            gunAnimations?.PlayReloadAnimation(reloadTime);
+
+            yield return new WaitForSeconds(reloadTime);
+
+            SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
+            CurrentAmmo = MaxAmmo;
+            UpdateAmmoUI();
+            _isReloading = false;
         }
 
-        Destroy(lr.gameObject);
-    }
+        private void UpdateAmmoUI()
+        {
+            EventManager.Current.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
+        }
 
-    public void ApplyRage(
-        float playerBaseSpeedMultiplier,
-        float playerJumpForceMultiplier,
-        float weaponFireRateMultiplier,
-        float duration
-    )
-    {
-        fireRate = defaultFireRate * weaponFireRateMultiplier;
-        rageEndTime = Time.time + duration;
-        CurrentAmmo = MaxAmmo;
-        UpdateAmmoUI();
-        isRaging = true;
+        private static IEnumerator FadeRay(LineRenderer lr, float duration)
+        {
+            var time = 0f;
+            var startWidth = lr.startWidth;
+
+            while (time < duration)
+            {
+                var t = time / duration;
+                var width = Mathf.Lerp(startWidth, 0f, t);
+                lr.startWidth = width;
+                lr.endWidth = width;
+                time += Time.deltaTime;
+                yield return null;
+            }
+
+            Destroy(lr.gameObject);
+        }
+
+        private void ApplyRage(
+            float playerBaseSpeedMultiplier,
+            float playerJumpForceMultiplier,
+            float weaponFireRateMultiplier,
+            float duration
+        )
+        {
+            fireRate = _defaultFireRate * weaponFireRateMultiplier;
+            _rageEndTime = Time.time + duration;
+            CurrentAmmo = MaxAmmo;
+            UpdateAmmoUI();
+            _isRaging = true;
+        }
     }
 }

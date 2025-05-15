@@ -30,10 +30,9 @@ namespace _Scripts.Menus
             settingsUI.SetActive(true);
         }
 
-        public void StartFirstLevel()
+        public void StartFirstLevel(string levelName)
         {
-            MusicManager.Instance.PlayMusic(MusicManager.Instance.Level1Music);
-            SceneManager.LoadScene("Level 1");
+            SceneManager.LoadScene(levelName);
         }
 
         public void QuitGame()
