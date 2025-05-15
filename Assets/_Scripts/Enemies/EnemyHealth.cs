@@ -20,7 +20,6 @@ namespace _Scripts.Enemies
         public void TakeDamage(int amount)
         {
             currentHealth -= amount;
-            Debug.Log($"{gameObject.name} ha recibido {amount} de daño. Vida restante: {currentHealth}");
 
             GetComponent<Enemy>()?.FlashRed();
 

@@ -6,54 +6,36 @@ namespace _Scripts.Enemies.Fox
 {
     public class Fox : Enemy
     {
-        private static readonly int AttackTrigger = Animator.StringToHash("Attack");
-        private static readonly int RunTrigger = Animator.StringToHash("Run");
-        private static readonly int WalkTrigger = Animator.StringToHash("Walk");
+        private static readonly int IsChasing = Animator.StringToHash("IsChasing");
+        private static readonly int IsAttacking = Animator.StringToHash("IsAttacking");
 
-        [Header("BEHAVIOUR")]
-        [SerializeField]
-        private Transform[] patrolPoints;
-        [SerializeField]
-        private float chaseRange = 20f;
-        [SerializeField]
-        private float attackRange = 2f;
-        [SerializeField]
-        private float attackCooldown = 1.5f;
+        [Header("Behavior")]
+        [SerializeField] private float attackRange = .1f;
+        [SerializeField] private float attackCooldown = 1f;
+        [SerializeField] private float patrolRadius = 10f;
 
-        [Header("Componentes")]
-        public Animator animator;
-        public NavMeshAgent agent;
-
-        private int patrolIndex;
+        private Animator animator;
+        private NavMeshAgent agent;
         private float lastAttackTime;
 
         private void Start()
         {
-            if (patrolPoints.Length == 0)
-            {
-                enabled = false;
-                return;
-            }
-
-            agent.SetDestination(patrolPoints[patrolIndex].position);
-        }
-    
-        private protected override void FindReferences()
-        {
-            Player = GameObject.FindGameObjectWithTag("Player")?.transform;
+            animator = GetComponent<Animator>();
+            agent = GetComponent<NavMeshAgent>();
         }
 
         private void Update()
         {
-            var distance = Vector3.Distance(transform.position, Player.position);
+            var distanceToPlayer = Vector3.Distance(Player.position, transform.position);
 
-            if (distance <= attackRange)
+            if (distanceToPlayer <= attackRange)
             {
+                RotateToPlayer();
                 Attack();
             }
-            else if (distance <= chaseRange)
+            else if (distanceToPlayer <= detectionRange)
             {
-                ChasePlayer();
+                Chase();
             }
             else
             {
@@ -61,38 +43,67 @@ namespace _Scripts.Enemies.Fox
             }
         }
 
-        private void Patrol()
+        private protected override void FindReferences()
         {
-            animator.SetTrigger(WalkTrigger);
-            if (agent.pathPending || !(agent.remainingDistance < 0.5f)) 
-                return;
-        
-            patrolIndex = (patrolIndex + 1) % patrolPoints.Length;
-            agent.SetDestination(patrolPoints[patrolIndex].position);
+            Player = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
 
-        private void ChasePlayer()
+        private void Chase()
         {
-            animator.SetTrigger(RunTrigger);
+            agent.isStopped = false;
             agent.SetDestination(Player.position);
+            
+            if (animator.GetBool(IsChasing))
+                return;
+            
+            animator.SetBool(IsChasing, true);
+            animator.SetBool(IsAttacking, false);
         }
 
-        private protected override void Attack()
+         private protected override void Attack()
         {
-            animator.SetTrigger(AttackTrigger);
             agent.ResetPath();
+            agent.isStopped = true;
 
             if (Time.time - lastAttackTime < attackCooldown)
                 return;
-        
+
             lastAttackTime = Time.time;
+
+            animator.SetBool(IsChasing, false);
+            if (animator.GetBool(IsAttacking))
+                return;
+            
+            animator.SetBool(IsAttacking, true);
 
             var playerHealth = Player.GetComponent<PlayerHealth>();
             if (playerHealth)
             {
                 playerHealth.TakeDamage(1);
             }
-        
+        }
+
+        private void Patrol()
+        {
+            if (!agent.hasPath || agent.remainingDistance < 0.5f)
+            {
+                SetRandomPatrolPoint();
+            }
+
+            animator.SetBool(IsChasing, false);
+            animator.SetBool(IsAttacking, false);
+        }
+
+        private void SetRandomPatrolPoint()
+        {
+            Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+            randomDirection += transform.position;
+
+            if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, patrolRadius, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+                agent.isStopped = false;
+            }
         }
     }
 }

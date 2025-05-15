@@ -58,13 +58,7 @@ namespace _Scripts.Enemies.Squirrel
             lastShotTime = Time.time;
         }
 
-        private void RotateToPlayer()
-        {
-            var direction = Player.position - transform.position;
-            direction.y = 0;
-            if (direction.sqrMagnitude > 0.001f)
-                transform.rotation = Quaternion.LookRotation(direction);
-        }
+        
 
         private void LaunchProjectile(Vector3 targetPosition)
         {

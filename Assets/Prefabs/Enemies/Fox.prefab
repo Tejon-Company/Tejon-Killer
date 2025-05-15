@@ -355,6 +355,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4736056770914656324}
+  - component: {fileID: 7718412128273169740}
   m_Layer: 0
   m_Name: FoxTransform
   m_TagString: Untagged
@@ -378,6 +379,28 @@ Transform:
   - {fileID: 2176182279523903554}
   m_Father: {fileID: 2115021196131456754}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &7718412128273169740
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2237306336241787769}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &2240421719040415234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1163,6 +1186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4653310713568701638}
   - component: {fileID: 248391669341975386}
+  - component: {fileID: 5653353293473488251}
   m_Layer: 0
   m_Name: fox
   m_TagString: Untagged
@@ -1280,6 +1304,29 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.007379949, y: -0.105580926, z: 0.0000005662441}
     m_Extent: {x: 1.4872236, y: 0.89014065, z: 0.5140997}
   m_DirtyAABB: 0
+--- !u!136 &5653353293473488251
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8205467445620864819}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.89014107
+  m_Height: 2.9744482
+  m_Direction: 1
+  m_Center: {x: -0.000000543018, y: 0.35525364, z: 0.8435059}
 --- !u!1 &8263516501434857692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1291,10 +1338,9 @@ GameObject:
   - component: {fileID: 2115021196131456754}
   - component: {fileID: 8261173270883422017}
   - component: {fileID: 3739692543329873861}
-  - component: {fileID: 3498065742594600533}
-  - component: {fileID: 7476422008052267406}
   - component: {fileID: 3547160746880133459}
   - component: {fileID: 4184960934228908843}
+  - component: {fileID: 8132807903440435835}
   m_Layer: 0
   m_Name: Fox
   m_TagString: Untagged
@@ -1363,54 +1409,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!65 &3498065742594600533
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8263516501434857692}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1.70509, z: 2.826004}
-  m_Center: {x: 0, y: 0.8406844, z: -0.40678215}
---- !u!54 &7476422008052267406
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8263516501434857692}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &3547160746880133459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1426,15 +1424,9 @@ MonoBehaviour:
   detectionRange: 20
   flashDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
-  patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  chaseRange: 10
-  attackRange: 2
+  attackRange: 3
   attackCooldown: 1.5
-  animator: {fileID: 8261173270883422017}
-  agent: {fileID: 3739692543329873861}
+  patrolRadius: 10
 --- !u!114 &4184960934228908843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1452,6 +1444,28 @@ MonoBehaviour:
     type: 3}
   damageEffect: {fileID: 5580431672248492859, guid: af59b9a260d6f8740bb10cf5219aa15b,
     type: 3}
+--- !u!64 &8132807903440435835
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263516501434857692}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &8284225931644774351
 GameObject:
   m_ObjectHideFlags: 0

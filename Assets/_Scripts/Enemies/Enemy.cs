@@ -69,6 +69,14 @@ namespace _Scripts.Enemies
                 SetRendererColor(renderers[i], originalColors[i]);
         }
         
+        private protected void RotateToPlayer()
+        {
+            var direction = Player.position - transform.position;
+            direction.y = 0;
+            if (direction.sqrMagnitude > 0.001f)
+                transform.rotation = Quaternion.LookRotation(direction);
+        }
+        
         private protected abstract void FindReferences();
         private protected abstract void Attack();
 
