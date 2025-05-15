@@ -1,6 +1,7 @@
 using _Scripts.Managers;
 using _Scripts.Managers.Audio;
 using _Scripts.Menus;
+using _Scripts.Weapons;
 using UnityEngine;
 
 namespace _Scripts.Player
@@ -89,10 +90,13 @@ namespace _Scripts.Player
 
         private float _jumpBufferCounter;
 
+        
+        private bool _jumpInput;
+        private Vector3 slideDirection;
+        private GunAnimations _gunAnimations;
         private bool _canDash = true;
 
-        private bool _jumpInput,
-            _dashInput,
+        private bool _dashInput,
             _slideInputHeld;
 
         private float _fallVelocity;
@@ -109,7 +113,7 @@ namespace _Scripts.Player
         private float _originalCenterY;
 
         private const float CrouchCenterY = 0.5f;
-        private Sway _weaponSway;
+        private GunAnimations _gunAnimation;
         private bool _wasGrounded;
 
         [Header("Rage Parameters")]
@@ -217,7 +221,7 @@ namespace _Scripts.Player
             if (_jumpInput)
             {
                 _jumpBufferCounter = jumpBufferTime;
-                _weaponSway?.TriggerJumpEffect();
+                _gunAnimations?.TriggerJumpEffect();
             }
 
             _dashInput = Input.GetButtonDown("Sprint");
@@ -316,9 +320,9 @@ namespace _Scripts.Player
             }
         }
 
-        public void SetWeaponSway(Sway newSway)
+        public void SetPlayerGunAnimation(GunAnimations gunAnimation)
         {
-            _weaponSway = newSway;
+            _gunAnimations = gunAnimation;
         }
 
         private void StartDash(Vector3 direction)
@@ -470,12 +474,15 @@ namespace _Scripts.Player
 
         private void StartStomp()
         {
-            SfxManager.Instance.PlaySfx(SfxManager.Instance.Stomp);
-
-            _weaponSway?.TriggerStompEffect();
+            _gunAnimations?.TriggerStompEffect();
             _isStomping = true;
             _fallVelocity = -stompForce;
             stompParticles?.Play();
+        }
+
+        public Vector3 GetSlideDirection()
+        {
+            return slideDirection;
         }
 
         private void ApplyRage(

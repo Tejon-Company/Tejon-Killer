@@ -30,9 +30,9 @@ namespace _Scripts.Menus
             settingsUI.SetActive(true);
         }
 
-        public void StartFirstLevel()
+        public void StartFirstLevel(string fistLevelName)
         {
-            SceneManager.LoadScene("Level 1");
+            SceneManager.LoadScene(fistLevelName);
         }
 
         public void QuitGame()

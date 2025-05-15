@@ -10,7 +10,7 @@ namespace _Scripts.Menus
         private void Start()
         {
             MusicManager.Instance.PlayMusic(MusicManager.Instance.MenuBackgroundMusic);
-            RotateView.UnlockCursor();
+            CameraEffects.UnlockCursor();
         }
 
         public void GoToMainMenu()
