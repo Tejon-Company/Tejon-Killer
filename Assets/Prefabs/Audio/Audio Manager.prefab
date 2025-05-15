@@ -199,7 +199,6 @@ MonoBehaviour:
   reload: {fileID: 8300000, guid: af9c9146348533340a2e558f8c9a754b, type: 3}
   jump: {fileID: 8300000, guid: 5fdce24254516d24f85b89ce3f7c0879, type: 3}
   doubleJump: {fileID: 8300000, guid: 1fe2bb150719ae84a8447c7b9cc2d61e, type: 3}
-  slide: {fileID: 8300000, guid: d3f6dfce3ec2763429e93a65525446af, type: 3}
   stomp: {fileID: 8300000, guid: c676ade4ec43aaf4dad2d358873058c7, type: 3}
   dash: {fileID: 8300000, guid: 6dd446d61d2f0ec4f8675f878d2f9640, type: 3}
 --- !u!114 &6217635178457108961
@@ -214,9 +213,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b81504761a0498fbd61d4de34980fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footstepSource: {fileID: 1828710534094851665}
+  loopSource: {fileID: 1828710534094851665}
   grassSteps: {fileID: 8300000, guid: d2ca4f09705130846aa15fc9578a141b, type: 3}
   stoneSteps: {fileID: 8300000, guid: b803821c247630a438522bb49eac3c01, type: 3}
+  slideSound: {fileID: 0}
 --- !u!114 &7481193966615115668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 8012634207538569585}
   - component: {fileID: 1828710534094851665}
   m_Layer: 0
-  m_Name: Footsteps
+  m_Name: LoopSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
