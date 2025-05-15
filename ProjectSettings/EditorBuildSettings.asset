@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Movement_test.unity
     guid: ce18b20c42f66b042a24417941fe3a46
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level 3.unity
+    guid: eb22d8e1a0c8ed54ab69c0dc683050c3
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
