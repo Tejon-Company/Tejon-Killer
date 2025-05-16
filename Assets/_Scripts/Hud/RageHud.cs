@@ -32,15 +32,9 @@ namespace _Scripts.Hud
             frameRoot.SetActive(false);
         }
 
-        private void Update()
-        {
-            UpdateRageBar();
-        }
+        private void Update() => UpdateRageBar();
 
-        private void OnEnable()
-        {
-            RegisterEventListener();
-        }
+        private void OnEnable() => RegisterEventListener();
 
         private void OnDisable()
         {

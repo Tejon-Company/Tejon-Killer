@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace _Scripts.Enemies.Squirrel
 {
-    public class Squirrel :  Enemy
+    public class Squirrel : Enemy
     {
         [Header("References")]
         [SerializeField]
@@ -20,15 +20,13 @@ namespace _Scripts.Enemies.Squirrel
 
         [SerializeField]
         private float maxVerticalLaunch = 1.0f;
-        
+
         private float _lastShotTime = Mathf.NegativeInfinity;
         private Animator _animator;
         private static readonly int ShootTrigger = Animator.StringToHash("ShootTrigger");
-        
-        private void Start()
-        {
-            _animator = GetComponentInChildren<Animator>();
-        }
+
+        private void Start() => _animator = GetComponentInChildren<Animator>();
+
         private protected override void FindReferences()
         {
             acornPool ??= FindFirstObjectByType<ProjectilesPool>();
@@ -43,7 +41,7 @@ namespace _Scripts.Enemies.Squirrel
             var targetPosition = Player.TryGetComponent(out Collider playerCollider)
                 ? playerCollider.bounds.center
                 : Player.position + Vector3.up;
-            
+
             _animator.SetTrigger(ShootTrigger);
             LaunchProjectile(targetPosition);
         }
@@ -64,7 +62,7 @@ namespace _Scripts.Enemies.Squirrel
             Attack();
             _lastShotTime = Time.time;
         }
-        
+
         private void LaunchProjectile(Vector3 targetPosition)
         {
             var verticalLaunch =

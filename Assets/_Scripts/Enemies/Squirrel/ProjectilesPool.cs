@@ -10,7 +10,7 @@ namespace _Scripts.Enemies.Squirrel
         private GameObject projectilePrefab;
 
         [SerializeField]
-        private int poolSize = 2;
+        private int poolSize = 6;
 
         private List<GameObject> _pool;
 

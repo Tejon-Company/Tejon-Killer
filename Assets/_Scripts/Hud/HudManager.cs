@@ -11,10 +11,7 @@ namespace _Scripts.Hud
         [SerializeField]
         private PlayerWeaponManager playerWeaponManager;
 
-        private void Start()
-        {
-            EventManager.Instance.newGunEvent.AddListener(CreateWeaponInfo);
-        }
+        private void Start() => EventManager.Instance.newGunEvent.AddListener(CreateWeaponInfo);
 
         private void CreateWeaponInfo()
         {
