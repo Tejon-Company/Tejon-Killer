@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace _Scripts.Managers.Audio
+namespace _Scripts.Audio
 {
     public class VolumeSettings : MonoBehaviour
     {

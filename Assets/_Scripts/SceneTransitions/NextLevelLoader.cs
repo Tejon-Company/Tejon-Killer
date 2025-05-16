@@ -17,15 +17,11 @@ namespace _Scripts.SceneTransitions
             if (!other.CompareTag("Player"))
                 return;
 
-            if (!string.IsNullOrEmpty(nextLevelName))
-            {
-                MusicManager.Instance.PlayMusic(nextLevelMusic);
-                SceneManager.LoadScene(nextLevelName);
-            }
-            else
-            {
-                Debug.LogWarning("Next scene name is not set in the inspector");
-            }
+            if (string.IsNullOrEmpty(nextLevelName))
+                return;
+
+            MusicManager.Instance.PlayMusic(nextLevelMusic);
+            SceneManager.LoadScene(nextLevelName);
         }
     }
 }
