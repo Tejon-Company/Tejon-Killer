@@ -3,6 +3,9 @@ using UnityEngine.Serialization;
 
 namespace _Scripts.Audio.Managers
 {
+    /// <summary>
+    /// Gestor singleton para reproducir y detener efectos de sonido en bucle (loop).
+    /// </summary>
     public class LoopSfxManager : MonoBehaviour
     {
         public static LoopSfxManager Instance { get; private set; }

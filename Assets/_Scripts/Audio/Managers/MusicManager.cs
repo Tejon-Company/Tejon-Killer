@@ -2,6 +2,10 @@
 
 namespace _Scripts.Audio.Managers
 {
+    
+    /// <summary>
+    /// Gestor singleton para reproducir música de fondo.
+    /// </summary>
     public class MusicManager : MonoBehaviour
     {
         [SerializeField]

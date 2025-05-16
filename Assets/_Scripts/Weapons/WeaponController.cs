@@ -7,6 +7,10 @@ using UnityEngine;
 
 namespace _Scripts.Weapons
 {
+    
+    /// <summary>
+    /// Controla la funcionalidad del arma del jugador.
+    /// </summary>
     public class WeaponController : MonoBehaviour
     {
         #region References

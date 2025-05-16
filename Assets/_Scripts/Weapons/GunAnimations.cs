@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace _Scripts.Weapons
 {
+    /// <summary>
+    /// Controla los efectos visuales y animaciones del arma, como balanceo, retroceso,
+    /// y reacciones a movimientos del jugador (saltos, deslizamientos, etc.).
+    /// </summary>
     public class GunAnimations : MonoBehaviour
     {
         #region References

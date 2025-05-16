@@ -4,6 +4,10 @@ using UnityEngine.AI;
 
 namespace _Scripts.Enemies.Fox
 {
+    
+    /// <summary>
+    /// Representa al enemigo del zorro, implementando sus comportamientos de patrullaje, persecución y ataque.
+    /// </summary>
     public class Fox : Enemy
     {
         private static readonly int IsChasing = Animator.StringToHash("IsChasing");
@@ -19,14 +23,14 @@ namespace _Scripts.Enemies.Fox
         [SerializeField]
         private float patrolRadius = 10f;
 
-        private Animator _animator;
-        private NavMeshAgent _agent;
-        private float _lastAttackTime;
+        private Animator animator;
+        private NavMeshAgent agent;
+        private float lastAttackTime;
 
         private void Start()
         {
-            _animator = GetComponent<Animator>();
-            _agent = GetComponent<NavMeshAgent>();
+            animator = GetComponent<Animator>();
+            agent = GetComponent<NavMeshAgent>();
         }
 
         private void Update()
@@ -48,33 +52,33 @@ namespace _Scripts.Enemies.Fox
 
         private void Chase()
         {
-            _agent.isStopped = false;
-            _agent.SetDestination(Player.position);
+            agent.isStopped = false;
+            agent.SetDestination(Player.position);
 
-            if (_animator.GetBool(IsChasing))
+            if (animator.GetBool(IsChasing))
                 return;
 
-            _animator.SetBool(IsChasing, true);
-            _animator.SetBool(IsAttacking, false);
+            animator.SetBool(IsChasing, true);
+            animator.SetBool(IsAttacking, false);
         }
 
         private protected override void Attack()
         {
             RotateToPlayer();
 
-            _agent.ResetPath();
-            _agent.isStopped = true;
+            agent.ResetPath();
+            agent.isStopped = true;
 
-            if (Time.time - _lastAttackTime < attackCooldown)
+            if (Time.time - lastAttackTime < attackCooldown)
                 return;
 
-            _lastAttackTime = Time.time;
+            lastAttackTime = Time.time;
 
-            _animator.SetBool(IsChasing, false);
-            if (_animator.GetBool(IsAttacking))
+            animator.SetBool(IsChasing, false);
+            if (animator.GetBool(IsAttacking))
                 return;
 
-            _animator.SetBool(IsAttacking, true);
+            animator.SetBool(IsAttacking, true);
 
             var playerHealth = Player.GetComponent<PlayerHealth>();
             if (playerHealth)
@@ -83,11 +87,11 @@ namespace _Scripts.Enemies.Fox
 
         private void Patrol()
         {
-            if (!_agent.hasPath || _agent.remainingDistance < 0.5f)
+            if (!agent.hasPath || agent.remainingDistance < 0.5f)
                 SetRandomPatrolPoint();
 
-            _animator.SetBool(IsChasing, false);
-            _animator.SetBool(IsAttacking, false);
+            animator.SetBool(IsChasing, false);
+            animator.SetBool(IsAttacking, false);
         }
 
         private void SetRandomPatrolPoint()
@@ -105,8 +109,8 @@ namespace _Scripts.Enemies.Fox
             if (!foundPatrolPoint)
                 return;
 
-            _agent.SetDestination(hit.position);
-            _agent.isStopped = false;
+            agent.SetDestination(hit.position);
+            agent.isStopped = false;
         }
     }
 }

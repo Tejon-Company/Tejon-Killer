@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace _Scripts.Enemies.Squirrel
 {
+    /// <summary>
+    /// Clase que representa una bellota lanzada por las ardillas enemigas.
+    /// Implementa el comportamiento de proyectil con gravedad, daño al jugador y desactivación tras impacto.
+    /// </summary>
     public class Acorn : MonoBehaviour
     {
         [Header("Variables de disparo")]

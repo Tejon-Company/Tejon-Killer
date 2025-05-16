@@ -1,9 +1,13 @@
 using _Scripts.Events;
-using _Scripts.Managers;
 using UnityEngine;
 
 namespace _Scripts.Enemies
 {
+    
+    /// <summary>
+    /// Gestiona la salud de los enemigos, procesando el daño recibido,
+    /// mostrando efectos visuales y notificando cuando el enemigo muere.
+    /// </summary>
     public class EnemyHealth : MonoBehaviour
     {
         [SerializeField]
@@ -15,20 +19,20 @@ namespace _Scripts.Enemies
         [SerializeField]
         private GameObject damageEffect;
 
-        private int _currentHealth;
+        private int currentHealth;
 
-        private void Start() => _currentHealth = maxHealth;
+        private void Start() => currentHealth = maxHealth;
 
         public void TakeDamage(int amount)
         {
-            _currentHealth -= amount;
+            currentHealth -= amount;
 
             GetComponent<Enemy>()?.FlashRed();
 
-            if (damageEffect && _currentHealth > 0)
+            if (damageEffect && currentHealth > 0)
                 Instantiate(damageEffect, transform.position, Quaternion.identity);
 
-            if (_currentHealth > 0)
+            if (currentHealth > 0)
                 return;
 
             if (deathEffect)

@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 namespace _Scripts.Menus
 {
+    /// <summary>
+    /// Gestiona las funcionalidades del menú de victoria, permitiendo al jugador volver al menú
+    /// principal o salir del juego.
+    /// </summary>
     public class VictoryMenu : MonoBehaviour
     {
         [SerializeField]

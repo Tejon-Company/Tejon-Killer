@@ -1,9 +1,13 @@
-﻿using _Scripts.Managers.Audio;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace _Scripts.Menus
 {
+    
+    /// <summary>
+    /// Gestiona las funcionalidades del menú principal, controlando la navegación 
+    /// entre interfaces y las acciones básicas como iniciar el juego o salir.
+    /// </summary>
     public class MainMenu : MonoBehaviour
     {
         [SerializeField]

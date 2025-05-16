@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace _Scripts.Enemies.Squirrel
 {
+    /// <summary>
+    /// Sistema de pooling para gestionar la creación y reutilización de proyectiles
+    /// lanzados por los enemigos.
+    /// </summary>
     public class ProjectilesPool : MonoBehaviour
     {
         [SerializeField]
@@ -12,23 +16,23 @@ namespace _Scripts.Enemies.Squirrel
         [SerializeField]
         private int poolSize = 6;
 
-        private List<GameObject> _pool;
+        private List<GameObject> pool;
 
         private void Awake()
         {
-            _pool = new List<GameObject>();
+            pool = new List<GameObject>();
 
             for (var i = 0; i < poolSize; i++)
             {
                 var tmp = Instantiate(projectilePrefab);
                 tmp.SetActive(false);
-                _pool.Add(tmp);
+                pool.Add(tmp);
             }
         }
 
         private GameObject GetInactiveProjectileFromPool()
         {
-            return _pool.FirstOrDefault(obj => !obj.activeInHierarchy);
+            return pool.FirstOrDefault(obj => !obj.activeInHierarchy);
         }
 
         public GameObject GetProjectile(Transform firePoint)

@@ -2,6 +2,12 @@ using UnityEngine;
 
 namespace _Scripts.Enemies
 {
+    
+    /// <summary>
+    /// Clase base abstracta para todos los enemigos del juego.
+    /// Proporciona funcionalidades comunes como detección del jugador, 
+    /// rotación hacia el objetivo, efectos visuales de daño.
+    /// </summary>
     public abstract class Enemy : MonoBehaviour
     {
         [Header("Attack Variables")]
@@ -17,8 +23,8 @@ namespace _Scripts.Enemies
         private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         private static readonly int SecondaryColor = Shader.PropertyToID("_Color");
         
-        private Renderer[] _renderers;
-        private Color[] _originalColors;
+        private Renderer[] renderers;
+        private Color[] originalColors;
         protected Transform Player;
 
         private void Awake()
@@ -29,11 +35,11 @@ namespace _Scripts.Enemies
         
         private void InitRenderers()
         {
-            _renderers = GetComponentsInChildren<Renderer>();
-            _originalColors = new Color[_renderers.Length];
+            renderers = GetComponentsInChildren<Renderer>();
+            originalColors = new Color[renderers.Length];
 
-            for (var i = 0; i < _renderers.Length; i++)
-                _originalColors[i] = GetRendererColor(_renderers[i]);
+            for (var i = 0; i < renderers.Length; i++)
+                originalColors[i] = GetRendererColor(renderers[i]);
         }
 
         private static Color GetRendererColor(Renderer renderer)
@@ -48,7 +54,7 @@ namespace _Scripts.Enemies
         
         public void FlashRed()
         {
-            foreach (var objectRenderer in _renderers)
+            foreach (var objectRenderer in renderers)
                 SetRendererColor(objectRenderer, flashColor);
 
             Invoke(nameof(RestoreOriginalColors), flashDuration);
@@ -65,8 +71,8 @@ namespace _Scripts.Enemies
 
         private void RestoreOriginalColors()
         {
-            for (var i = 0; i < _renderers.Length; i++)
-                SetRendererColor(_renderers[i], _originalColors[i]);
+            for (var i = 0; i < renderers.Length; i++)
+                SetRendererColor(renderers[i], originalColors[i]);
         }
         
         private protected void RotateToPlayer()

@@ -7,6 +7,12 @@ using UnityEngine.UI;
 
 namespace _Scripts.Hud
 {
+    
+    /// <summary>
+    /// Gestiona la visualización de corazones que representan la salud del jugador en la interfaz.
+    /// Actualiza dinámicamente los corazones según cambia la salud y proporciona efectos visuales
+    /// cuando el jugador recibe daño.
+    /// </summary>
     public class HeartsHud : MonoBehaviour
     {
         [SerializeField]

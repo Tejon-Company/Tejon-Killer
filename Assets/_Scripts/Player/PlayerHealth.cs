@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace _Scripts.Player
 {
+    /// <summary>
+    /// Gestiona la salud del jugador, incluyendo el daño, la curación y períodos de invulnerabilidad.
+    /// </summary>
     public class PlayerHealth : MonoBehaviour
     {
         [SerializeField]

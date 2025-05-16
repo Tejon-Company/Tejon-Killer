@@ -2,6 +2,11 @@
 
 namespace _Scripts.Audio.Managers
 {
+    
+    /// <summary>
+    /// Gestor singleton para reproducir efectos de sonido de una sola reproducción.
+    /// </summary>
+
     public class SfxManager : MonoBehaviour
     {
         public static SfxManager Instance { get; private set; }

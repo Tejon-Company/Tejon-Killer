@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 namespace _Scripts.Menus
 {
+    /// <summary>
+    /// Gestiona las funcionalidades del menú de pausa, permitiendo detener el juego temporalmente,
+    /// reanudar la partida, reiniciar el nivel o salir al menú principal.
+    /// </summary>
     public class PauseMenu : MonoBehaviour
     {
         public static bool IsPaused { get; set; }

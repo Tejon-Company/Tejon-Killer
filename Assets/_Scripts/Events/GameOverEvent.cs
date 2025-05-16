@@ -5,9 +5,14 @@ using UnityEngine.SceneManagement;
 
 namespace _Scripts.Events
 {
+    
+    /// <summary>
+    /// Clase que gestiona el evento de fin de juego. Monitorea la salud del jugador y 
+    /// carga la escena de "Game Over" cuando la salud llega a cero o menos.
+    /// </summary>
     public class GameOverEvent : MonoBehaviour
     {
-        private PlayerHealth _playerHealth;
+        private PlayerHealth playerHealth;
 
         private void Awake() => StartCoroutine(SetupPlayerHealth());
 
@@ -21,7 +26,7 @@ namespace _Scripts.Events
                 Debug.LogError("Player object not found in the scene.");
                 yield break;
             }
-            _playerHealth = playerObject.GetComponent<PlayerHealth>();
+            playerHealth = playerObject.GetComponent<PlayerHealth>();
 
             EventManager.Instance.healthChangedEvent.AddListener(OnHealthChanged);
         }
@@ -33,7 +38,7 @@ namespace _Scripts.Events
 
         private void OnHealthChanged()
         {
-            if (_playerHealth && _playerHealth.CurrentHealth <= 0)
+            if (playerHealth && playerHealth.CurrentHealth <= 0)
                 SceneManager.LoadScene("Game Over Menu");
         }
     }

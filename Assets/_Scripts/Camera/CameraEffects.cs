@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace _Scripts.Camera
 {
+    /// <summary>
+    /// Clase que gestiona los efectos visuales de la cámara, incluyendo su rotación,
+    /// inclinación durante slides y cambios dinámicos del campo de visión según las acciones del jugador.
+    /// </summary>
     public class CameraEffects : MonoBehaviour
     {
         [SerializeField]
@@ -37,9 +41,9 @@ namespace _Scripts.Camera
         [SerializeField]
         private float fovLerpSpeed = 5f;
 
-        private float _verticalRotation;
-        private float _targetTilt;
-        private float _currentTilt;
+        private float verticalRotation;
+        private float targetTilt;
+        private float currentTilt;
 
         private void Start()
         {
@@ -78,20 +82,20 @@ namespace _Scripts.Camera
 
             player.Rotate(Vector3.up * mouseX);
 
-            _verticalRotation += mouseY;
-            _verticalRotation = Mathf.Clamp(_verticalRotation, -90f, 90f);
+            verticalRotation += mouseY;
+            verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
 
             transform.rotation = Quaternion.Euler(
-                _verticalRotation,
+                verticalRotation,
                 player.eulerAngles.y,
-                _currentTilt
+                currentTilt
             );
         }
 
         private void HandleCameraTilt()
         {
-            _targetTilt = CalculateTargetTilt();
-            _currentTilt = Mathf.Lerp(_currentTilt, _targetTilt, Time.deltaTime * tiltSpeed);
+            targetTilt = CalculateTargetTilt();
+            currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
         }
 
         private float CalculateTargetTilt()

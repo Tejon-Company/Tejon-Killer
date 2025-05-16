@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace _Scripts.Hud
 {
+    /// <summary>
+    /// Gestiona los elementos de la interfaz de usuario relacionados con las armas,
+    /// creando y actualizando la información de munición.
+    /// </summary>
     public class HudManager : MonoBehaviour
     {
         public GameObject weaponInfoPrefab;
