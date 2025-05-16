@@ -41,9 +41,9 @@ namespace _Scripts.Camera
         [SerializeField]
         private float fovLerpSpeed = 5f;
 
-        private float verticalRotation;
-        private float targetTilt;
-        private float currentTilt;
+        private float _verticalRotation;
+        private float _targetTilt;
+        private float _currentTilt;
 
         private void Start()
         {
@@ -82,20 +82,20 @@ namespace _Scripts.Camera
 
             player.Rotate(Vector3.up * mouseX);
 
-            verticalRotation += mouseY;
-            verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+            _verticalRotation += mouseY;
+            _verticalRotation = Mathf.Clamp(_verticalRotation, -90f, 90f);
 
             transform.rotation = Quaternion.Euler(
-                verticalRotation,
+                _verticalRotation,
                 player.eulerAngles.y,
-                currentTilt
+                _currentTilt
             );
         }
 
         private void HandleCameraTilt()
         {
-            targetTilt = CalculateTargetTilt();
-            currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * tiltSpeed);
+            _targetTilt = CalculateTargetTilt();
+            _currentTilt = Mathf.Lerp(_currentTilt, _targetTilt, Time.deltaTime * tiltSpeed);
         }
 
         private float CalculateTargetTilt()

@@ -11,7 +11,7 @@ namespace _Scripts.Events
     /// </summary>
     public class GameOverEvent : MonoBehaviour
     {
-        private PlayerHealth playerHealth;
+        private PlayerHealth _playerHealth;
 
         private void Awake() => StartCoroutine(SetupPlayerHealth());
 
@@ -25,7 +25,7 @@ namespace _Scripts.Events
                 Debug.LogError("Player object not found in the scene.");
                 yield break;
             }
-            playerHealth = playerObject.GetComponent<PlayerHealth>();
+            _playerHealth = playerObject.GetComponent<PlayerHealth>();
 
             EventManager.Instance.healthChangedEvent.AddListener(OnHealthChanged);
         }
@@ -37,7 +37,7 @@ namespace _Scripts.Events
 
         private void OnHealthChanged()
         {
-            if (playerHealth && playerHealth.CurrentHealth <= 0)
+            if (_playerHealth && _playerHealth.CurrentHealth <= 0)
                 SceneManager.LoadScene("Game Over Menu");
         }
     }

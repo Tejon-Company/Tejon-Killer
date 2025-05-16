@@ -17,10 +17,7 @@ namespace _Scripts.Hud
         [SerializeField]
         private TMP_Text totalBullets;
 
-        private void OnEnable()
-        {
-            StartCoroutine(SubscribeToBulletUpdate());
-        }
+        private void OnEnable() => StartCoroutine(SubscribeToBulletUpdate());
 
         private IEnumerator SubscribeToBulletUpdate()
         {

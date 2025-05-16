@@ -16,23 +16,23 @@ namespace _Scripts.Enemies.Squirrel
         [SerializeField]
         private int poolSize = 6;
 
-        private List<GameObject> pool;
+        private List<GameObject> _pool;
 
         private void Awake()
         {
-            pool = new List<GameObject>();
+            _pool = new List<GameObject>();
 
             for (var i = 0; i < poolSize; i++)
             {
                 var tmp = Instantiate(projectilePrefab);
                 tmp.SetActive(false);
-                pool.Add(tmp);
+                _pool.Add(tmp);
             }
         }
 
         private GameObject GetInactiveProjectileFromPool()
         {
-            return pool.FirstOrDefault(obj => !obj.activeInHierarchy);
+            return _pool.FirstOrDefault(obj => !obj.activeInHierarchy);
         }
 
         public GameObject GetProjectile(Transform firePoint)

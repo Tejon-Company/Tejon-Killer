@@ -11,7 +11,7 @@ namespace _Scripts.Hud
     /// </summary>
     public class EnemiesLeftHUD : MonoBehaviour
     {
-        private int enemiesLeft;
+        private int _enemiesLeft;
 
         [SerializeField]
         private TMP_Text enemiesLeftText;
@@ -21,7 +21,7 @@ namespace _Scripts.Hud
         private IEnumerator CountEnemies()
         {
             yield return null;
-            enemiesLeft = GameObject.FindGameObjectsWithTag("Enemies").Length;
+            _enemiesLeft = GameObject.FindGameObjectsWithTag("Enemies").Length;
             UpdateHUD();
 
             EventManager.Instance?.enemyDiedEvent.AddListener(OnEnemyDied);
@@ -34,13 +34,13 @@ namespace _Scripts.Hud
 
         private void OnEnemyDied()
         {
-            enemiesLeft--;
-            if (enemiesLeft == 0)
+            _enemiesLeft--;
+            if (_enemiesLeft == 0)
                 EventManager.Instance.allEnemiesDefeated.Invoke();
 
             UpdateHUD();
         }
 
-        private void UpdateHUD() => enemiesLeftText.text = enemiesLeft.ToString();
+        private void UpdateHUD() => enemiesLeftText.text = _enemiesLeft.ToString();
     }
 }
