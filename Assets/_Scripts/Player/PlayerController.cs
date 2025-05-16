@@ -1,5 +1,5 @@
-using _Scripts.Managers;
-using _Scripts.Managers.Audio;
+using _Scripts.Audio.Managers;
+using _Scripts.Events;
 using _Scripts.Menus;
 using _Scripts.Weapons;
 using UnityEngine;

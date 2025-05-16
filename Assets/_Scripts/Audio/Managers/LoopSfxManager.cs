@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _Scripts.Managers.Audio
+namespace _Scripts.Audio.Managers
 {
     public class LoopSfxManager : MonoBehaviour
     {

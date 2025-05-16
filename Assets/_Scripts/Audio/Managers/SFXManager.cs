@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _Scripts.Managers.Audio
+namespace _Scripts.Audio.Managers
 {
     public class SfxManager : MonoBehaviour
     {

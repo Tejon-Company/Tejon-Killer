@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using _Scripts.Managers;
+using _Scripts.Events;
 using _Scripts.Weapons;
 using UnityEngine;
 

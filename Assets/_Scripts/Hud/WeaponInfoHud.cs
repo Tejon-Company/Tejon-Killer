@@ -1,5 +1,5 @@
 using System.Collections;
-using _Scripts.Managers;
+using _Scripts.Events;
 using TMPro;
 using UnityEngine;
 

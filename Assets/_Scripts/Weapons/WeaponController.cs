@@ -1,23 +1,26 @@
 using System.Collections;
+using _Scripts.Audio.Managers;
 using _Scripts.Enemies;
-using _Scripts.Managers;
-using _Scripts.Managers.Audio;
+using _Scripts.Events;
 using _Scripts.Menus;
-using _Scripts.Weapons;
 using UnityEngine;
 
-namespace _Scripts.Player
+namespace _Scripts.Weapons
 {
     public class WeaponController : MonoBehaviour
     {
-        [Header("Referencias")]
+        #region References
+        [Header("References")]
         [SerializeField]
         private Transform weaponMuzzle;
 
         [SerializeField]
         private GunAnimations gunAnimations;
+        private Transform _cameraTransform;
+        #endregion
 
-        [Header("Parámetros de disparo")]
+        #region Weapon Parameters
+        [Header("Shooting Parameters")]
         [SerializeField]
         private LayerMask hittableLayers;
 
@@ -29,24 +32,33 @@ namespace _Scripts.Player
 
         [SerializeField]
         private int shotDamage = 10;
+        private float _lastShotTime;
+        private float _defaultFireRate;
+        #endregion
 
-        [Header("Munición")]
+        #region Ammunition
+        [Header("Ammunition")]
         [SerializeField]
         private int maxAmmo = 8;
         public int CurrentAmmo { get; private set; }
         public int MaxAmmo => maxAmmo;
+        #endregion
 
-        [Header("Recarga")]
+        #region Reload
+        [Header("Reload")]
         [SerializeField]
         private float reloadTime = 0.85f;
         private bool _isReloading;
+        #endregion
 
-        [Header("Rabia")]
+        #region Rage Mode
+        [Header("Rage")]
         private bool _isRaging;
         private float _rageEndTime;
-        private float _defaultFireRate;
+        #endregion
 
-        [Header("Efectos visuales")]
+        #region Visual Effects
+        [Header("Visual Effects")]
         [SerializeField]
         private GameObject flashEffect;
 
@@ -58,10 +70,7 @@ namespace _Scripts.Player
 
         [SerializeField]
         private float rayEffectTime = 0.2f;
-
-        private Transform _cameraTransform;
-        private float _lastShotTime;
-        private EnemyHealth _enemyHealth;
+        #endregion
 
         private void Awake()
         {
@@ -75,15 +84,9 @@ namespace _Scripts.Player
             _cameraTransform = GameObject.FindGameObjectWithTag("MainCamera")?.transform;
         }
 
-        private void OnEnable()
-        {
-            EventManager.Instance?.rageBerryEvent.AddListener(ApplyRage);
-        }
+        private void OnEnable() => EventManager.Instance?.rageBerryEvent.AddListener(ApplyRage);
 
-        private void OnDisable()
-        {
-            EventManager.Instance?.rageBerryEvent.RemoveListener(ApplyRage);
-        }
+        private void OnDisable() => EventManager.Instance?.rageBerryEvent.RemoveListener(ApplyRage);
 
         private void Update()
         {
@@ -95,6 +98,7 @@ namespace _Scripts.Player
             HandleRageState();
         }
 
+        #region Input Handling
         private void HandleFireInput()
         {
             if (!Input.GetButtonDown("Fire") || _isReloading)
@@ -106,7 +110,7 @@ namespace _Scripts.Player
                 return;
             }
 
-            if (!(Time.time >= _lastShotTime + fireRate))
+            if (Time.time < _lastShotTime + fireRate)
                 return;
 
             Shoot();
@@ -120,16 +124,9 @@ namespace _Scripts.Player
             if (Input.GetButtonDown("Reload") && CurrentAmmo < MaxAmmo && !_isReloading)
                 StartCoroutine(Reload());
         }
+        #endregion
 
-        private void HandleRageState()
-        {
-            if (!_isRaging || !(Time.time >= _rageEndTime))
-                return;
-
-            fireRate = _defaultFireRate;
-            _isRaging = false;
-        }
-
+        #region Weapon Actions
         private void Shoot()
         {
             SfxManager.Instance.PlaySfx(SfxManager.Instance.Shoot);
@@ -137,17 +134,37 @@ namespace _Scripts.Player
 
             var ray = new Ray(_cameraTransform.position, _cameraTransform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, fireRange, hittableLayers))
-            {
-                ShowBulletHole(hit);
-                ShowTracerEffect(weaponMuzzle.position, hit.point);
-
-                _enemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
-                _enemyHealth?.TakeDamage(shotDamage);
-            }
+                HandleHit(hit);
 
             gunAnimations?.ApplyRecoil();
         }
 
+        private void HandleHit(RaycastHit hit)
+        {
+            ShowBulletHole(hit);
+            ShowTracerEffect(weaponMuzzle.position, hit.point);
+
+            var enemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
+            enemyHealth?.TakeDamage(shotDamage);
+        }
+
+        private IEnumerator Reload()
+        {
+            if (_isReloading)
+                yield break;
+
+            _isReloading = true;
+            gunAnimations?.PlayReloadAnimation(reloadTime);
+            yield return new WaitForSeconds(reloadTime);
+
+            SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
+            CurrentAmmo = MaxAmmo;
+            UpdateAmmoUI();
+            _isReloading = false;
+        }
+        #endregion
+
+        #region Visual Effects
         private void ShowFlashEffect()
         {
             if (!flashEffect)
@@ -190,28 +207,6 @@ namespace _Scripts.Player
             StartCoroutine(FadeRay(lr, rayEffectTime));
         }
 
-        private IEnumerator Reload()
-        {
-            if (_isReloading)
-                yield break;
-
-            _isReloading = true;
-
-            gunAnimations?.PlayReloadAnimation(reloadTime);
-
-            yield return new WaitForSeconds(reloadTime);
-
-            SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
-            CurrentAmmo = MaxAmmo;
-            UpdateAmmoUI();
-            _isReloading = false;
-        }
-
-        private void UpdateAmmoUI()
-        {
-            EventManager.Instance.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
-        }
-
         private static IEnumerator FadeRay(LineRenderer lr, float duration)
         {
             var time = 0f;
@@ -229,6 +224,20 @@ namespace _Scripts.Player
 
             Destroy(lr.gameObject);
         }
+        #endregion
+
+        #region State Management
+        private void HandleRageState()
+        {
+            if (!_isRaging || Time.time < _rageEndTime)
+                return;
+
+            fireRate = _defaultFireRate;
+            _isRaging = false;
+        }
+
+        private void UpdateAmmoUI() =>
+            EventManager.Instance.updateBulletsEvent.Invoke(CurrentAmmo, MaxAmmo);
 
         private void ApplyRage(
             float playerBaseSpeedMultiplier,
@@ -243,5 +252,6 @@ namespace _Scripts.Player
             UpdateAmmoUI();
             _isRaging = true;
         }
+        #endregion
     }
 }

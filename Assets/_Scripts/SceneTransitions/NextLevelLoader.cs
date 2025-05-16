@@ -1,4 +1,4 @@
-using _Scripts.Managers.Audio;
+using _Scripts.Audio.Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

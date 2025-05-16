@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using _Scripts.Player;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace _Scripts.Managers
+namespace _Scripts.Events
 {
     public class GameOverEvent : MonoBehaviour
     {

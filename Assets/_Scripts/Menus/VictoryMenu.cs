@@ -1,6 +1,5 @@
-using System;
 using _Scripts.Camera;
-using _Scripts.Managers;
+using _Scripts.Events;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
