@@ -1,6 +1,5 @@
 using System.Collections;
 using _Scripts.Managers;
-using _Scripts.SceneTransitions;
 using TMPro;
 using UnityEngine;
 

@@ -33,7 +33,7 @@ namespace _Scripts.Managers.Audio
                 Destroy(gameObject);
             }
         }
-        
+
         public void PlayLoopSfx(AudioClip clip)
         {
             if (loopSource.isPlaying && loopSource.clip == clip)
@@ -43,10 +43,7 @@ namespace _Scripts.Managers.Audio
             loopSource.clip = clip;
             loopSource.Play();
         }
-        
-        public void StopLoopSfx()
-        {
-            loopSource.Stop();
-        }
+
+        public void StopLoopSfx() => loopSource.Stop();
     }
 }

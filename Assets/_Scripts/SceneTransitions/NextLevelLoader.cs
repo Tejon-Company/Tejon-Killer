@@ -15,9 +15,7 @@ namespace _Scripts.SceneTransitions
         private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player"))
-            {
                 return;
-            }
 
             if (!string.IsNullOrEmpty(nextLevelName))
             {

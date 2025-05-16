@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using _Scripts.Enemies.Squirrel;
 using UnityEngine;
 
-namespace _Scripts.Enemies.ProjectilesPool
+namespace _Scripts.Enemies.Squirrel
 {
     public class ProjectilesPool : MonoBehaviour
     {
@@ -54,7 +53,5 @@ namespace _Scripts.Enemies.ProjectilesPool
             if (projectile.TryGetComponent(out Acorn acorn))
                 acorn.Launch(direction);
         }
-
-        public static void DeactivateProjectile(GameObject projectile) => projectile.SetActive(false);
     }
 }

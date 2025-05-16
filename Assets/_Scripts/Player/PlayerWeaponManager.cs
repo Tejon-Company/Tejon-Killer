@@ -89,21 +89,17 @@ namespace _Scripts.Player
             weapon.gameObject.SetActive(true);
             SetupWeaponGunAnimation(weapon);
             ActiveWeaponIndex = index;
-            if (EventManager.Instance.newGunEvent == null)
-            {
-                Debug.Log("newgunevent null");
-            }
-            EventManager.Instance.newGunEvent.Invoke();
+            EventManager.Instance?.newGunEvent.Invoke();
         }
 
         private void SetupWeaponGunAnimation(WeaponController weapon)
         {
             var gunAnimations = weapon.GetComponent<GunAnimations>();
-            if (gunAnimations != null)
-            {
-                gunAnimations.SetPlayerController(playerController);
-                playerController.SetPlayerGunAnimation(gunAnimations);
-            }
+            if (!gunAnimations)
+                return;
+
+            gunAnimations.SetPlayerController(playerController);
+            playerController.SetPlayerGunAnimation(gunAnimations);
         }
 
         private bool IsValidSlot(int index)

@@ -8,9 +8,6 @@ namespace _Scripts.Managers.Audio
         [SerializeField]
         private AudioClip music;
 
-        private void Start()
-        {
-            MusicManager.Instance.PlayMusic(music);
-        }
+        private void Start() => MusicManager.Instance.PlayMusic(music);
     }
 }

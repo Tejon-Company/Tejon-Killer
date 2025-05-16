@@ -39,12 +39,12 @@ namespace _Scripts.Player
         [Header("Recarga")]
         [SerializeField]
         private float reloadTime = 0.85f;
-        private bool isReloading;
+        private bool _isReloading;
 
         [Header("Rabia")]
-        private bool isRaging;
-        private float rageEndTime;
-        private float defaultFireRate;
+        private bool _isRaging;
+        private float _rageEndTime;
+        private float _defaultFireRate;
 
         [Header("Efectos visuales")]
         [SerializeField]
@@ -59,20 +59,20 @@ namespace _Scripts.Player
         [SerializeField]
         private float rayEffectTime = 0.2f;
 
-        private Transform cameraTransform;
-        private float lastShotTime;
-        private EnemyHealth enemyHealth;
+        private Transform _cameraTransform;
+        private float _lastShotTime;
+        private EnemyHealth _enemyHealth;
 
         private void Awake()
         {
             CurrentAmmo = maxAmmo;
-            defaultFireRate = fireRate;
+            _defaultFireRate = fireRate;
             UpdateAmmoUI();
         }
 
         private void Start()
         {
-            cameraTransform = GameObject.FindGameObjectWithTag("MainCamera")?.transform;
+            _cameraTransform = GameObject.FindGameObjectWithTag("MainCamera")?.transform;
         }
 
         private void OnEnable()
@@ -97,7 +97,7 @@ namespace _Scripts.Player
 
         private void HandleFireInput()
         {
-            if (!Input.GetButtonDown("Fire") || isReloading)
+            if (!Input.GetButtonDown("Fire") || _isReloading)
                 return;
 
             if (CurrentAmmo <= 0)
@@ -106,28 +106,28 @@ namespace _Scripts.Player
                 return;
             }
 
-            if (!(Time.time >= lastShotTime + fireRate))
+            if (!(Time.time >= _lastShotTime + fireRate))
                 return;
 
             Shoot();
             CurrentAmmo--;
             UpdateAmmoUI();
-            lastShotTime = Time.time;
+            _lastShotTime = Time.time;
         }
 
         private void HandleReloadInput()
         {
-            if (Input.GetButtonDown("Reload") && CurrentAmmo < MaxAmmo && !isReloading)
+            if (Input.GetButtonDown("Reload") && CurrentAmmo < MaxAmmo && !_isReloading)
                 StartCoroutine(Reload());
         }
 
         private void HandleRageState()
         {
-            if (!isRaging || !(Time.time >= rageEndTime))
+            if (!_isRaging || !(Time.time >= _rageEndTime))
                 return;
 
-            fireRate = defaultFireRate;
-            isRaging = false;
+            fireRate = _defaultFireRate;
+            _isRaging = false;
         }
 
         private void Shoot()
@@ -135,14 +135,14 @@ namespace _Scripts.Player
             SfxManager.Instance.PlaySfx(SfxManager.Instance.Shoot);
             ShowFlashEffect();
 
-            var ray = new Ray(cameraTransform.position, cameraTransform.forward);
+            var ray = new Ray(_cameraTransform.position, _cameraTransform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, fireRange, hittableLayers))
             {
                 ShowBulletHole(hit);
                 ShowTracerEffect(weaponMuzzle.position, hit.point);
 
-                enemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
-                enemyHealth?.TakeDamage(shotDamage);
+                _enemyHealth = hit.collider.GetComponentInParent<EnemyHealth>();
+                _enemyHealth?.TakeDamage(shotDamage);
             }
 
             gunAnimations?.ApplyRecoil();
@@ -192,10 +192,10 @@ namespace _Scripts.Player
 
         private IEnumerator Reload()
         {
-            if (isReloading)
+            if (_isReloading)
                 yield break;
 
-            isReloading = true;
+            _isReloading = true;
 
             gunAnimations?.PlayReloadAnimation(reloadTime);
 
@@ -204,7 +204,7 @@ namespace _Scripts.Player
             SfxManager.Instance.PlaySfx(SfxManager.Instance.Reload);
             CurrentAmmo = MaxAmmo;
             UpdateAmmoUI();
-            isReloading = false;
+            _isReloading = false;
         }
 
         private void UpdateAmmoUI()
@@ -237,11 +237,11 @@ namespace _Scripts.Player
             float duration
         )
         {
-            fireRate = defaultFireRate * weaponFireRateMultiplier;
-            rageEndTime = Time.time + duration;
+            fireRate = _defaultFireRate * weaponFireRateMultiplier;
+            _rageEndTime = Time.time + duration;
             CurrentAmmo = MaxAmmo;
             UpdateAmmoUI();
-            isRaging = true;
+            _isRaging = true;
         }
     }
 }

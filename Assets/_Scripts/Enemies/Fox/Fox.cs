@@ -10,18 +10,23 @@ namespace _Scripts.Enemies.Fox
         private static readonly int IsAttacking = Animator.StringToHash("IsAttacking");
 
         [Header("Behavior")]
-        [SerializeField] private float attackRange = .1f;
-        [SerializeField] private float attackCooldown = 1f;
-        [SerializeField] private float patrolRadius = 10f;
+        [SerializeField]
+        private float attackRange = .1f;
 
-        private Animator animator;
-        private NavMeshAgent agent;
-        private float lastAttackTime;
+        [SerializeField]
+        private float attackCooldown = 1f;
+
+        [SerializeField]
+        private float patrolRadius = 10f;
+
+        private Animator _animator;
+        private NavMeshAgent _agent;
+        private float _lastAttackTime;
 
         private void Start()
         {
-            animator = GetComponent<Animator>();
-            agent = GetComponent<NavMeshAgent>();
+            _animator = GetComponent<Animator>();
+            _agent = GetComponent<NavMeshAgent>();
         }
 
         private void Update()
@@ -29,18 +34,11 @@ namespace _Scripts.Enemies.Fox
             var distanceToPlayer = Vector3.Distance(Player.position, transform.position);
 
             if (distanceToPlayer <= attackRange)
-            {
-                RotateToPlayer();
                 Attack();
-            }
             else if (distanceToPlayer <= detectionRange)
-            {
                 Chase();
-            }
             else
-            {
                 Patrol();
-            }
         }
 
         private protected override void FindReferences()
@@ -50,60 +48,65 @@ namespace _Scripts.Enemies.Fox
 
         private void Chase()
         {
-            agent.isStopped = false;
-            agent.SetDestination(Player.position);
-            
-            if (animator.GetBool(IsChasing))
+            _agent.isStopped = false;
+            _agent.SetDestination(Player.position);
+
+            if (_animator.GetBool(IsChasing))
                 return;
-            
-            animator.SetBool(IsChasing, true);
-            animator.SetBool(IsAttacking, false);
+
+            _animator.SetBool(IsChasing, true);
+            _animator.SetBool(IsAttacking, false);
         }
 
-         private protected override void Attack()
+        private protected override void Attack()
         {
-            agent.ResetPath();
-            agent.isStopped = true;
+            RotateToPlayer();
 
-            if (Time.time - lastAttackTime < attackCooldown)
+            _agent.ResetPath();
+            _agent.isStopped = true;
+
+            if (Time.time - _lastAttackTime < attackCooldown)
                 return;
 
-            lastAttackTime = Time.time;
+            _lastAttackTime = Time.time;
 
-            animator.SetBool(IsChasing, false);
-            if (animator.GetBool(IsAttacking))
+            _animator.SetBool(IsChasing, false);
+            if (_animator.GetBool(IsAttacking))
                 return;
-            
-            animator.SetBool(IsAttacking, true);
+
+            _animator.SetBool(IsAttacking, true);
 
             var playerHealth = Player.GetComponent<PlayerHealth>();
             if (playerHealth)
-            {
                 playerHealth.TakeDamage(1);
-            }
         }
 
         private void Patrol()
         {
-            if (!agent.hasPath || agent.remainingDistance < 0.5f)
-            {
+            if (!_agent.hasPath || _agent.remainingDistance < 0.5f)
                 SetRandomPatrolPoint();
-            }
 
-            animator.SetBool(IsChasing, false);
-            animator.SetBool(IsAttacking, false);
+            _animator.SetBool(IsChasing, false);
+            _animator.SetBool(IsAttacking, false);
         }
 
         private void SetRandomPatrolPoint()
         {
-            Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+            var randomDirection = Random.insideUnitSphere * patrolRadius;
             randomDirection += transform.position;
 
-            if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, patrolRadius, NavMesh.AllAreas))
-            {
-                agent.SetDestination(hit.position);
-                agent.isStopped = false;
-            }
+            var foundPatrolPoint = NavMesh.SamplePosition(
+                randomDirection,
+                out var hit,
+                patrolRadius,
+                NavMesh.AllAreas
+            );
+
+            if (!foundPatrolPoint)
+                return;
+
+            _agent.SetDestination(hit.position);
+            _agent.isStopped = false;
         }
     }
 }

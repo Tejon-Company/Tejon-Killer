@@ -22,10 +22,7 @@ namespace _Scripts.Player
             CurrentHealth = maxHealth;
         }
 
-        private void Start()
-        {
-            NotifyHealthChanged();
-        }
+        private void Start() => NotifyHealthChanged();
 
         public void Heal(int amount)
         {

@@ -34,10 +34,7 @@ namespace _Scripts.Menus
             victoryMenu.SetActive(true);
         }
 
-        public void GoToMainMenu()
-        {
-            SceneManager.LoadScene("Main Menu");
-        }
+        public void GoToMainMenu() => SceneManager.LoadScene("Main Menu");
 
         public void QuitGame()
         {
