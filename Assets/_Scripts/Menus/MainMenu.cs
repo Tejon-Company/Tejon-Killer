@@ -12,10 +12,7 @@ namespace _Scripts.Menus
         [SerializeField]
         private GameObject settingsUI;
 
-        private void Start()
-        {
-            ShowMenuUI();
-        }
+        private void Start() => ShowMenuUI();
 
         public void ShowMenuUI()
         {
@@ -29,10 +26,7 @@ namespace _Scripts.Menus
             settingsUI.SetActive(true);
         }
 
-        public void StartFirstLevel(string levelName)
-        {
-            SceneManager.LoadScene(levelName);
-        }
+        public void StartFirstLevel(string levelName) => SceneManager.LoadScene(levelName);
 
         public void QuitGame()
         {

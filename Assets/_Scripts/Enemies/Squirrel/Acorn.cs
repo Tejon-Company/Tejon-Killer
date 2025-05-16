@@ -20,10 +20,7 @@ namespace _Scripts.Enemies.Squirrel
 
         private Rigidbody _rigidbody;
 
-        private void Awake()
-        {
-            _rigidbody = GetComponent<Rigidbody>();
-        }
+        private void Awake() => _rigidbody = GetComponent<Rigidbody>();
 
         private void FixedUpdate()
         {
@@ -51,9 +48,6 @@ namespace _Scripts.Enemies.Squirrel
             player?.TakeDamage(damage);
         }
 
-        private void Deactivate()
-        {
-            gameObject.SetActive(false);
-        }
+        private void Deactivate() => gameObject.SetActive(false);
     }
 }

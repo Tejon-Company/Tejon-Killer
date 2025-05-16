@@ -3,18 +3,15 @@ using _Scripts.Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace _Scripts.Managers
+namespace _Scripts.Events
 {
     public class GameOverEvent : MonoBehaviour
     {
         private PlayerHealth _playerHealth;
 
-        private void Awake()
-        {
-            StartCoroutine(Foo());
-        }
+        private void Awake() => StartCoroutine(SetupPlayerHealth());
 
-        private IEnumerator Foo()
+        private IEnumerator SetupPlayerHealth()
         {
             yield return null;
 
@@ -36,7 +33,6 @@ namespace _Scripts.Managers
 
         private void OnHealthChanged()
         {
-            Debug.Log("health changed");
             if (_playerHealth && _playerHealth.CurrentHealth <= 0)
                 SceneManager.LoadScene("Game Over Menu");
         }

@@ -1,23 +1,28 @@
 using _Scripts.Player;
 using UnityEngine;
 
-public class Berry : MonoBehaviour
+namespace _Scripts.Berries
 {
-    [SerializeField]
-    private int healAmount = 1;
-
-    private PlayerHealth health;
-
-    private void OnTriggerEnter(Collider other)
+    public class Berry : MonoBehaviour
     {
-        if (other.CompareTag("Player"))
+        [SerializeField]
+        private int healAmount = 1;
+
+        private PlayerHealth _health;
+
+        private void OnTriggerEnter(Collider other)
         {
-            health = other.GetComponent<PlayerHealth>();
-            if (health != null && health.CurrentHealth > 0)
-            {
-                health.Heal(healAmount);
-                Destroy(gameObject);
-            }
+            if (!other.CompareTag("Player"))
+                return;
+
+            _health = other.GetComponent<PlayerHealth>();
+
+            if (!_health || _health.CurrentHealth <= 0)
+                return;
+
+            _health.Heal(healAmount);
+
+            Destroy(gameObject);
         }
     }
 }

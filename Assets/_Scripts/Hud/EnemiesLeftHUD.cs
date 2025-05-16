@@ -1,6 +1,5 @@
 using System.Collections;
-using _Scripts.Managers;
-using _Scripts.SceneTransitions;
+using _Scripts.Events;
 using TMPro;
 using UnityEngine;
 
@@ -13,10 +12,7 @@ namespace _Scripts.Hud
         [SerializeField]
         private TMP_Text enemiesLeftText;
 
-        private void Start()
-        {
-            StartCoroutine(CountEnemies());
-        }
+        private void Start() => StartCoroutine(CountEnemies());
 
         private IEnumerator CountEnemies()
         {
@@ -35,20 +31,12 @@ namespace _Scripts.Hud
         private void OnEnemyDied()
         {
             _enemiesLeft--;
-            Debug.Log("contador global:" + _enemiesLeft);
             if (_enemiesLeft == 0)
-            {
-                Debug.Log("CERO ENEMIGOS");
                 EventManager.Instance.allEnemiesDefeated.Invoke();
-            }
-                
-            
+
             UpdateHUD();
         }
 
-        private void UpdateHUD()
-        {
-            enemiesLeftText.text = _enemiesLeft.ToString();
-        }
+        private void UpdateHUD() => enemiesLeftText.text = _enemiesLeft.ToString();
     }
 }

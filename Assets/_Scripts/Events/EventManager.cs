@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace _Scripts.Managers
+namespace _Scripts.Events
 {
     [Serializable]
     public class Int2Event : UnityEvent<int, int> { }

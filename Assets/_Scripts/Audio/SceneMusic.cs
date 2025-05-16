@@ -1,4 +1,5 @@
 ﻿using System;
+using _Scripts.Audio.Managers;
 using UnityEngine;
 
 namespace _Scripts.Managers.Audio
@@ -8,9 +9,6 @@ namespace _Scripts.Managers.Audio
         [SerializeField]
         private AudioClip music;
 
-        private void Start()
-        {
-            MusicManager.Instance.PlayMusic(music);
-        }
+        private void Start() => MusicManager.Instance.PlayMusic(music);
     }
 }

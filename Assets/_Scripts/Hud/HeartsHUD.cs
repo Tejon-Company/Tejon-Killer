@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using _Scripts.Managers;
+using _Scripts.Events;
 using _Scripts.Player;
 using UnityEngine;
 using UnityEngine.UI;

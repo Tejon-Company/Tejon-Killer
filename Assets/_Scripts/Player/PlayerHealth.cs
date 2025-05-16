@@ -1,5 +1,5 @@
 using System.Collections;
-using _Scripts.Managers;
+using _Scripts.Events;
 using UnityEngine;
 
 namespace _Scripts.Player
@@ -22,10 +22,7 @@ namespace _Scripts.Player
             CurrentHealth = maxHealth;
         }
 
-        private void Start()
-        {
-            NotifyHealthChanged();
-        }
+        private void Start() => NotifyHealthChanged();
 
         public void Heal(int amount)
         {

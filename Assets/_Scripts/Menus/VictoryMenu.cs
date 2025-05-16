@@ -1,6 +1,6 @@
-using System;
+using System.Collections;
 using _Scripts.Camera;
-using _Scripts.Managers;
+using _Scripts.Events;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,13 +11,14 @@ namespace _Scripts.Menus
         [SerializeField]
         private GameObject victoryMenu;
 
-        private void Start()
-        {
-            victoryMenu.SetActive(false);
-        }
+        private void Start() => victoryMenu.SetActive(false);
 
-        private void OnEnable()
+        private void OnEnable() => StartCoroutine(InitializeVictoryMenu());
+
+        private IEnumerator InitializeVictoryMenu()
         {
+            yield return null;
+
             EventManager.Instance?.allEnemiesDefeated.AddListener(OnAllEnemiesDefeated);
         }
 
@@ -34,10 +35,7 @@ namespace _Scripts.Menus
             victoryMenu.SetActive(true);
         }
 
-        public void GoToMainMenu()
-        {
-            SceneManager.LoadScene("Main Menu");
-        }
+        public void GoToMainMenu() => SceneManager.LoadScene("Main Menu");
 
         public void QuitGame()
         {

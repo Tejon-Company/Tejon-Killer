@@ -1,5 +1,5 @@
-using System;
-using _Scripts.Managers;
+using System.Collections;
+using _Scripts.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,15 +33,9 @@ namespace _Scripts.Hud
             frameRoot.SetActive(false);
         }
 
-        private void Update()
-        {
-            UpdateRageBar();
-        }
+        private void Update() => UpdateRageBar();
 
-        private void OnEnable()
-        {
-            RegisterEventListener();
-        }
+        private void OnEnable() => StartCoroutine(RegisterEventListener());
 
         private void OnDisable()
         {
@@ -52,10 +46,12 @@ namespace _Scripts.Hud
             _listenerRegistered = false;
         }
 
-        private void RegisterEventListener()
+        private IEnumerator RegisterEventListener()
         {
+            yield return null;
+
             if (_listenerRegistered || !EventManager.Instance)
-                return;
+                yield break;
 
             EventManager.Instance.rageBerryEvent.AddListener(OnRageActivated);
             _listenerRegistered = true;

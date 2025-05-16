@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace _Scripts.Enemies.Squirrel
 {
-    public class Squirrel :  Enemy
+    public class Squirrel : Enemy
     {
         [Header("References")]
         [SerializeField]
-        private ProjectilesPool.ProjectilesPool acornPool;
+        private ProjectilesPool acornPool;
 
         [SerializeField]
         private Transform firePoint;
@@ -20,18 +20,16 @@ namespace _Scripts.Enemies.Squirrel
 
         [SerializeField]
         private float maxVerticalLaunch = 1.0f;
-        
-        private float lastShotTime = Mathf.NegativeInfinity;
-        private Animator animator;
+
+        private float _lastShotTime = Mathf.NegativeInfinity;
+        private Animator _animator;
         private static readonly int ShootTrigger = Animator.StringToHash("ShootTrigger");
-        
-        private void Start()
-        {
-            animator = GetComponentInChildren<Animator>();
-        }
+
+        private void Start() => _animator = GetComponentInChildren<Animator>();
+
         private protected override void FindReferences()
         {
-            acornPool ??= FindFirstObjectByType<ProjectilesPool.ProjectilesPool>();
+            acornPool ??= FindFirstObjectByType<ProjectilesPool>();
             Player = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
 
@@ -43,8 +41,8 @@ namespace _Scripts.Enemies.Squirrel
             var targetPosition = Player.TryGetComponent(out Collider playerCollider)
                 ? playerCollider.bounds.center
                 : Player.position + Vector3.up;
-            
-            animator.SetTrigger(ShootTrigger);
+
+            _animator.SetTrigger(ShootTrigger);
             LaunchProjectile(targetPosition);
         }
 
@@ -55,16 +53,16 @@ namespace _Scripts.Enemies.Squirrel
 
             var playerIsInRange =
                 Vector3.Distance(Player.position, transform.position) <= detectionRange;
-            var canShoot = Time.time - lastShotTime >= fireRate;
+            var canShoot = Time.time - _lastShotTime >= fireRate;
 
             if (!playerIsInRange || !canShoot)
                 return;
 
             RotateToPlayer();
             Attack();
-            lastShotTime = Time.time;
+            _lastShotTime = Time.time;
         }
-        
+
         private void LaunchProjectile(Vector3 targetPosition)
         {
             var verticalLaunch =
@@ -81,7 +79,7 @@ namespace _Scripts.Enemies.Squirrel
                 verticalLaunch,
                 targetPosition.z - firePoint.position.z
             ).normalized;
-            ProjectilesPool.ProjectilesPool.LaunchProjectile(projectile, direction);
+            ProjectilesPool.LaunchProjectile(projectile, direction);
 
             IgnoreSelfCollisions(projectile);
         }

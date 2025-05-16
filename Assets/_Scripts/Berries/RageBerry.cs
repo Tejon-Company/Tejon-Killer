@@ -1,24 +1,27 @@
-using _Scripts.Managers;
+using _Scripts.Events;
 using UnityEngine;
 
-public class RageBerry : MonoBehaviour
+namespace _Scripts.Berries
 {
-    [SerializeField]
-    private float playerBaseSpeedMultiplier = 2f;
-
-    [SerializeField]
-    private float playerJumpForceMultiplier = 2f;
-
-    [SerializeField]
-    private float weaponFireRateMultiplier = 0.5f;
-
-    [SerializeField]
-    private float rageDuration = 7f;
-
-    private void OnTriggerEnter(Collider other)
+    public class RageBerry : MonoBehaviour
     {
-        if (other.CompareTag("Player"))
+        [SerializeField]
+        private float playerBaseSpeedMultiplier = 2f;
+
+        [SerializeField]
+        private float playerJumpForceMultiplier = 2f;
+
+        [SerializeField]
+        private float weaponFireRateMultiplier = 0.5f;
+
+        [SerializeField]
+        private float rageDuration = 7f;
+
+        private void OnTriggerEnter(Collider other)
         {
+            if (!other.CompareTag("Player"))
+                return;
+
             EventManager.Instance.rageBerryEvent.Invoke(
                 playerBaseSpeedMultiplier,
                 playerJumpForceMultiplier,

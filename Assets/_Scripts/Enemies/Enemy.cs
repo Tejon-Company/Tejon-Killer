@@ -17,8 +17,8 @@ namespace _Scripts.Enemies
         private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         private static readonly int SecondaryColor = Shader.PropertyToID("_Color");
         
-        private Renderer[] renderers;
-        private Color[] originalColors;
+        private Renderer[] _renderers;
+        private Color[] _originalColors;
         protected Transform Player;
 
         private void Awake()
@@ -27,13 +27,13 @@ namespace _Scripts.Enemies
             FindReferences();
         }
         
-        private protected void InitRenderers()
+        private void InitRenderers()
         {
-            renderers = GetComponentsInChildren<Renderer>();
-            originalColors = new Color[renderers.Length];
+            _renderers = GetComponentsInChildren<Renderer>();
+            _originalColors = new Color[_renderers.Length];
 
-            for (var i = 0; i < renderers.Length; i++)
-                originalColors[i] = GetRendererColor(renderers[i]);
+            for (var i = 0; i < _renderers.Length; i++)
+                _originalColors[i] = GetRendererColor(_renderers[i]);
         }
 
         private static Color GetRendererColor(Renderer renderer)
@@ -48,7 +48,7 @@ namespace _Scripts.Enemies
         
         public void FlashRed()
         {
-            foreach (var objectRenderer in renderers)
+            foreach (var objectRenderer in _renderers)
                 SetRendererColor(objectRenderer, flashColor);
 
             Invoke(nameof(RestoreOriginalColors), flashDuration);
@@ -65,8 +65,8 @@ namespace _Scripts.Enemies
 
         private void RestoreOriginalColors()
         {
-            for (var i = 0; i < renderers.Length; i++)
-                SetRendererColor(renderers[i], originalColors[i]);
+            for (var i = 0; i < _renderers.Length; i++)
+                SetRendererColor(_renderers[i], _originalColors[i]);
         }
         
         private protected void RotateToPlayer()
@@ -78,7 +78,7 @@ namespace _Scripts.Enemies
         }
         
         private protected abstract void FindReferences();
-        private protected abstract void Attack();
 
+        private protected abstract void Attack();
     }
 }

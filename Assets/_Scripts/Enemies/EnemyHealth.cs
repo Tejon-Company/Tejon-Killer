@@ -1,3 +1,4 @@
+using _Scripts.Events;
 using _Scripts.Managers;
 using UnityEngine;
 
@@ -14,27 +15,27 @@ namespace _Scripts.Enemies
         [SerializeField]
         private GameObject damageEffect;
 
-        private int currentHealth;
+        private int _currentHealth;
 
-        private void Start() => currentHealth = maxHealth;
+        private void Start() => _currentHealth = maxHealth;
 
         public void TakeDamage(int amount)
         {
-            currentHealth -= amount;
+            _currentHealth -= amount;
 
             GetComponent<Enemy>()?.FlashRed();
 
-            if (damageEffect && currentHealth > 0)
+            if (damageEffect && _currentHealth > 0)
                 Instantiate(damageEffect, transform.position, Quaternion.identity);
 
-            if (currentHealth > 0)
+            if (_currentHealth > 0)
                 return;
 
             if (deathEffect)
                 Instantiate(deathEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
 
-            if (EventManager.Instance != null && EventManager.Instance.enemyDiedEvent != null)
+            if (EventManager.Instance && EventManager.Instance.enemyDiedEvent != null)
                 EventManager.Instance.enemyDiedEvent.Invoke();
         }
     }

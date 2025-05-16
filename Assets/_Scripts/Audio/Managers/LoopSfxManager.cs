@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _Scripts.Managers.Audio
+namespace _Scripts.Audio.Managers
 {
     public class LoopSfxManager : MonoBehaviour
     {
@@ -33,7 +33,7 @@ namespace _Scripts.Managers.Audio
                 Destroy(gameObject);
             }
         }
-        
+
         public void PlayLoopSfx(AudioClip clip)
         {
             if (loopSource.isPlaying && loopSource.clip == clip)
@@ -43,10 +43,7 @@ namespace _Scripts.Managers.Audio
             loopSource.clip = clip;
             loopSource.Play();
         }
-        
-        public void StopLoopSfx()
-        {
-            loopSource.Stop();
-        }
+
+        public void StopLoopSfx() => loopSource.Stop();
     }
 }
