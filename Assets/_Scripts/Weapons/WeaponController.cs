@@ -133,7 +133,7 @@ namespace _Scripts.Weapons
             ShowFlashEffect();
 
             var ray = new Ray(_cameraTransform.position, _cameraTransform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, fireRange, hittableLayers))
+            if (Physics.Raycast(ray, out var hit, fireRange, hittableLayers))
                 HandleHit(hit);
 
             gunAnimations?.ApplyRecoil();
