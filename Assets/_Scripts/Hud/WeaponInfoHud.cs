@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace _Scripts.Hud
 {
-    
     /// <summary>
     /// Gestiona la visualización de la información de munición de las armas en la interfaz,
     /// actualizando los contadores de balas y cambiando el color del texto según la cantidad disponible.

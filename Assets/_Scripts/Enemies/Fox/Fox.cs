@@ -4,7 +4,6 @@ using UnityEngine.AI;
 
 namespace _Scripts.Enemies.Fox
 {
-    
     /// <summary>
     /// Representa al enemigo del zorro, implementando sus comportamientos de patrullaje, persecución y ataque.
     /// </summary>

@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace _Scripts.Berries
 {
-    
     /// <summary>
     /// Representa una baya que otorga el estado de rabia al jugador cuando la recoge.
     /// </summary>

@@ -2,10 +2,9 @@ using UnityEngine;
 
 namespace _Scripts.Enemies
 {
-    
     /// <summary>
     /// Clase base abstracta para todos los enemigos del juego.
-    /// Proporciona funcionalidades comunes como detección del jugador, 
+    /// Proporciona funcionalidades comunes como detección del jugador,
     /// rotación hacia el objetivo, efectos visuales de daño.
     /// </summary>
     public abstract class Enemy : MonoBehaviour
@@ -13,16 +12,17 @@ namespace _Scripts.Enemies
         [Header("Attack Variables")]
         [SerializeField]
         protected float detectionRange = 20f;
-        
+
         [Header("Damage Animation")]
         [SerializeField]
         private float flashDuration = 0.3f;
+
         [SerializeField]
-        private Color flashColor =new (0.6f, 0.1f, 0.1f, 1f);
+        private Color flashColor = new(0.6f, 0.1f, 0.1f, 1f);
 
         private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         private static readonly int SecondaryColor = Shader.PropertyToID("_Color");
-        
+
         private Renderer[] renderers;
         private Color[] originalColors;
         protected Transform Player;
@@ -32,7 +32,7 @@ namespace _Scripts.Enemies
             InitRenderers();
             FindReferences();
         }
-        
+
         private void InitRenderers()
         {
             renderers = GetComponentsInChildren<Renderer>();
@@ -49,9 +49,11 @@ namespace _Scripts.Enemies
             {
                 return material.GetColor(BaseColor);
             }
-            return material.HasProperty(SecondaryColor) ? material.GetColor(SecondaryColor) : Color.white;
+            return material.HasProperty(SecondaryColor)
+                ? material.GetColor(SecondaryColor)
+                : Color.white;
         }
-        
+
         public void FlashRed()
         {
             foreach (var objectRenderer in renderers)
@@ -59,7 +61,7 @@ namespace _Scripts.Enemies
 
             Invoke(nameof(RestoreOriginalColors), flashDuration);
         }
-        
+
         private static void SetRendererColor(Renderer objectRenderer, Color color)
         {
             var mat = objectRenderer.material;
@@ -74,7 +76,7 @@ namespace _Scripts.Enemies
             for (var i = 0; i < renderers.Length; i++)
                 SetRendererColor(renderers[i], originalColors[i]);
         }
-        
+
         private protected void RotateToPlayer()
         {
             var direction = Player.position - transform.position;
@@ -82,7 +84,7 @@ namespace _Scripts.Enemies
             if (direction.sqrMagnitude > 0.001f)
                 transform.rotation = Quaternion.LookRotation(direction);
         }
-        
+
         private protected abstract void FindReferences();
 
         private protected abstract void Attack();

@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace _Scripts.SceneTransitions
 {
-    
     /// <summary>
     /// Controla el comportamiento de la puerta que lleva al siguiente nivel.
     /// Se desactiva automáticamente cuando todos los enemigos han sido derrotados.

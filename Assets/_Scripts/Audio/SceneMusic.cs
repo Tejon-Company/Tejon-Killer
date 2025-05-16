@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace _Scripts.Audio
 {
-    
     /// <summary>
     /// Clase encargada de reproducir automáticamente la música asignada cuando se carga una escena.
     /// </summary>

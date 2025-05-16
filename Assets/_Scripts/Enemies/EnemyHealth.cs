@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace _Scripts.Enemies
 {
-    
     /// <summary>
     /// Gestiona la salud de los enemigos, procesando el daño recibido,
     /// mostrando efectos visuales y notificando cuando el enemigo muere.

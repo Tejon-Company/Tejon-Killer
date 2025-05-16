@@ -7,7 +7,7 @@ using UnityEngine;
 namespace _Scripts.Player
 {
     /// <summary>
-    /// Controla el movimiento y las habilidades del jugador, incluyendo desplazamiento, saltos, dashes, 
+    /// Controla el movimiento y las habilidades del jugador, incluyendo desplazamiento, saltos, dashes,
     /// deslizamientos y pisotones. Gestiona también estados especiales.
     /// </summary>
     public class PlayerController : MonoBehaviour

@@ -2,7 +2,6 @@
 
 namespace _Scripts.Audio.Managers
 {
-    
     /// <summary>
     /// Gestor singleton para reproducir música de fondo.
     /// </summary>
@@ -12,6 +11,7 @@ namespace _Scripts.Audio.Managers
         private AudioSource musicSource;
 
         public static MusicManager Instance { get; private set; }
+
         private void Awake()
         {
             if (!Instance)

@@ -10,7 +10,6 @@ namespace _Scripts.Events
     [Serializable]
     public class RageEvent : UnityEvent<float, float, float, float> { }
 
-    
     /// <summary>
     /// Gestor centralizado de eventos del juego. Implementa el patrón Singleton para permitir
     /// la comunicación entre diferentes componentes sin acoplamiento directo.

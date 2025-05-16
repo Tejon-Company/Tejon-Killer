@@ -4,7 +4,6 @@ using UnityEngine.Audio;
 
 namespace _Scripts.Audio
 {
-    
     /// <summary>
     /// Gestor singleton para controlar y persistir la configuración de volumen de música y efectos de sonido.
     /// </summary>
@@ -30,10 +29,10 @@ namespace _Scripts.Audio
             Instance = this;
             DontDestroyOnLoad(gameObject);
             LoadSavedVolumes();
-            StartCoroutine(ReapplyVolumesAfterDelay());
+            StartCoroutine(ApplyVolumes());
         }
 
-        private IEnumerator ReapplyVolumesAfterDelay()
+        private IEnumerator ApplyVolumes()
         {
             yield return null;
 

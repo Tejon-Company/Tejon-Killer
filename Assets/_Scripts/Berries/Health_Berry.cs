@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace _Scripts.Berries
 {
-    
     /// <summary>
     /// Clase que representa una baya de vida que restaura salud al jugador cuando entra en contacto con ella.
     /// </summary>
@@ -12,19 +11,19 @@ namespace _Scripts.Berries
         [SerializeField]
         private int healAmount = 1;
 
-        private PlayerHealth health;
+        private PlayerHealth _health;
 
         private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player"))
                 return;
 
-            health = other.GetComponent<PlayerHealth>();
+            _health = other.GetComponent<PlayerHealth>();
 
-            if (!health || health.CurrentHealth <= 0)
+            if (!_health || _health.CurrentHealth <= 0)
                 return;
 
-            health.Heal(healAmount);
+            _health.Heal(healAmount);
 
             Destroy(gameObject);
         }
