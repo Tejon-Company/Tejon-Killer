@@ -1,9 +1,12 @@
 using _Scripts.Events;
-using _Scripts.Managers;
 using UnityEngine;
 
 namespace _Scripts.Enemies
 {
+    /// <summary>
+    /// Gestiona la salud de los enemigos, procesando el daño recibido,
+    /// mostrando efectos visuales y notificando cuando el enemigo muere.
+    /// </summary>
     public class EnemyHealth : MonoBehaviour
     {
         [SerializeField]

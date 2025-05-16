@@ -2,12 +2,16 @@
 
 namespace _Scripts.Audio.Managers
 {
+    /// <summary>
+    /// Gestor singleton para reproducir música de fondo.
+    /// </summary>
     public class MusicManager : MonoBehaviour
     {
         [SerializeField]
         private AudioSource musicSource;
 
         public static MusicManager Instance { get; private set; }
+
         private void Awake()
         {
             if (!Instance)

@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace _Scripts.Enemies.Squirrel
 {
+    /// <summary>
+    /// Sistema de pooling para gestionar la creación y reutilización de proyectiles
+    /// lanzados por los enemigos.
+    /// </summary>
     public class ProjectilesPool : MonoBehaviour
     {
         [SerializeField]

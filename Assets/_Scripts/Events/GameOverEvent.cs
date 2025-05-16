@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 namespace _Scripts.Events
 {
+    /// <summary>
+    /// Clase que gestiona el evento de fin de juego. Monitorea la salud del jugador y
+    /// carga la escena de "Game Over" cuando la salud llega a cero o menos.
+    /// </summary>
     public class GameOverEvent : MonoBehaviour
     {
         private PlayerHealth _playerHealth;

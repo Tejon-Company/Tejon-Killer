@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace _Scripts.Player
 {
+    /// <summary>
+    /// Gestiona el arma del jugador, permitiendo
+    /// activarla/desactivarla y configurar sus animaciones.
+    /// </summary>
     public class PlayerWeaponManager : MonoBehaviour
     {
         [Header("Referencias")]

@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 namespace _Scripts.Audio
 {
+    /// <summary>
+    /// Clase encargada de conectar los controles de UI (sliders) con la configuración de volumen del juego.
+    /// </summary>
     public class VolumeSettingsConnector : MonoBehaviour
     {
         [SerializeField]

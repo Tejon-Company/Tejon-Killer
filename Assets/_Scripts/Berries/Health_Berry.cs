@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace _Scripts.Berries
 {
+    /// <summary>
+    /// Clase que representa una baya de vida que restaura salud al jugador cuando entra en contacto con ella.
+    /// </summary>
     public class Berry : MonoBehaviour
     {
         [SerializeField]

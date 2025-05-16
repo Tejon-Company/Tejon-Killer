@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 namespace _Scripts.Hud
 {
+    /// <summary>
+    /// Gestiona la visualización de la barra de rabia en la interfaz, mostrando el tiempo
+    /// restante cuando se activa el estado de rabia y proporcionando efectos visuales.
+    /// </summary>
     public class RageHud : MonoBehaviour
     {
         [SerializeField]

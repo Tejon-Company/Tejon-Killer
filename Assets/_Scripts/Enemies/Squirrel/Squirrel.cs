@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace _Scripts.Enemies.Squirrel
 {
+    /// <summary>
+    /// Representa al enemigo ardilla, implementando su comportamiento de ataque a distancia mediante el
+    /// lanzamiento de bellotas.
+    /// </summary>
     public class Squirrel : Enemy
     {
         [Header("References")]

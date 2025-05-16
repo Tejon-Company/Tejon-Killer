@@ -1,9 +1,11 @@
-﻿using System;
-using _Scripts.Audio.Managers;
+﻿using _Scripts.Audio.Managers;
 using UnityEngine;
 
-namespace _Scripts.Managers.Audio
+namespace _Scripts.Audio
 {
+    /// <summary>
+    /// Clase encargada de reproducir automáticamente la música asignada cuando se carga una escena.
+    /// </summary>
     public class SceneMusic : MonoBehaviour
     {
         [SerializeField]

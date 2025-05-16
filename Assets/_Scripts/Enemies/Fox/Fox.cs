@@ -4,6 +4,9 @@ using UnityEngine.AI;
 
 namespace _Scripts.Enemies.Fox
 {
+    /// <summary>
+    /// Representa al enemigo del zorro, implementando sus comportamientos de patrullaje, persecución y ataque.
+    /// </summary>
     public class Fox : Enemy
     {
         private static readonly int IsChasing = Animator.StringToHash("IsChasing");

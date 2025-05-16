@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace _Scripts.Camera
 {
+    /// <summary>
+    /// Clase que gestiona los efectos visuales de la cámara, incluyendo su rotación,
+    /// inclinación durante slides y cambios dinámicos del campo de visión según las acciones del jugador.
+    /// </summary>
     public class CameraEffects : MonoBehaviour
     {
         [SerializeField]

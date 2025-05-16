@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 
 namespace _Scripts.SceneTransitions
 {
+    /// <summary>
+    /// Gestiona la transición al siguiente nivel cuando el jugador interactúa con el trigger,
+    /// permitiendo cambiar la escena y la música de fondo.
+    /// </summary>
     public class NextLevelLoader : MonoBehaviour
     {
         [SerializeField]
